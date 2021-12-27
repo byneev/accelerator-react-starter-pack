@@ -6,7 +6,7 @@ export type SearchSelectProps = {
 
 function SearchSelect({ searchResults }: SearchSelectProps): JSX.Element {
   return (
-    <ul className='form-search__select-list hidden'>
+    <ul className="form-search__select-list hidden">
       {searchResults.map((item) => (
         <SearchSelectItem key={item}>{item}</SearchSelectItem>
       ))}

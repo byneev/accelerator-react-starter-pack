@@ -3,9 +3,10 @@ import { DefaultFunctionProps } from '../types/default-function-type';
 import { BASE_URL, HTTPCode, TIMEOUT_TIME } from './const';
 
 export const createAPI = (
-  cbOn404 : DefaultFunctionProps,
-  cbOn400 : DefaultFunctionProps,
-  cbOn401 : DefaultFunctionProps) : AxiosInstance => {
+  cbOn404: DefaultFunctionProps,
+  cbOn400: DefaultFunctionProps,
+  cbOn401: DefaultFunctionProps
+): AxiosInstance => {
   const api = axios.create({
     baseURL: BASE_URL,
     timeout: TIMEOUT_TIME,
@@ -13,7 +14,7 @@ export const createAPI = (
 
   api.interceptors.response.use(
     (response: AxiosResponse) => response,
-    (error : AxiosError) => {
+    (error: AxiosError) => {
       switch (error.response?.status) {
         case HTTPCode.NotFound:
           cbOn404();
@@ -26,7 +27,7 @@ export const createAPI = (
           break;
       }
       return Promise.reject();
-    },
+    }
   );
 
   return api;

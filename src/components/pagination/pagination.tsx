@@ -2,16 +2,18 @@ import { getArrayByNumber } from '../../utils/helpers';
 import PaginationItem from '../pagination-item/pagination-item';
 
 export type PaginationProps = {
-  productsCount : number,
-}
+  productsCount: number;
+};
 
-function Pagination({productsCount} : PaginationProps) : JSX.Element {
+function Pagination({ productsCount }: PaginationProps): JSX.Element {
   const pagesCount = Math.ceil(productsCount / 9);
 
   return (
-    <div className='pagination page-content__pagination'>
-      <ul className='pagination__list'>
-        {getArrayByNumber(pagesCount).map((item) => <PaginationItem key={item} isActive pageLink={item} />)}
+    <div className="pagination page-content__pagination">
+      <ul className="pagination__list">
+        {getArrayByNumber(pagesCount).map((item) => (
+          <PaginationItem key={item} isActive pageLink={item} />
+        ))}
       </ul>
     </div>
   );

@@ -17,7 +17,7 @@ function Breadcrumbs({ pathsTree }: BreadcrumbsProps): JSX.Element {
           <BreadcrumbsItem key={item} route={item} isCurrent>
             {AppRouteAliases.get(item)}
           </BreadcrumbsItem>
-        ),
+        )
       )}
     </ul>
   );
