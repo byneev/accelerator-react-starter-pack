@@ -6,7 +6,7 @@ export const BASE_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me';
 
 export const TIMEOUT_TIME = 5000;
 
-export const DEFAULT_MIN_PRICE = 3000;
+export const DEFAULT_MIN_PRICE = 1000;
 
 export const DEFAULT_MAX_PRICE = 30000;
 
@@ -49,6 +49,7 @@ export enum SortType {
 }
 
 export enum StringsCount {
+  Four = '4',
   Seven = '7',
   Six = '6',
   Eleven = '11',

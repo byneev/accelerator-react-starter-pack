@@ -8,6 +8,8 @@ export type InitialStateProps = {
   guitars: ProductProps[];
   currentSort: [SortType, SortType];
   currentFilters: FilterProps;
+  minPrice: number;
+  maxPrice: number;
 };
 
 export const initialState: InitialStateProps = {
@@ -19,6 +21,8 @@ export const initialState: InitialStateProps = {
     stringsCount: null,
     guitarType: null,
   },
+  minPrice: DEFAULT_MIN_PRICE,
+  maxPrice: DEFAULT_MAX_PRICE,
 };
 
 export const RootReducer = createReducer(initialState, (builder) => {

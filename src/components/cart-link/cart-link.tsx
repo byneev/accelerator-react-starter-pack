@@ -5,7 +5,12 @@ function CartLink(): JSX.Element {
   const mockGoodsCount = 2;
 
   return (
-    <Link className="header__cart-link" to={AppRoute.Cart} aria-label="Корзина">
+    <Link
+      data-testid="cart-link"
+      className="header__cart-link"
+      to={AppRoute.Cart}
+      aria-label="Корзина"
+    >
       <svg
         className="header__cart-icon"
         width="14"

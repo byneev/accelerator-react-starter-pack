@@ -12,7 +12,7 @@ function Pagination({ productsCount }: PaginationProps): JSX.Element {
     <div className="pagination page-content__pagination">
       <ul className="pagination__list">
         {getArrayByNumber(pagesCount).map((item) => (
-          <PaginationItem key={item} isActive pageLink={item} />
+          <PaginationItem key={item} isActive={false} pageLink={item} />
         ))}
       </ul>
     </div>
