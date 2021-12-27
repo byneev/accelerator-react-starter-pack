@@ -1,8 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "@reduxjs/toolkit": "1.5.0",
-    "axios": "0.21.1",
+    "@reduxjs/toolkit": "^1.7.1",
+    "axios": "^0.24.0",
     "history": "4.10.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -25,8 +25,12 @@
     "@types/react-redux": "7.1.20",
     "@types/react-router-dom": "5.3.2",
     "axios-mock-adapter": "1.19.0",
+    "babel-eslint": "^10.1.0",
     "eslint-config-htmlacademy": "4.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "faker": "5.5.3",
+    "prettier": "2.5.1",
     "redux-devtools-extension": "2.13",
     "typescript": "4.5.4"
   },
@@ -41,8 +45,16 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "htmlacademy/react-typescript"
-    ]
+      "htmlacademy/react-typescript",
+      "prettier"
+    ],
+    "plugins": [
+      "react",
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": ["error", {"singleQuote" : true}]
+    }
   },
   "browserslist": {
     "production": [
