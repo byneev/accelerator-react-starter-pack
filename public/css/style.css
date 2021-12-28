@@ -2239,7 +2239,7 @@ button,
   top: 39px;
   left: 0;
   position: absolute;
-
+  z-index: 100;
   overflow-y: scroll;
 
   width: 100%;

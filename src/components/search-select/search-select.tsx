@@ -1,14 +1,16 @@
+/* eslint-disable no-console */
+import { useSelector } from 'react-redux';
+import { getSearchedGuitars } from '../../store/selectors';
+import { ProductProps } from '../../types/product-type';
 import SearchSelectItem from '../search-select-item/search-select-item';
 
-export type SearchSelectProps = {
-  searchResults: string[];
-};
+function SearchSelect(): JSX.Element {
+  const searchResults = useSelector(getSearchedGuitars);
 
-function SearchSelect({ searchResults, }: SearchSelectProps): JSX.Element {
   return (
-    <ul className='form-search__select-list hidden'>
-      {searchResults.map((item) => (
-        <SearchSelectItem key={item}>{item}</SearchSelectItem>
+    <ul style={{zIndex: 100,}} className={searchResults.length !== 0 ? 'form-search__select-list' : 'form-search__select-list hidden'}>
+      {searchResults.map((item: ProductProps) => (
+        <SearchSelectItem key={item.id} id={item.id}>{item.name}</SearchSelectItem>
       ))}
     </ul>
   );

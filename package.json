@@ -43,7 +43,8 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "htmlacademy/react-typescript"
+      "htmlacademy/react-typescript",
+      "prettier"
     ],
     "rules": {
       "indent": [
@@ -65,7 +66,6 @@
       "comma-dangle": [
         "error",
         {
-          "arrays": "always",
           "objects": "always"
         }
       ]

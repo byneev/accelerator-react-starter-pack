@@ -1,13 +1,34 @@
+/* eslint-disable no-console */
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
+import { getSearchedProducts } from '../../store/api-actions';
+import { getSearchQuery } from '../../store/selectors';
+import { BAD_QUERY } from '../../utils/const';
 import SearchSelect from '../search-select/search-select';
 
 function FormSearch(): JSX.Element {
-  const mockResultsFromServer: string[] = [
-    'Четстер UX5',
-    'Четстер UX',
-    'Четстер Plus',
-    'Четстер UX2',
-    'Четстер UX3',
-  ];
+  const dispatch = useDispatch();
+  const searchQuery = useSelector(getSearchQuery);
+  const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    if (searchQuery !== '') {
+      dispatch(getSearchedProducts(searchQuery));
+    }
+  }, [searchQuery, dispatch]);
+
+  const searchFormChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+    evt.preventDefault();
+    setInputValue(evt.target.value);
+    if (evt.target.value === '') {
+      dispatch(setSearchedGuitars([]));
+      dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
+    } else {
+      dispatch(setSearchQuery(`name_like=${evt.target.value}`));
+    }
+  };
+
 
   return (
     <div className='form-search'>
@@ -23,18 +44,20 @@ function FormSearch(): JSX.Element {
           </svg>
           <span className='visually-hidden'>Начать поиск</span>
         </button>
-        <input
+        <input onChange={searchFormChangeHandle}
+          onBlur={() => dispatch(setSearchedGuitars([]))}
           className='form-search__input'
           id='search'
           type='text'
           autoComplete='off'
           placeholder='что вы ищите?'
+          value={inputValue}
         />
         <label className='visually-hidden' htmlFor='search'>
           Поиск
         </label>
       </form>
-      <SearchSelect searchResults={mockResultsFromServer} />
+      <SearchSelect />
     </div>
   );
 }

@@ -17,7 +17,7 @@ describe('Test SearchSelect component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <SearchSelect searchResults={['Ozzy', 'Мелодия', 'Power']} />
+          <SearchSelect />
         </Router>
       </Provider>
     );

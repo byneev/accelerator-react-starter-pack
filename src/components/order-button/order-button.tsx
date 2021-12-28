@@ -5,7 +5,7 @@ export type OrderButtonProps = {
 
 function OrderButton({ isUp, isActive, }: OrderButtonProps): JSX.Element {
   let ariaLabel = 'По возрастанию';
-  const classNames: string[] = ['catalog-sort__order-button',];
+  const classNames: string[] = ['catalog-sort__order-button'];
   if (isActive) {
     classNames.push('catalog-sort__order-button--active');
   }

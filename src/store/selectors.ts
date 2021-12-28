@@ -10,3 +10,7 @@ export const getCurrentSort = (state: RootProps): [SortType, SortType] =>
 
 export const getCurrentFilters = (state: RootProps): FilterProps =>
   state.currentFilters;
+
+export const getSearchQuery = (state: RootProps): string => state.searchQuery;
+
+export const getSearchedGuitars = (state: RootProps): ProductProps[] => state.searchedGuitars;

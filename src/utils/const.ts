@@ -10,6 +10,8 @@ export const DEFAULT_MIN_PRICE = 1000;
 
 export const DEFAULT_MAX_PRICE = 30000;
 
+export const BAD_QUERY = 'XyZpO';
+
 export enum AppRoute {
   Main = '/',
   NotFound = '/404',
@@ -64,5 +66,5 @@ export enum GuitarType {
 export const AppRouteAliases = new Map<AppRoute, string>([
   [AppRoute.Main, RouteAlias.Main],
   [AppRoute.Catalog, RouteAlias.Catalog],
-  [AppRoute.Cart, RouteAlias.Cart],
+  [AppRoute.Cart, RouteAlias.Cart]
 ]);

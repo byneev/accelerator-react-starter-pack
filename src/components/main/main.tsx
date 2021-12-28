@@ -14,7 +14,7 @@ import ProductsList from '../products-list/products-list';
 import Sort from '../sort/sort';
 
 function Main(): JSX.Element {
-  const mockBreadcrumbsPath: AppRoute[] = [AppRoute.Main, AppRoute.Catalog,];
+  const mockBreadcrumbsPath: AppRoute[] = [AppRoute.Main, AppRoute.Catalog];
   const products = useSelector(getGuitars);
 
   if (products.length === 0) {

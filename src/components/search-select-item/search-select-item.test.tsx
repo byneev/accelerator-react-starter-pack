@@ -17,7 +17,7 @@ describe('Test ProductList component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <SearchSelectItem>Ozzy</SearchSelectItem>
+          <SearchSelectItem id={1}>Ozzy</SearchSelectItem>
         </Router>
       </Provider>
     );

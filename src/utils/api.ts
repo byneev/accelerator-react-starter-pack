@@ -16,15 +16,15 @@ export const createAPI = (
     (response: AxiosResponse) => response,
     (error: AxiosError) => {
       switch (error.response?.status) {
-        case HTTPCode.NotFound:
-          cbOn404();
-          break;
-        case HTTPCode.BadRequest:
-          cbOn400();
-          break;
-        case HTTPCode.Unauthorized:
-          cbOn401();
-          break;
+      case HTTPCode.NotFound:
+        cbOn404();
+        break;
+      case HTTPCode.BadRequest:
+        cbOn400();
+        break;
+      case HTTPCode.Unauthorized:
+        cbOn401();
+        break;
       }
       return Promise.reject();
     }

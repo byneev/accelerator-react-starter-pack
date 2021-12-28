@@ -7,6 +7,8 @@ export enum Action {
   SetGuitars = 'setGuitars',
   SetCurrentSort = 'setCurrentSort',
   SetCurrentFilters = 'setCurrentFilters',
+  SetSearchQuery = 'setSearchQuery',
+  SetSearchedGuitars = 'setSearchedGuitars',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -18,3 +20,8 @@ export const setCurrentSort = createAction<[SortType, SortType]>(
 export const setCurrentFilters = createAction<FilterProps>(
   Action.SetCurrentFilters
 );
+
+export const setSearchQuery = createAction<string>(Action.SetSearchQuery);
+
+export const setSearchedGuitars = createAction<ProductProps[]>(Action.SetSearchedGuitars);
+
