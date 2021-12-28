@@ -15,7 +15,7 @@ function PaginationItem({
       <a className='link pagination__page-link'>{pageLink}</a>
     </li>
   ) : (
-    <li className='pagination__page pagination__page--active'>
+    <li className='pagination__page'>
       <Link
         className='link pagination__page-link'
         to={`${AppRoute.Catalog}/${AppRoute.Page}/${pageLink}`}

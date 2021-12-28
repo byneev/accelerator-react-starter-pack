@@ -17,7 +17,6 @@ function FilterType(): JSX.Element {
           type='checkbox'
           id='electric'
           name='electric'
-          defaultChecked
         />
         <label htmlFor='electric'>Электрогитары</label>
       </div>
@@ -27,7 +26,6 @@ function FilterType(): JSX.Element {
           type='checkbox'
           id='ukulele'
           name='ukulele'
-          defaultChecked
         />
         <label htmlFor='ukulele'>Укулеле</label>
       </div>

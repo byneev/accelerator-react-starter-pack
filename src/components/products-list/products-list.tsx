@@ -10,7 +10,7 @@ function ProductsList({ products, }: ProductsListProps): JSX.Element {
 
   return (
     <div className='cards catalog__cards'>
-      {products.map((item: ProductProps) => (
+      {products.slice(0, 9).map((item: ProductProps) => (
         <ProductCard key={id++} product={item} />
       ))}
     </div>
