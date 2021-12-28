@@ -6,12 +6,12 @@ import { initialState, RootReducer } from './reducer';
 
 describe('Reducer test', () => {
   it('Should return Initial State', () => {
-    expect(RootReducer(void 0, { type: 'Unknown Action' })).toEqual(
+    expect(RootReducer(void 0, { type: 'Unknown Action', })).toEqual(
       initialState
     );
   });
   it('Should set payload to guitars field', () => {
-    const guitars = [getMockProduct(), getMockProduct()];
+    const guitars = [getMockProduct(), getMockProduct(),];
     expect(RootReducer(initialState, setGuitars(guitars))).toEqual({
       ...initialState,
       guitars: guitars,
@@ -21,11 +21,11 @@ describe('Reducer test', () => {
     expect(
       RootReducer(
         initialState,
-        setCurrentSort([SortType.Popular, SortType.Descending])
+        setCurrentSort([SortType.Popular, SortType.Descending,])
       )
     ).toEqual({
       ...initialState,
-      currentSort: [SortType.Popular, SortType.Descending],
+      currentSort: [SortType.Popular, SortType.Descending,],
     });
   });
   it('Should set payload to currentFilters field', () => {
