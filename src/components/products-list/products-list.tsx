@@ -5,11 +5,11 @@ export type ProductsListProps = {
   products: ProductProps[];
 };
 
-function ProductsList({ products }: ProductsListProps): JSX.Element {
+function ProductsList({ products, }: ProductsListProps): JSX.Element {
   let id = products[0].id;
 
   return (
-    <div className="cards catalog__cards">
+    <div className='cards catalog__cards'>
       {products.map((item: ProductProps) => (
         <ProductCard key={id++} product={item} />
       ))}

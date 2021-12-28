@@ -13,11 +13,11 @@ function BreadcrumbsItem({
   route,
 }: BreadcrumbsItemProps): JSX.Element {
   return (
-    <li className="breadcrumbs__item">
+    <li className='breadcrumbs__item'>
       {isCurrent ? (
-        <a className="link">{children}</a>
+        <a className='link'>{children}</a>
       ) : (
-        <Link className="link" to={route}>
+        <Link className='link' to={route}>
           {children}
         </Link>
       )}

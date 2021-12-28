@@ -11,13 +11,13 @@ function PaginationItem({
   pageLink,
 }: PaginationItemProps): JSX.Element {
   return isActive ? (
-    <li className="pagination__page pagination__page--active">
-      <a className="link pagination__page-link">{pageLink}</a>
+    <li className='pagination__page pagination__page--active'>
+      <a className='link pagination__page-link'>{pageLink}</a>
     </li>
   ) : (
-    <li className="pagination__page pagination__page--active">
+    <li className='pagination__page pagination__page--active'>
       <Link
-        className="link pagination__page-link"
+        className='link pagination__page-link'
         to={`${AppRoute.Catalog}/${AppRoute.Page}/${pageLink}`}
       >
         {pageLink}

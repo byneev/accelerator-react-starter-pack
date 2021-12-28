@@ -5,12 +5,12 @@ export type PaginationProps = {
   productsCount: number;
 };
 
-function Pagination({ productsCount }: PaginationProps): JSX.Element {
+function Pagination({ productsCount, }: PaginationProps): JSX.Element {
   const pagesCount = Math.ceil(productsCount / 9);
 
   return (
-    <div className="pagination page-content__pagination">
-      <ul className="pagination__list">
+    <div className='pagination page-content__pagination'>
+      <ul className='pagination__list'>
         {getArrayByNumber(pagesCount).map((item) => (
           <PaginationItem key={item} isActive pageLink={item} />
         ))}

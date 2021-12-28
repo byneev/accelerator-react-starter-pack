@@ -5,9 +5,9 @@ export type BreadcrumbsProps = {
   pathsTree: AppRoute[];
 };
 
-function Breadcrumbs({ pathsTree }: BreadcrumbsProps): JSX.Element {
+function Breadcrumbs({ pathsTree, }: BreadcrumbsProps): JSX.Element {
   return (
-    <ul className="breadcrumbs page-content__breadcrumbs">
+    <ul className='breadcrumbs page-content__breadcrumbs'>
       {pathsTree.map((item: AppRoute, index: number) =>
         index === pathsTree.length - 1 ? (
           <BreadcrumbsItem key={item} route={item} isCurrent={false}>

@@ -4,8 +4,8 @@ import FilterType from '../filter-type/filter-type';
 
 function FormFilter(): JSX.Element {
   return (
-    <form className="catalog-filter">
-      <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
+    <form className='catalog-filter'>
+      <h2 className='title title--bigger catalog-filter__title'>Фильтр</h2>
       <FilterPrice />
       <FilterType />
       <FilterStrings />

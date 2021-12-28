@@ -17,7 +17,7 @@ export const initialState: InitialStateProps = {
     priceMin: DEFAULT_MIN_PRICE,
     priceMax: DEFAULT_MAX_PRICE,
     stringsCount: null,
-    guitarType: null,
+    guitarType: null
   },
 };
 

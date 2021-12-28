@@ -3,7 +3,7 @@ export type SortButtonProps = {
   children: string;
 };
 
-function SortButton({ isActive, children }: SortButtonProps): JSX.Element {
+function SortButton({ isActive, children, }: SortButtonProps): JSX.Element {
   return (
     <button
       className={
