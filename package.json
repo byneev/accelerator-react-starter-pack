@@ -25,6 +25,8 @@
     "@types/react-dom": "17.0.11",
     "@types/react-redux": "7.1.20",
     "@types/react-router-dom": "5.3.2",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
     "axios-mock-adapter": "1.19.0",
     "babel-eslint": "^10.1.0",
     "eslint-config-htmlacademy": "4.1.0",
@@ -40,14 +42,22 @@
     "eslint": "eslint --ext .tsx --ext .ts src/"
   },
   "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2021
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "extends": [
       "react-app",
       "react-app/jest",
       "htmlacademy/react-typescript",
-      "prettier"
+      "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-      "indent": [
+      "indent": "off",
+      "@typescript-eslint/indent": [
         "error",
         2
       ],

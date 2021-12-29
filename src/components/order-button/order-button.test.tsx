@@ -17,7 +17,7 @@ describe('Test OrderButton component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <OrderButton isUp isActive />
+          <OrderButton isUp isActive onClick={jest.fn} />
         </Router>
       </Provider>
     );

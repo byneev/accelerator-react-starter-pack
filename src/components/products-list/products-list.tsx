@@ -1,17 +1,19 @@
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { getCurrentSort, getGuitars } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
+import { getSortedArrayByContext } from '../../utils/helpers';
 import ProductCard from '../product-card/product-card';
 
-export type ProductsListProps = {
-  products: ProductProps[];
-};
-
-function ProductsList({ products, }: ProductsListProps): JSX.Element {
-  let id = products[0].id;
+function ProductsList(): JSX.Element {
+  const guitars = useSelector(getGuitars);
+  const sort = useSelector(getCurrentSort);
+  const actualGuitars = useMemo(() => getSortedArrayByContext(guitars, sort), [guitars, sort]);
 
   return (
     <div className='cards catalog__cards'>
-      {products.slice(0, 9).map((item: ProductProps) => (
-        <ProductCard key={id++} product={item} />
+      {actualGuitars.slice(0, 9).map((item: ProductProps) => (
+        <ProductCard key={item.id} product={item} />
       ))}
     </div>
   );

@@ -1,9 +1,13 @@
+import { MouseEvent } from 'react';
+import { SortType } from '../../utils/const';
+
 export type OrderButtonProps = {
   isUp: boolean;
   isActive: boolean;
+  onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 };
 
-function OrderButton({ isUp, isActive, }: OrderButtonProps): JSX.Element {
+function OrderButton({ isUp, isActive, onClick, }: OrderButtonProps): JSX.Element {
   let ariaLabel = 'По возрастанию';
   const classNames: string[] = ['catalog-sort__order-button'];
   if (isActive) {
@@ -17,7 +21,8 @@ function OrderButton({ isUp, isActive, }: OrderButtonProps): JSX.Element {
   }
 
   return (
-    <button
+    <button onClick={onClick}
+      data-type={isUp ? SortType.Ascending : SortType.Descending}
       className={classNames.join(' ')}
       aria-label={ariaLabel}
       tabIndex={-1}

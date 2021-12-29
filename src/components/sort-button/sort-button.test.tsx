@@ -17,7 +17,7 @@ describe('Test SortButton component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <SortButton isActive>По цене</SortButton>
+          <SortButton isActive isPrice onClick={jest.fn}>По цене</SortButton>
         </Router>
       </Provider>
     );

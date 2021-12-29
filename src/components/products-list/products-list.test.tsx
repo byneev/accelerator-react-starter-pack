@@ -17,10 +17,10 @@ describe('Test ProductList component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <ProductsList products={[getMockProduct(), getMockProduct()]} />
+          <ProductsList />
         </Router>
       </Provider>
     );
-    expect(screen.getAllByText(/₽/).length).toEqual(2);
+    expect(screen.getAllByText(/₽/).length).toEqual(1);
   });
 });

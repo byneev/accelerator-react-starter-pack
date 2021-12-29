@@ -40,7 +40,7 @@ function Main(): JSX.Element {
           <div className='catalog'>
             <Sort />
             <FormFilter />
-            <ProductsList products={products} />
+            <ProductsList />
             <Pagination productsCount={products.length} />
           </div>
         </div>

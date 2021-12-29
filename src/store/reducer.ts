@@ -16,7 +16,7 @@ export type InitialStateProps = {
 
 export const initialState: InitialStateProps = {
   guitars: [],
-  currentSort: [SortType.Default, SortType.Default],
+  currentSort: [SortType.Price, SortType.Default],
   currentFilters: {
     priceMin: DEFAULT_MIN_PRICE,
     priceMax: DEFAULT_MAX_PRICE,
@@ -45,7 +45,7 @@ export const RootReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setSearchedGuitars, (state, { payload, }) => {
       state.searchedGuitars = payload;
-    })
+    });
 });
 
 export type RootProps = ReturnType<typeof RootReducer>;
