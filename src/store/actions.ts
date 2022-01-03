@@ -9,6 +9,7 @@ export enum Action {
   SetCurrentFilters = 'setCurrentFilters',
   SetSearchQuery = 'setSearchQuery',
   SetSearchedGuitars = 'setSearchedGuitars',
+  SetIsFilterDefault = 'setIsFilterDefault',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -25,3 +26,4 @@ export const setSearchQuery = createAction<string>(Action.SetSearchQuery);
 
 export const setSearchedGuitars = createAction<ProductProps[]>(Action.SetSearchedGuitars);
 
+export const setIsFilterDefault = createAction<boolean>(Action.SetIsFilterDefault);

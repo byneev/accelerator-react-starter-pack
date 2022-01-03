@@ -1,8 +1,15 @@
-import { GuitarType, StringsCount } from '../utils/const';
-
 export type FilterProps = {
-  priceMin: number;
-  priceMax: number;
-  stringsCount: StringsCount | null;
-  guitarType: GuitarType | null;
+  priceMin: string;
+  priceMax: string;
+  stringsCount: {
+    isFour: boolean,
+    isSix: boolean,
+    isSeven: boolean,
+    isTwelve: boolean,
+  };
+  guitarType: {
+    isAcustic: boolean,
+    isElectro: boolean,
+    isUkulele: boolean,
+  };
 };

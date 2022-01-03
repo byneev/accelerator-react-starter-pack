@@ -5,6 +5,7 @@ import { DEFAULT_MAX_PRICE, DEFAULT_MIN_PRICE, SortType } from '../utils/const';
 import { setCurrentFilters, setCurrentSort, setGuitars, setSearchedGuitars, setSearchQuery } from './actions';
 
 export type InitialStateProps = {
+  isFilterDefault: boolean,
   guitars: ProductProps[];
   currentSort: [SortType, SortType];
   currentFilters: FilterProps;
@@ -15,13 +16,23 @@ export type InitialStateProps = {
 };
 
 export const initialState: InitialStateProps = {
+  isFilterDefault: true,
   guitars: [],
   currentSort: [SortType.Price, SortType.Default],
   currentFilters: {
-    priceMin: DEFAULT_MIN_PRICE,
-    priceMax: DEFAULT_MAX_PRICE,
-    stringsCount: null,
-    guitarType: null,
+    priceMin: '',
+    priceMax: '',
+    stringsCount: {
+      isFour: false,
+      isSix: false,
+      isSeven: false,
+      isTwelve: false,
+    },
+    guitarType: {
+      isAcustic: false,
+      isElectro: false,
+      isUkulele: false,
+    },
   },
   minPrice: DEFAULT_MIN_PRICE,
   maxPrice: DEFAULT_MAX_PRICE,
