@@ -15,8 +15,8 @@ export const getSearchQuery = (state: RootProps): string => state.searchQuery;
 
 export const getSearchedGuitars = (state: RootProps): ProductProps[] => state.searchedGuitars;
 
-export const getMinPrice = (state: RootProps): number => state.minPrice;
+export const getMinPrice = (state: RootProps): string => state.minPrice;
 
-export const getMaxPrice = (state: RootProps): number => state.maxPrice;
+export const getMaxPrice = (state: RootProps): string => state.maxPrice;
 
 export const getIsFilterDefault = (state: RootProps): boolean => state.isFilterDefault;

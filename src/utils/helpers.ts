@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { FilterProps } from '../types/filter-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from './const';
 
@@ -33,4 +34,34 @@ export const getSortedArrayByContext = (guitars: ProductProps[], sort: [SortType
     default:
       return result;
   }
+};
+
+export const getQueryByFilters = (filters: FilterProps): string => {
+  const queryArray: string[] = [];
+  const { guitarType, stringsCount, priceMin, priceMax, } = filters;
+  const { isAcustic, isElectro, isUkulele, } = guitarType;
+  const { isFour, isSix, isSeven, isTwelve, } = stringsCount;
+  if (isAcustic) {
+    queryArray.push('type=acoustic&');
+  }
+  if (isElectro) {
+    queryArray.push('type=electric&');
+  }
+  if (isUkulele) {
+    queryArray.push('type=ukulele&');
+  }
+  if (isFour) {
+    queryArray.push('stringCount=4&');
+  }
+  if (isSix) {
+    queryArray.push('stringCount=6&');
+  }
+  if (isSeven) {
+    queryArray.push('stringCount=7&');
+  }
+  if (isTwelve) {
+    queryArray.push('stringCount=12&');
+  }
+  queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}`);
+  return queryArray.join('');
 };

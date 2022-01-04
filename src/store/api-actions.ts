@@ -10,8 +10,8 @@ export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInst
 >;
 
 export const getProductsFromServer =
-  (): ThunkResult => async (dispatch, _getState, api) => {
-    const response = await api.get(APIRoute.Guitars);
+  (query = ''): ThunkResult => async (dispatch, _getState, api) => {
+    const response = await api.get(`${APIRoute.Guitars}?${query}`);
     const guitars: ProductProps[] = response.data;
     dispatch(setGuitars(guitars));
   };

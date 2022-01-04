@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentFilters } from '../../store/actions';
+import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
 import { getCurrentFilters, getIsFilterDefault } from '../../store/selectors';
 
 function FilterStrings(): JSX.Element {
@@ -15,7 +15,7 @@ function FilterStrings(): JSX.Element {
 
   const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const name = evt.target.name;
-    console.log(name);
+    dispatch(setIsFilterDefault(false));
     switch (name) {
       case '4-strings':
         dispatch(setCurrentFilters({ ...filters, stringsCount: { ...stringsCount, isFour: !isFour, }, }));
@@ -42,7 +42,7 @@ function FilterStrings(): JSX.Element {
           type='checkbox'
           id='4-strings'
           name='4-strings'
-          checked={isFour}
+          defaultChecked={isFour}
           disabled={isFilterDefault ? false : (!isUkulele && !isElectro)}
         />
         <label htmlFor='4-strings'>4</label>
@@ -54,7 +54,7 @@ function FilterStrings(): JSX.Element {
           type='checkbox'
           id='6-strings'
           name='6-strings'
-          checked={isSix}
+          defaultChecked={isSix}
           disabled={isFilterDefault ? false : (!isAcustic && !isElectro)}
         />
         <label htmlFor='6-strings'>6</label>
@@ -66,7 +66,7 @@ function FilterStrings(): JSX.Element {
           type='checkbox'
           id='7-strings'
           name='7-strings'
-          checked={isSeven}
+          defaultChecked={isSeven}
           disabled={isFilterDefault ? false : (!isAcustic && !isElectro)}
         />
         <label htmlFor='7-strings'>7</label>
@@ -78,7 +78,7 @@ function FilterStrings(): JSX.Element {
           type='checkbox'
           id='12-strings'
           name='12-strings'
-          checked={isTwelve}
+          defaultChecked={isTwelve}
           disabled={isFilterDefault ? false : (!isAcustic)}
         />
         <label htmlFor='12-strings'>12</label>

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentFilters } from '../../store/actions';
+import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
 import { getCurrentFilters, getMaxPrice, getMinPrice } from '../../store/selectors';
 
 function FilterPrice(): JSX.Element {
@@ -15,24 +15,18 @@ function FilterPrice(): JSX.Element {
 
   const priceMinChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     setPriceMin(evt.target.value);
-    setTimeout(() => {
-      if (+evt.target.value < 0 || +evt.target.value < minPrice) {
-        setPriceMin(String(minPrice));
-      } else {
-        dispatch(setCurrentFilters({ ...filters, priceMin: evt.target.value, }));
-      }
-    }, 2000);
+    if (+evt.target.value >= 0) {
+      dispatch(setIsFilterDefault(false));
+      dispatch(setCurrentFilters({ ...filters, priceMin: evt.target.value, }));
+    }
   };
 
   const priceMaxChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     setPriceMax(evt.target.value);
-    setTimeout(() => {
-      if (+evt.target.value < 0 || +evt.target.value > maxPrice) {
-        setPriceMax(String(maxPrice));
-      } else {
-        dispatch(setCurrentFilters({ ...filters, priceMax: evt.target.value, }));
-      }
-    }, 2000);
+    if (+evt.target.value >= 0 && +evt.target.value > +priceMin) {
+      dispatch(setIsFilterDefault(false));
+      dispatch(setCurrentFilters({ ...filters, priceMax: evt.target.value, }));
+    }
   };
 
 
@@ -42,11 +36,11 @@ function FilterPrice(): JSX.Element {
       <div className='catalog-filter__price-range'>
         <div className='form-input'>
           <label className='visually-hidden'>Минимальная цена</label>
-          <input onChange={priceMinChangeHandle} type='number' placeholder={String(minPrice)} id='priceMin' name='от' value={priceMin} />
+          <input onChange={priceMinChangeHandle} onBlur={() => setPriceMin(String(minPrice))} type='number' placeholder={String(minPrice)} id='priceMin' name='от' value={priceMin} />
         </div>
         <div className='form-input'>
           <label className='visually-hidden'>Максимальная цена</label>
-          <input onChange={priceMaxChangeHandle} type='number' placeholder={String(maxPrice)} id='priceMax' name='до' value={priceMax} />
+          <input onChange={priceMaxChangeHandle} onBlur={() => setPriceMax(String(maxPrice))} type='number' placeholder={String(maxPrice)} id='priceMax' name='до' value={priceMax} />
         </div>
       </div>
     </fieldset>

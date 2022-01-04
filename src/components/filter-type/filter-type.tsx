@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentFilters } from '../../store/actions';
+import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
 import { getCurrentFilters } from '../../store/selectors';
 
 function FilterType(): JSX.Element {
@@ -14,6 +14,7 @@ function FilterType(): JSX.Element {
   const typeChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const guitarType = filters.guitarType;
     const name = evt.target.name;
+    dispatch(setIsFilterDefault(false));
     switch (name) {
       case 'acoustic':
         setIsAcustic((prevIsAcustic) => !prevIsAcustic);
@@ -39,7 +40,7 @@ function FilterType(): JSX.Element {
           type='checkbox'
           id='acoustic'
           name='acoustic'
-          checked={isAcustic}
+          defaultChecked={isAcustic}
           onChange={typeChangeHandle}
         />
         <label htmlFor='acoustic'>Акустические гитары</label>
@@ -50,7 +51,7 @@ function FilterType(): JSX.Element {
           type='checkbox'
           id='electric'
           name='electric'
-          checked={isElectro}
+          defaultChecked={isElectro}
           onChange={typeChangeHandle}
         />
         <label htmlFor='electric'>Электрогитары</label>
@@ -61,7 +62,7 @@ function FilterType(): JSX.Element {
           type='checkbox'
           id='ukulele'
           name='ukulele'
-          checked={isUkulele}
+          defaultChecked={isUkulele}
           onChange={typeChangeHandle}
         />
         <label htmlFor='ukulele'>Укулеле</label>

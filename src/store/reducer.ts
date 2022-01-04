@@ -2,15 +2,15 @@ import { createReducer } from '@reduxjs/toolkit';
 import { FilterProps } from '../types/filter-type';
 import { ProductProps } from '../types/product-type';
 import { DEFAULT_MAX_PRICE, DEFAULT_MIN_PRICE, SortType } from '../utils/const';
-import { setCurrentFilters, setCurrentSort, setGuitars, setSearchedGuitars, setSearchQuery } from './actions';
+import { setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setPriceMax, setPriceMin, setSearchedGuitars, setSearchQuery } from './actions';
 
 export type InitialStateProps = {
   isFilterDefault: boolean,
   guitars: ProductProps[];
   currentSort: [SortType, SortType];
   currentFilters: FilterProps;
-  minPrice: number;
-  maxPrice: number;
+  minPrice: string;
+  maxPrice: string;
   searchQuery: string;
   searchedGuitars: ProductProps[];
 };
@@ -34,8 +34,8 @@ export const initialState: InitialStateProps = {
       isUkulele: false,
     },
   },
-  minPrice: DEFAULT_MIN_PRICE,
-  maxPrice: DEFAULT_MAX_PRICE,
+  minPrice: '',
+  maxPrice: '',
   searchQuery: '',
   searchedGuitars: [],
 };
@@ -56,6 +56,15 @@ export const RootReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setSearchedGuitars, (state, { payload, }) => {
       state.searchedGuitars = payload;
+    })
+    .addCase(setIsFilterDefault, (state, { payload, }) => {
+      state.isFilterDefault = payload;
+    })
+    .addCase(setPriceMin, (state, { payload, }) => {
+      state.minPrice = payload;
+    })
+    .addCase(setPriceMax, (state, { payload, }) => {
+      state.maxPrice = payload;
     });
 });
 
