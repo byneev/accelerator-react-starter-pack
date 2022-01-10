@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentFilters, setPriceMax, setPriceMin } from '../../store/actions';
 import { getProductsFromServer } from '../../store/api-actions';
-import { getCurrentFilters, getCurrentSort, getGuitars, getIsFilterDefault, getMaxPrice, getMinPrice } from '../../store/selectors';
+import { getCurrentFilters, getCurrentSort, getGuitars, getIsFilterDefault } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { getQueryByFilters, getSortedArrayByContext } from '../../utils/helpers';
 import ProductCard from '../product-card/product-card';
