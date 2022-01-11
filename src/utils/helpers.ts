@@ -36,11 +36,13 @@ export const getSortedArrayByContext = (guitars: ProductProps[], sort: [SortType
   }
 };
 
-export const getQueryByFilters = (filters: FilterProps): string => {
+export const getQueryByFilters = (filters: FilterProps, sort: [SortType, SortType]): string => {
   const queryArray: string[] = [];
   const { guitarType, stringsCount, priceMin, priceMax, } = filters;
   const { isAcustic, isElectro, isUkulele, } = guitarType;
   const { isFour, isSix, isSeven, isTwelve, } = stringsCount;
+  const [byType, byDirection] = sort;
+
   if (isAcustic) {
     queryArray.push('type=acoustic&');
   }
@@ -62,6 +64,23 @@ export const getQueryByFilters = (filters: FilterProps): string => {
   if (isTwelve) {
     queryArray.push('stringCount=12&');
   }
-  queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}`);
+  queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}&`);
+  if (byDirection === SortType.Default) {
+    return queryArray.join('');
+  }
+  switch (byType) {
+    case SortType.Price:
+      if (byDirection === SortType.Ascending) {
+        queryArray.push('sort=price&order=asc');
+      }
+      queryArray.push('sort=price&order=desc');
+      break;
+    case SortType.Popular:
+      if (byDirection === SortType.Ascending) {
+        queryArray.push('sort=popular&order=asc');
+      }
+      queryArray.push('sort=popular&order=desc');
+      break;
+  }
   return queryArray.join('');
 };

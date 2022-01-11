@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { FilterProps } from '../types/filter-type';
 import { ProductProps } from '../types/product-type';
-import { DEFAULT_MAX_PRICE, DEFAULT_MIN_PRICE, SortType } from '../utils/const';
+import { SortType } from '../utils/const';
 import { setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setPriceMax, setPriceMin, setSearchedGuitars, setSearchQuery } from './actions';
 
 export type InitialStateProps = {
