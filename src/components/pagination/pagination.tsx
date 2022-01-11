@@ -1,12 +1,11 @@
+import { useSelector } from 'react-redux';
+import { getPaginationData } from '../../store/selectors';
 import { getArrayByNumber } from '../../utils/helpers';
 import PaginationItem from '../pagination-item/pagination-item';
 
-export type PaginationProps = {
-  productsCount: number;
-};
-
-function Pagination({ productsCount, }: PaginationProps): JSX.Element {
-  const pagesCount = Math.ceil(productsCount / 9);
+function Pagination(): JSX.Element {
+  const paginationData = useSelector(getPaginationData);
+  const pagesCount = Math.ceil(paginationData.totalCount / 9);
 
   return (
     <div className='pagination page-content__pagination'>

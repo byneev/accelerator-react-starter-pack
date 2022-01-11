@@ -6,9 +6,8 @@ import { getCurrentFilters, getMaxPrice, getMinPrice } from '../../store/selecto
 
 function FilterPrice(): JSX.Element {
   const filters = useSelector(getCurrentFilters);
-  // minPrice and maxPrice set in upper level according real guitars array
-  const minPrice = useSelector(getMinPrice);
-  const maxPrice = useSelector(getMaxPrice);
+  const minPrice = useSelector(getMinPrice); //global
+  const maxPrice = useSelector(getMaxPrice); //global
   const dispatch = useDispatch();
   const [priceMin, setPriceMin] = useState(String(minPrice));
   const [priceMax, setPriceMax] = useState(String(maxPrice));

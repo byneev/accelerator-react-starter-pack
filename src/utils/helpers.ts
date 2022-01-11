@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import { FilterProps } from '../types/filter-type';
-import { ProductProps } from '../types/product-type';
 import { SortType } from './const';
 
 export const getArrayByNumber = (max: number) => {
@@ -13,55 +12,53 @@ export const getArrayByNumber = (max: number) => {
   return result;
 };
 
-
-export const getSortedArrayByContext = (guitars: ProductProps[], sort: [SortType, SortType]): ProductProps[] => {
-  const result = guitars.slice();
-  const [byType, byDirection] = sort;
-  if (byDirection === SortType.Default) {
-    return result;
+export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, SortType]): string => {
+  const queryArray: string[] = [];
+  if (filters) {
+    const { guitarType, stringsCount, priceMin, priceMax, } = filters;
+    const { isAcustic, isElectro, isUkulele, } = guitarType;
+    const { isFour, isSix, isSeven, isTwelve, } = stringsCount;
+    if (isAcustic) {
+      queryArray.push('type=acoustic&');
+    }
+    if (isElectro) {
+      queryArray.push('type=electric&');
+    }
+    if (isUkulele) {
+      queryArray.push('type=ukulele&');
+    }
+    if (isFour) {
+      queryArray.push('stringCount=4&');
+    }
+    if (isSix) {
+      queryArray.push('stringCount=6&');
+    }
+    if (isSeven) {
+      queryArray.push('stringCount=7&');
+    }
+    if (isTwelve) {
+      queryArray.push('stringCount=12&');
+    }
+    queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}&`);
   }
+  const [byType, byDirection] = sort;
+  // if (byDirection === SortType.Default) {
+  //   return queryArray.join('');
+  // }
   switch (byType) {
     case SortType.Price:
       if (byDirection === SortType.Ascending) {
-        return result.sort((a, b) => a.price - b.price);
+        queryArray.push('_sort=price&_order=asc');
+      } else {
+        queryArray.push('_sort=price&_order=desc');
       }
-      return result.sort((a, b) => b.price - a.price);
+      break;
     case SortType.Popular:
       if (byDirection === SortType.Ascending) {
-        return result.sort((a, b) => a.rating - b.rating);
+        queryArray.push('_sort=rating&_order=asc');
+      } else {
+        queryArray.push('_sort=rating&_order=desc');
       }
-      return result.sort((a, b) => b.rating - a.rating);
-    default:
-      return result;
   }
-};
-
-export const getQueryByFilters = (filters: FilterProps): string => {
-  const queryArray: string[] = [];
-  const { guitarType, stringsCount, priceMin, priceMax, } = filters;
-  const { isAcustic, isElectro, isUkulele, } = guitarType;
-  const { isFour, isSix, isSeven, isTwelve, } = stringsCount;
-  if (isAcustic) {
-    queryArray.push('type=acoustic&');
-  }
-  if (isElectro) {
-    queryArray.push('type=electric&');
-  }
-  if (isUkulele) {
-    queryArray.push('type=ukulele&');
-  }
-  if (isFour) {
-    queryArray.push('stringCount=4&');
-  }
-  if (isSix) {
-    queryArray.push('stringCount=6&');
-  }
-  if (isSeven) {
-    queryArray.push('stringCount=7&');
-  }
-  if (isTwelve) {
-    queryArray.push('stringCount=12&');
-  }
-  queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}`);
   return queryArray.join('');
 };

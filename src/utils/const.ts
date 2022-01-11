@@ -12,6 +12,8 @@ export const DEFAULT_MAX_PRICE = 30000;
 
 export const BAD_QUERY = 'XyZpO';
 
+export const PRODUTS_LIMIT_ON_PAGE = 9;
+
 export enum AppRoute {
   Main = '/',
   NotFound = '/404',

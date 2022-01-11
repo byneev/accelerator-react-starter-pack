@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { FilterProps } from '../types/filter-type';
+import { PaginationProps } from '../types/pagination-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from '../utils/const';
 
@@ -12,6 +13,7 @@ export enum Action {
   SetIsFilterDefault = 'setIsFilterDefault',
   SetPriceMin = 'setPriceMin',
   SetPriceMax = 'setPriceMax',
+  SetPaginationData = 'setPaginationData'
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -33,3 +35,5 @@ export const setIsFilterDefault = createAction<boolean>(Action.SetIsFilterDefaul
 export const setPriceMin = createAction<string>(Action.SetPriceMin);
 
 export const setPriceMax = createAction<string>(Action.SetPriceMax);
+
+export const setPaginationData = createAction<PaginationProps>(Action.SetPaginationData);

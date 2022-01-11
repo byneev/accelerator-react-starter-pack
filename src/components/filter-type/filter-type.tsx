@@ -12,6 +12,7 @@ function FilterType(): JSX.Element {
   const [isUkulele, setIsUkulele] = useState(false);
   // each filter rerender with all filter change
   const typeChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+    console.log(filters);
     const guitarType = filters.guitarType;
     const name = evt.target.name;
     dispatch(setIsFilterDefault(false));

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { useSelector } from 'react-redux';
-import { getGuitars } from '../../store/selectors';
+import { useDispatch } from 'react-redux';
+import { getDefaultProducts } from '../../store/api-actions';
 import { AppRoute } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
@@ -15,11 +15,8 @@ import Sort from '../sort/sort';
 
 function Main(): JSX.Element {
   const mockBreadcrumbsPath: AppRoute[] = [AppRoute.Main, AppRoute.Catalog];
-  const products = useSelector(getGuitars);
-
-  if (products.length === 0) {
-    return <div></div>;
-  }
+  const dispatch = useDispatch();
+  dispatch(getDefaultProducts());
 
   return (
     <div className='wrapper'>
@@ -41,7 +38,7 @@ function Main(): JSX.Element {
             <Sort />
             <FormFilter />
             <ProductsList />
-            <Pagination productsCount={products.length} />
+            <Pagination />
           </div>
         </div>
       </main>
