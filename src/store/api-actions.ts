@@ -13,29 +13,28 @@ export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInst
 export const getDefaultProducts = (): ThunkResult => async (dispatch, _getState, api) => {
   const response: AxiosResponse = await api.get(`${APIRoute.Guitars}`);
   const guitars: ProductProps[] = response.data.slice().sort((a: ProductProps, b: ProductProps) => a.price - b.price);
-  dispatch(setGuitars(response.data));
   dispatch(setPriceMin(String(guitars[0].price)));
   dispatch(setPriceMax(String(guitars.slice(-1)[0].price)));
-  dispatch(setCurrentFilters({ ...initialState.currentFilters, priceMin: String(guitars[0].price), priceMax: String(guitars.slice(-1)[0].price), }));
 };
 
 export const getProductsFromServer =
   (query = '', paginationData: PaginationProps): ThunkResult => async (dispatch, _getState, api) => {
     const response: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}`);
     const guitars: ProductProps[] = response.data;
+    console.log(query);
     if (query.match(/order/)) {
       dispatch(setPriceMin(String(guitars[0].price < guitars.slice(-1)[0].price ? guitars[0].price : guitars.slice(-1)[0].price)));
       dispatch(setPriceMax(String(guitars.slice(-1)[0].price > guitars[0].price ? guitars.slice(-1)[0].price : guitars[0].price)));
     } else {
       const sortedGuitars = guitars.slice().sort((a: ProductProps, b: ProductProps) => a.price - b.price);
-      dispatch(setPriceMin(String(sortedGuitars[0])));
-      dispatch(setPriceMax(String(sortedGuitars.slice(-1)[0])));
+      dispatch(setPriceMin(String(sortedGuitars[0].price)));
+      dispatch(setPriceMax(String(sortedGuitars.slice(-1)[0].price)));
     }
     const responseWithRange: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}&${`_start=${paginationData.startRange}&_limit=${PRODUTS_LIMIT_ON_PAGE}`}`);
     const headers: AxiosResponseHeaders = responseWithRange.headers;
     const actualGuitars: ProductProps[] = responseWithRange.data;
     dispatch(setGuitars(actualGuitars));
-    dispatch(setPaginationData({ startRange: paginationData.startRange, totalCount: +headers['x-total-count'], }));
+    // dispatch(setPaginationData({ startRange: paginationData.startRange, totalCount: +headers['x-total-count'], }));
   };
 
 export const getSearchedProducts = (query: string): ThunkResult => async (dispatch, _getState, api) => {

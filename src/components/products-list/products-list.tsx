@@ -18,9 +18,8 @@ function ProductsList(): JSX.Element {
   useEffect(() => {
     if (!isFilterDefault) {
       dispatch(getProductsFromServer(getQueryByFilters(filters, sort), paginationData));
-    } else {
-      dispatch(getProductsFromServer(getQueryByFilters(null, sort), paginationData));
     }
+    dispatch(getProductsFromServer(getQueryByFilters(null, sort), paginationData));
   }, [filters, dispatch, isFilterDefault, sort, paginationData]);
 
   return (

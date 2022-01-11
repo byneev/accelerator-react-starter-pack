@@ -42,9 +42,9 @@ export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, 
     queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}&`);
   }
   const [byType, byDirection] = sort;
-  // if (byDirection === SortType.Default) {
-  //   return queryArray.join('');
-  // }
+  if (byDirection === SortType.Default) {
+    return queryArray.join('');
+  }
   switch (byType) {
     case SortType.Price:
       if (byDirection === SortType.Ascending) {

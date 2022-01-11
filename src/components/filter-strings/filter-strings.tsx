@@ -2,11 +2,13 @@
 import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
-import { getCurrentFilters, getIsFilterDefault } from '../../store/selectors';
+import { getCurrentFilters, getIsFilterDefault, getMaxPrice, getMinPrice } from '../../store/selectors';
 
 function FilterStrings(): JSX.Element {
   const isFilterDefault = useSelector(getIsFilterDefault);
   const filters = useSelector(getCurrentFilters);
+  const minPrice = useSelector(getMinPrice);
+  const maxPrice = useSelector(getMaxPrice);
   const { isFour, isSix, isSeven, isTwelve, } = filters.stringsCount;
   const { isAcustic, isElectro, isUkulele, } = filters.guitarType;
   const stringsCount = filters.stringsCount;
@@ -18,16 +20,16 @@ function FilterStrings(): JSX.Element {
     dispatch(setIsFilterDefault(false));
     switch (name) {
       case '4-strings':
-        dispatch(setCurrentFilters({ ...filters, stringsCount: { ...stringsCount, isFour: !isFour, }, }));
+        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isFour: !isFour, }, }));
         break;
       case '6-strings':
-        dispatch(setCurrentFilters({ ...filters, stringsCount: { ...stringsCount, isSix: !isSix, }, }));
+        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSix: !isSix, }, }));
         break;
       case '7-strings':
-        dispatch(setCurrentFilters({ ...filters, stringsCount: { ...stringsCount, isSeven: !isSeven, }, }));
+        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSeven: !isSeven, }, }));
         break;
       case '12-strings':
-        dispatch(setCurrentFilters({ ...filters, stringsCount: { ...stringsCount, isTwelve: !isTwelve, }, }));
+        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isTwelve: !isTwelve, }, }));
         break;
     }
   };
