@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-import { getProductsFromServer } from './store/api-actions';
 import { RootReducer } from './store/reducer';
 import { createAPI } from './utils/api';
 
@@ -23,8 +22,6 @@ export const store = configureStore({
       },
     }),
 });
-
-store.dispatch(getProductsFromServer());
 
 ReactDOM.render(
   <React.StrictMode>
