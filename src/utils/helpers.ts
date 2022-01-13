@@ -39,7 +39,9 @@ export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, 
     if (isTwelve) {
       queryArray.push('stringCount=12&');
     }
-    queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}&`);
+    if (priceMin !== '' && priceMax !== '') {
+      queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}&`);
+    }
   }
   const [byType, byDirection] = sort;
   if (byDirection === SortType.Default) {

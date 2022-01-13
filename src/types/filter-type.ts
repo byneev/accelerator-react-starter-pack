@@ -1,15 +1,19 @@
+export type StringsCountProps = {
+  isFour: boolean,
+  isSix: boolean,
+  isSeven: boolean,
+  isTwelve: boolean,
+}
+
+export type GuitarsTypeProps = {
+  isAcustic: boolean,
+  isElectro: boolean,
+  isUkulele: boolean,
+}
+
 export type FilterProps = {
   priceMin: string;
   priceMax: string;
-  stringsCount: {
-    isFour: boolean,
-    isSix: boolean,
-    isSeven: boolean,
-    isTwelve: boolean,
-  };
-  guitarType: {
-    isAcustic: boolean,
-    isElectro: boolean,
-    isUkulele: boolean,
-  };
+  stringsCount: StringsCountProps;
+  guitarType: GuitarsTypeProps;
 };

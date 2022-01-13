@@ -1,37 +1,40 @@
 /* eslint-disable no-console */
-import { ChangeEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
-import { getCurrentFilters, getMaxPrice, getMinPrice } from '../../store/selectors';
+import { ChangeEvent } from 'react';
+import { GuitarsTypeProps } from '../../types/filter-type';
 
-function FilterType(): JSX.Element {
-  const filters = useSelector(getCurrentFilters);
-  const minPrice = useSelector(getMinPrice);
-  const maxPrice = useSelector(getMaxPrice);
-  const dispatch = useDispatch();
-  const [isAcustic, setIsAcustic] = useState(false);
-  const [isElectro, setIsElectro] = useState(false);
-  const [isUkulele, setIsUkulele] = useState(false);
-  console.log(filters);
+export type FilterTypeProps = {
+  guitarType: GuitarsTypeProps;
+  onChangeGuitarType: (evt: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function FilterType({ onChangeGuitarType, guitarType, }: FilterTypeProps): JSX.Element {
+  // const filters = useSelector(getCurrentFilters);
+  // const minPrice = useSelector(getMinPrice);
+  // const maxPrice = useSelector(getMaxPrice);
+  // const dispatch = useDispatch();
+  // const [isAcustic, setIsAcustic] = useState(false);
+  // const [isElectro, setIsElectro] = useState(false);
+  // const [isUkulele, setIsUkulele] = useState(false);
   // each filter rerender with all filter change
-  const typeChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
-    const name = evt.target.name;
-    dispatch(setIsFilterDefault(false));
-    switch (name) {
-      case 'acoustic':
-        setIsAcustic((prevIsAcustic) => !prevIsAcustic);
-        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isAcustic: !isAcustic, }, }));
-        break;
-      case 'electric':
-        setIsElectro(!isElectro);
-        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isElectro: !isElectro, }, }));
-        break;
-      case 'ukulele':
-        setIsUkulele(!isUkulele);
-        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isUkulele: !isUkulele, }, }));
-        break;
-    }
-  };
+  // const typeChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  //   const name = evt.target.name;
+  //   dispatch(setIsFilterDefault(false));
+  //   switch (name) {
+  //     case 'acoustic':
+  //       setIsAcustic((prevIsAcustic) => !prevIsAcustic);
+  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isAcustic: !isAcustic, }, }));
+  //       break;
+  //     case 'electric':
+  //       setIsElectro(!isElectro);
+  //       (setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isElectro: !isElectro, }, }));
+  //       break;
+  //     case 'ukulele':
+  //       setIsUkulele(!isUkulele);
+  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isUkulele: !isUkulele, }, }));
+  //       break;
+  //   }
+  // };
+  const { isAcustic, isElectro, isUkulele, } = guitarType;
 
   return (
     <fieldset className='catalog-filter__block'>
@@ -43,7 +46,7 @@ function FilterType(): JSX.Element {
           id='acoustic'
           name='acoustic'
           defaultChecked={isAcustic}
-          onChange={typeChangeHandle}
+          onChange={onChangeGuitarType}
         />
         <label htmlFor='acoustic'>Акустические гитары</label>
       </div>
@@ -54,7 +57,7 @@ function FilterType(): JSX.Element {
           id='electric'
           name='electric'
           defaultChecked={isElectro}
-          onChange={typeChangeHandle}
+          onChange={onChangeGuitarType}
         />
         <label htmlFor='electric'>Электрогитары</label>
       </div>
@@ -65,7 +68,7 @@ function FilterType(): JSX.Element {
           id='ukulele'
           name='ukulele'
           defaultChecked={isUkulele}
-          onChange={typeChangeHandle}
+          onChange={onChangeGuitarType}
         />
         <label htmlFor='ukulele'>Укулеле</label>
       </div>

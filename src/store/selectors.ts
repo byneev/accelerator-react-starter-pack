@@ -1,5 +1,4 @@
 import { FilterProps } from '../types/filter-type';
-import { PaginationProps } from '../types/pagination-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from '../utils/const';
 import { RootProps } from './reducer';
@@ -22,4 +21,6 @@ export const getMaxPrice = (state: RootProps): string => state.maxPrice;
 
 export const getIsFilterDefault = (state: RootProps): boolean => state.isFilterDefault;
 
-export const getPaginationData = (state: RootProps): PaginationProps => state.paginationData;
+export const getStartRange = (state: RootProps): number => state.startRange;
+
+export const getTotalCount = (state: RootProps): number => state.totalCount;

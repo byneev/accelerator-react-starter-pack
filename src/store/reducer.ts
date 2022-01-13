@@ -1,9 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { FilterProps } from '../types/filter-type';
-import { PaginationProps } from '../types/pagination-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from '../utils/const';
-import { setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setPaginationData, setPriceMax, setPriceMin, setSearchedGuitars, setSearchQuery } from './actions';
+import { setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setStartRange, setPriceMax, setPriceMin, setSearchedGuitars, setSearchQuery, setTotalCount } from './actions';
 
 export type InitialStateProps = {
   isFilterDefault: boolean,
@@ -14,7 +13,8 @@ export type InitialStateProps = {
   maxPrice: string;
   searchQuery: string;
   searchedGuitars: ProductProps[];
-  paginationData: PaginationProps;
+  startRange: number;
+  totalCount: number;
 };
 
 export const initialState: InitialStateProps = {
@@ -40,10 +40,8 @@ export const initialState: InitialStateProps = {
   maxPrice: '',
   searchQuery: '',
   searchedGuitars: [],
-  paginationData: {
-    startRange: 0,
-    totalCount: 9,
-  },
+  startRange: 0,
+  totalCount: 1000,
 };
 
 export const RootReducer = createReducer(initialState, (builder) => {
@@ -72,8 +70,11 @@ export const RootReducer = createReducer(initialState, (builder) => {
     .addCase(setPriceMax, (state, { payload, }) => {
       state.maxPrice = payload;
     })
-    .addCase(setPaginationData, (state, { payload, }) => {
-      state.paginationData = payload;
+    .addCase(setStartRange, (state, { payload, }) => {
+      state.startRange = payload;
+    })
+    .addCase(setTotalCount, (state, { payload, }) => {
+      state.totalCount = payload;
     });
 });
 

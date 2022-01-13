@@ -1,15 +1,25 @@
-/* eslint-disable no-console */
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSort } from '../../store/actions';
-import { getCurrentSort } from '../../store/selectors';
+import { getProductsFromServer } from '../../store/api-actions';
+import { getCurrentFilters, getCurrentSort, getStartRange } from '../../store/selectors';
 import { SortType } from '../../utils/const';
+import { getQueryByFilters } from '../../utils/helpers';
 import OrderButton from '../order-button/order-button';
 import SortButton from '../sort-button/sort-button';
 
 function Sort(): JSX.Element {
   const dispatch = useDispatch();
   const [byType, byDirection] = useSelector(getCurrentSort);
+  const filters = useSelector(getCurrentFilters);
+  const sort = useSelector(getCurrentSort);
+  const startRange = useSelector(getStartRange);
+
+  useEffect(() => {
+    if (sort[1] !== SortType.Default) {
+      dispatch(getProductsFromServer(getQueryByFilters(null, sort), startRange));
+    }
+  }, [dispatch, filters, sort, startRange]);
 
   const sortButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>): void => {
     evt.preventDefault();

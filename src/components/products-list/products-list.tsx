@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsFromServer } from '../../store/api-actions';
-import { getCurrentFilters, getCurrentSort, getGuitars, getIsFilterDefault, getPaginationData } from '../../store/selectors';
+import { getCurrentFilters, getCurrentSort, getGuitars, getIsFilterDefault, getStartRange } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { getQueryByFilters } from '../../utils/helpers';
 import ProductCard from '../product-card/product-card';
@@ -13,18 +12,17 @@ function ProductsList(): JSX.Element {
   const actualGuitars = useSelector(getGuitars);
   const filters = useSelector(getCurrentFilters);
   const sort = useSelector(getCurrentSort);
-  const paginationData = useSelector(getPaginationData);
+  const startRange = useSelector(getStartRange);
 
   useEffect(() => {
     if (!isFilterDefault) {
-      dispatch(getProductsFromServer(getQueryByFilters(filters, sort), paginationData));
+      dispatch(getProductsFromServer(getQueryByFilters(filters, sort), startRange));
     }
-    dispatch(getProductsFromServer(getQueryByFilters(null, sort), paginationData));
-  }, [filters, dispatch, isFilterDefault, sort, paginationData]);
+  }, [filters, dispatch, isFilterDefault, sort, startRange]);
 
   return (
     <div className='cards catalog__cards'>
-      {actualGuitars.slice(0, 9).map((item: ProductProps) => (
+      {actualGuitars.map((item: ProductProps) => (
         <ProductCard key={item.id} product={item} />
       ))}
     </div>

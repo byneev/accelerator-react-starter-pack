@@ -24,7 +24,7 @@ describe('Test async actions', () => {
     const guitars = [getMockProduct(), getMockProduct()];
     mockAPI.onGet(APIRoute.Guitars).reply(200, guitars);
     const store = mockStore();
-    await store.dispatch(getProductsFromServer('', initialState.paginationData));
+    await store.dispatch(getProductsFromServer('', initialState.startRange));
     expect(store.getActions()).toEqual([setGuitars(guitars)]);
   });
 });

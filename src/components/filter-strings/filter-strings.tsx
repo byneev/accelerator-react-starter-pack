@@ -1,45 +1,53 @@
-/* eslint-disable no-console */
 import { ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
-import { getCurrentFilters, getIsFilterDefault, getMaxPrice, getMinPrice } from '../../store/selectors';
+import { useSelector } from 'react-redux';
+import { getIsFilterDefault } from '../../store/selectors';
+import { GuitarsTypeProps, StringsCountProps } from '../../types/filter-type';
 
-function FilterStrings(): JSX.Element {
+export type FIlterStringsProps = {
+  guitarType: GuitarsTypeProps;
+  stringsCount: StringsCountProps;
+  onChangeStringCount: (evt: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function FilterStrings({ guitarType, stringsCount, onChangeStringCount, }: FIlterStringsProps): JSX.Element {
+  // const isFilterDefault = useSelector(getIsFilterDefault);
+  // const filters = useSelector(getCurrentFilters);
+  // const minPrice = useSelector(getMinPrice);
+  // const maxPrice = useSelector(getMaxPrice);
+  // const { isFour, isSix, isSeven, isTwelve, } = filters.stringsCount;
+  // const { isAcustic, isElectro, isUkulele, } = filters.guitarType;
+  // const stringsCount = filters.stringsCount;
+
+  // const dispatch = useDispatch();
+
+  // const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  //   const name = evt.target.name;
+  //   dispatch(setIsFilterDefault(false));
+  //   switch (name) {
+  //     case '4-strings':
+  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isFour: !isFour, }, }));
+  //       break;
+  //     case '6-strings':
+  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSix: !isSix, }, }));
+  //       break;
+  //     case '7-strings':
+  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSeven: !isSeven, }, }));
+  //       break;
+  //     case '12-strings':
+  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isTwelve: !isTwelve, }, }));
+  //       break;
+  //   }
+  // };
   const isFilterDefault = useSelector(getIsFilterDefault);
-  const filters = useSelector(getCurrentFilters);
-  const minPrice = useSelector(getMinPrice);
-  const maxPrice = useSelector(getMaxPrice);
-  const { isFour, isSix, isSeven, isTwelve, } = filters.stringsCount;
-  const { isAcustic, isElectro, isUkulele, } = filters.guitarType;
-  const stringsCount = filters.stringsCount;
-
-  const dispatch = useDispatch();
-
-  const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
-    const name = evt.target.name;
-    dispatch(setIsFilterDefault(false));
-    switch (name) {
-      case '4-strings':
-        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isFour: !isFour, }, }));
-        break;
-      case '6-strings':
-        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSix: !isSix, }, }));
-        break;
-      case '7-strings':
-        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSeven: !isSeven, }, }));
-        break;
-      case '12-strings':
-        dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isTwelve: !isTwelve, }, }));
-        break;
-    }
-  };
+  const { isAcustic, isElectro, isUkulele, } = guitarType;
+  const { isFour, isSix, isSeven, isTwelve, } = stringsCount;
 
   return (
     <fieldset className='catalog-filter__block'>
       <legend className='catalog-filter__block-title'>Количество струн</legend>
       <div className='form-checkbox catalog-filter__block-item'>
         <input
-          onInput={changeStringsCountHandle}
+          onChange={onChangeStringCount}
           className='visually-hidden'
           type='checkbox'
           id='4-strings'
@@ -51,7 +59,7 @@ function FilterStrings(): JSX.Element {
       </div>
       <div className='form-checkbox catalog-filter__block-item'>
         <input
-          onChange={changeStringsCountHandle}
+          onChange={onChangeStringCount}
           className='visually-hidden'
           type='checkbox'
           id='6-strings'
@@ -63,7 +71,7 @@ function FilterStrings(): JSX.Element {
       </div>
       <div className='form-checkbox catalog-filter__block-item'>
         <input
-          onChange={changeStringsCountHandle}
+          onChange={onChangeStringCount}
           className='visually-hidden'
           type='checkbox'
           id='7-strings'
@@ -75,7 +83,7 @@ function FilterStrings(): JSX.Element {
       </div>
       <div className='form-checkbox catalog-filter__block-item'>
         <input
-          onChange={changeStringsCountHandle}
+          onChange={onChangeStringCount}
           className='visually-hidden'
           type='checkbox'
           id='12-strings'
