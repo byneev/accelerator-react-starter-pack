@@ -2,7 +2,7 @@ import { MouseEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSort } from '../../store/actions';
 import { getProductsFromServer } from '../../store/api-actions';
-import { getCurrentFilters, getCurrentSort, getStartRange } from '../../store/selectors';
+import { getCurrentFilters, getCurrentSort, getIsFilterDefault, getStartRange } from '../../store/selectors';
 import { SortType } from '../../utils/const';
 import { getQueryByFilters } from '../../utils/helpers';
 import OrderButton from '../order-button/order-button';
@@ -14,12 +14,13 @@ function Sort(): JSX.Element {
   const filters = useSelector(getCurrentFilters);
   const sort = useSelector(getCurrentSort);
   const startRange = useSelector(getStartRange);
+  const isFilterDefault = useSelector(getIsFilterDefault);
 
   useEffect(() => {
-    if (sort[1] !== SortType.Default) {
+    if (isFilterDefault) {
       dispatch(getProductsFromServer(getQueryByFilters(null, sort), startRange));
     }
-  }, [dispatch, filters, sort, startRange]);
+  }, [dispatch, filters, isFilterDefault, sort, startRange]);
 
   const sortButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>): void => {
     evt.preventDefault();

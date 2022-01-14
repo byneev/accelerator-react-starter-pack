@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { FilterProps } from '../types/filter-type';
+import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from '../utils/const';
 
@@ -10,10 +11,12 @@ export enum Action {
   SetSearchQuery = 'setSearchQuery',
   SetSearchedGuitars = 'setSearchedGuitars',
   SetIsFilterDefault = 'setIsFilterDefault',
-  SetPriceMin = 'setPriceMin',
-  SetPriceMax = 'setPriceMax',
   SetStartRange = 'setStartRange',
-  SetTotalCount = 'setTotalCount,'
+  SetTotalCount = 'setTotalCount,',
+  SetPriceRangeAcoustic = 'setPriceRangeAcoustic',
+  SetPriceRangeElectric = 'setPriceRangeElectric',
+  SetPriceRangeUkulele = 'setPriceRangeUkulele',
+  SetPriceRangeAll = 'setPriceRangeAll',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -32,10 +35,14 @@ export const setSearchedGuitars = createAction<ProductProps[]>(Action.SetSearche
 
 export const setIsFilterDefault = createAction<boolean>(Action.SetIsFilterDefault);
 
-export const setPriceMin = createAction<string>(Action.SetPriceMin);
-
-export const setPriceMax = createAction<string>(Action.SetPriceMax);
-
 export const setStartRange = createAction<number>(Action.SetStartRange);
 
 export const setTotalCount = createAction<number>(Action.SetTotalCount);
+
+export const setPriceRangeAcoustic = createAction<PriceRangeProps>(Action.SetPriceRangeAcoustic);
+
+export const setPriceRangeElectric = createAction<PriceRangeProps>(Action.SetPriceRangeElectric);
+
+export const setPriceRangeUkulele = createAction<PriceRangeProps>(Action.SetPriceRangeUkulele);
+
+export const setPriceRangeAll = createAction<PriceRangeProps>(Action.SetPriceRangeAll);

@@ -1,20 +1,23 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { FilterProps } from '../types/filter-type';
+import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from '../utils/const';
-import { setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setStartRange, setPriceMax, setPriceMin, setSearchedGuitars, setSearchQuery, setTotalCount } from './actions';
+import { setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setStartRange, setSearchedGuitars, setSearchQuery, setTotalCount, setPriceRangeAcoustic, setPriceRangeElectric, setPriceRangeUkulele, setPriceRangeAll } from './actions';
 
 export type InitialStateProps = {
   isFilterDefault: boolean,
   guitars: ProductProps[];
   currentSort: [SortType, SortType];
   currentFilters: FilterProps;
-  minPrice: string;
-  maxPrice: string;
   searchQuery: string;
   searchedGuitars: ProductProps[];
   startRange: number;
   totalCount: number;
+  priceRangeAcoustic: PriceRangeProps;
+  priceRangeElectric: PriceRangeProps;
+  priceRangeUkulele: PriceRangeProps;
+  priceRangeAll: PriceRangeProps;
 };
 
 export const initialState: InitialStateProps = {
@@ -36,12 +39,26 @@ export const initialState: InitialStateProps = {
       isUkulele: false,
     },
   },
-  minPrice: '',
-  maxPrice: '',
   searchQuery: '',
   searchedGuitars: [],
   startRange: 0,
   totalCount: 1000,
+  priceRangeAcoustic: {
+    min: '',
+    max: '',
+  },
+  priceRangeElectric: {
+    min: '',
+    max: '',
+  },
+  priceRangeUkulele: {
+    min: '',
+    max: '',
+  },
+  priceRangeAll: {
+    min: '',
+    max: '',
+  },
 };
 
 export const RootReducer = createReducer(initialState, (builder) => {
@@ -64,17 +81,23 @@ export const RootReducer = createReducer(initialState, (builder) => {
     .addCase(setIsFilterDefault, (state, { payload, }) => {
       state.isFilterDefault = payload;
     })
-    .addCase(setPriceMin, (state, { payload, }) => {
-      state.minPrice = payload;
-    })
-    .addCase(setPriceMax, (state, { payload, }) => {
-      state.maxPrice = payload;
-    })
     .addCase(setStartRange, (state, { payload, }) => {
       state.startRange = payload;
     })
     .addCase(setTotalCount, (state, { payload, }) => {
       state.totalCount = payload;
+    })
+    .addCase(setPriceRangeAcoustic, (state, { payload, }) => {
+      state.priceRangeAcoustic = payload;
+    })
+    .addCase(setPriceRangeElectric, (state, { payload, }) => {
+      state.priceRangeElectric = payload;
+    })
+    .addCase(setPriceRangeUkulele, (state, { payload, }) => {
+      state.priceRangeUkulele = payload;
+    })
+    .addCase(setPriceRangeAll, (state, { payload, }) => {
+      state.priceRangeAll = payload;
     });
 });
 

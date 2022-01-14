@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { MouseEvent } from 'react';
 import { SortType } from '../../utils/const';
 

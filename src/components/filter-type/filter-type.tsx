@@ -8,32 +8,6 @@ export type FilterTypeProps = {
 }
 
 function FilterType({ onChangeGuitarType, guitarType, }: FilterTypeProps): JSX.Element {
-  // const filters = useSelector(getCurrentFilters);
-  // const minPrice = useSelector(getMinPrice);
-  // const maxPrice = useSelector(getMaxPrice);
-  // const dispatch = useDispatch();
-  // const [isAcustic, setIsAcustic] = useState(false);
-  // const [isElectro, setIsElectro] = useState(false);
-  // const [isUkulele, setIsUkulele] = useState(false);
-  // each filter rerender with all filter change
-  // const typeChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
-  //   const name = evt.target.name;
-  //   dispatch(setIsFilterDefault(false));
-  //   switch (name) {
-  //     case 'acoustic':
-  //       setIsAcustic((prevIsAcustic) => !prevIsAcustic);
-  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isAcustic: !isAcustic, }, }));
-  //       break;
-  //     case 'electric':
-  //       setIsElectro(!isElectro);
-  //       (setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isElectro: !isElectro, }, }));
-  //       break;
-  //     case 'ukulele':
-  //       setIsUkulele(!isUkulele);
-  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, guitarType: { ...filters.guitarType, isUkulele: !isUkulele, }, }));
-  //       break;
-  //   }
-  // };
   const { isAcustic, isElectro, isUkulele, } = guitarType;
 
   return (
