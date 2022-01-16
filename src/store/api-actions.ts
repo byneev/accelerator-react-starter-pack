@@ -11,10 +11,10 @@ export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInst
 
 export const getProductsFromServer =
   (query = '', startRange: number): ThunkResult => async (dispatch, _getState, api) => {
-    console.log(query);
     const responseWithRange: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}&${`_start=${startRange}&_limit=${PRODUTS_LIMIT_ON_PAGE}`}`);
     const headers: AxiosResponseHeaders = responseWithRange.headers;
     const actualGuitars: ProductProps[] = responseWithRange.data;
+    console.log(query);
     dispatch(setTotalCount(+headers['x-total-count']));
     dispatch(setGuitars(actualGuitars));
   };

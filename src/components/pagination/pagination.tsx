@@ -1,17 +1,25 @@
+/* eslint-disable no-console */
 import { useSelector } from 'react-redux';
 import { getTotalCount } from '../../store/selectors';
-import { getArrayByNumber } from '../../utils/helpers';
+import { PRODUTS_LIMIT_ON_PAGE } from '../../utils/const';
+import { getPagesByContext } from '../../utils/helpers';
 import PaginationItem from '../pagination-item/pagination-item';
 
-function Pagination(): JSX.Element {
+export type PaginationProps = {
+  page: string | undefined;
+}
+
+function Pagination({ page, }: PaginationProps): JSX.Element {
   const totalCount = useSelector(getTotalCount);
-  const pagesCount = Math.ceil(totalCount / 9);
+  const pagesCount = Math.ceil(totalCount / PRODUTS_LIMIT_ON_PAGE);
+  const actualPage = page;
+  const pages: string[] | undefined = getPagesByContext(actualPage, pagesCount);
 
   return (
     <div className='pagination page-content__pagination'>
       <ul className='pagination__list'>
-        {getArrayByNumber(pagesCount).map((item) => (
-          <PaginationItem key={item} isActive={false} pageLink={item} />
+        {pages.map((item) => (
+          <PaginationItem page={actualPage} key={item} isActive={actualPage === item} pageLink={item} />
         ))}
       </ul>
     </div>

@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
 import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
 import { initialState } from '../../store/reducer';
 import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll } from '../../store/selectors';
 import { PriceRangeProps } from '../../types/price-range-type';
+import { AppRoute } from '../../utils/const';
 import FilterPrice from '../filter-price/filter-price';
 import FilterStrings from '../filter-strings/filter-strings';
 import FilterType from '../filter-type/filter-type';
@@ -20,60 +22,55 @@ function FormFilter(): JSX.Element {
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
   const dispatch = useDispatch();
-  console.log(actualPriceRange);
+  const history = useHistory();
 
   useEffect(() => {
     const actualPriceMin: string = priceMin === '' || priceMin < actualPriceRange.min ? actualPriceRange.min : priceMin;
-    const actualPriceMax: string = priceMax === '' || priceMax < actualPriceRange.max ? actualPriceRange.max : priceMax;
-    dispatch(setIsFilterDefault(false));
-    dispatch(setCurrentFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }));
-  }, [actualPriceRange.max, actualPriceRange.min, dispatch, guitarType, priceMax, priceMin, stringsCount]);
+    const actualPriceMax: string = priceMax === '' || priceMax > actualPriceRange.max ? actualPriceRange.max : priceMax;
+    console.log(priceMin);
+    console.log(priceMax);
+    if (+actualPriceMax > +actualPriceMin) {
+      console.log('I am here');
+      dispatch(setIsFilterDefault(false));
+      dispatch(setCurrentFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }));
+    }
+  }, [actualPriceRange, dispatch, guitarType, priceMax, priceMin, stringsCount]);
 
   useEffect(() => {
     if (!Object.values(guitarType).includes(true)) {
       setActualPriceRange(priceRangeAll);
+    } else {
+      if (guitarType.isUkulele) {
+        if (guitarType.isElectro) {
+          if (guitarType.isAcustic) {
+            setActualPriceRange(priceRangeAll);
+          } else {
+            setActualPriceRange({
+              min: priceRangeUkulele.min,
+              max: priceRangeElectric.max,
+            });
+          }
+        } else if (guitarType.isAcustic) {
+          setActualPriceRange(priceRangeAcoustic);
+        } else {
+          setActualPriceRange(priceRangeUkulele);
+        }
+      } else {
+        if (guitarType.isElectro) {
+          if (guitarType.isAcustic) {
+            setActualPriceRange({
+              min: priceRangeAcoustic.min,
+              max: priceRangeElectric.max,
+            });
+          } else {
+            setActualPriceRange(priceRangeElectric);
+          }
+        } else {
+          setActualPriceRange(priceRangeAcoustic);
+        }
+      }
     }
-  }, [guitarType]);
-
-  // const allTypes = Object.keys(guitarType);
-  // console.log(allTypes);
-  // const types = Object.values(guitarType)
-  //   .filter((item) => item === true)
-  //   .map((_type, index) => {
-  //     console.log(allTypes[index]);
-  //     return allTypes[index];
-  //   });
-  // console.log(types);
-  // const minPrices = types.map((item) => {
-  //   switch (item) {
-  //     case 'isAcustic':
-  //       return priceRangeAcoustic.min;
-  //     case 'isElectro':
-  //       return priceRangeElectric.min;
-  //     case 'isUkulele':
-  //       return priceRangeUkulele.min;
-  //   }
-  //   return '';
-  // });
-  // const maxPrices = types.map((item) => {
-  //   switch (item) {
-  //     case 'isAcustic':
-  //       return priceRangeAcoustic.max;
-  //     case 'isElectro':
-  //       return priceRangeElectric.max;
-  //     case 'isUkulele':
-  //       return priceRangeUkulele.max;
-  //   }
-  //   return '';
-  // });
-  // (minPrices);
-  // console.log(maxPrices);
-  // minPrices.sort((a, b) => +a - +b);
-  // maxPrices.sort((a, b) => +b - +a);
-  // setActualPriceRange({
-  //   min: minPrices[0],
-  //   max: maxPrices[0],
-  // });
+  }, [guitarType, priceRangeAcoustic, priceRangeAll, priceRangeElectric, priceRangeUkulele]);
 
   const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const isChecked = evt.target.checked;
@@ -81,19 +78,15 @@ function FormFilter(): JSX.Element {
     switch (name) {
       case 'acoustic':
         setGuitarType({ ...guitarType, isAcustic: isChecked, });
-        setActualPriceRange(priceRangeAcoustic);
         break;
       case 'electric':
         setGuitarType({ ...guitarType, isElectro: isChecked, });
-        setActualPriceRange(priceRangeElectric);
         break;
       case 'ukulele':
         setGuitarType({ ...guitarType, isUkulele: isChecked, });
-        setActualPriceRange(priceRangeUkulele);
         break;
-      default:
-        setActualPriceRange(priceRangeAll);
     }
+    history.push(AppRoute.Main);
   };
 
   const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -113,12 +106,14 @@ function FormFilter(): JSX.Element {
         setStringsCount({ ...stringsCount, isTwelve: isChecked, });
         break;
     }
+    history.push(AppRoute.Main);
   };
 
   const priceMinChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (+value >= 0) {
       setPriceMin(value);
+      history.push(AppRoute.Main);
     }
   };
 
@@ -126,12 +121,11 @@ function FormFilter(): JSX.Element {
     const value = evt.target.value;
     if (+value >= 0) {
       setPriceMax(value);
+      history.push(AppRoute.Main);
     }
   };
 
   const priceMinResetHandle = () => {
-    console.log(priceMin);
-    console.log(actualPriceRange);
     if (+priceMin <= +actualPriceRange.min) {
       setPriceMin(actualPriceRange.min);
     }

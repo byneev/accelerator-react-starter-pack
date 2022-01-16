@@ -64,3 +64,63 @@ export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, 
   }
   return queryArray.join('');
 };
+
+
+export const getPagesByContext = (actualPage: string | undefined, pagesCount: number) => {
+  if (!actualPage) {
+    return getArrayByNumber(pagesCount);
+  }
+  const pages: string[] = [];
+  if (pagesCount >= 5) {
+    if (+actualPage >= 3 && +actualPage < pagesCount - 2) {
+      pages.push('Назад');
+      pages.push(String(+actualPage - 1));
+      pages.push(actualPage);
+      pages.push(String(+actualPage + 1));
+      pages.push('Далее');
+    } else if (+actualPage === 2) {
+      pages.push('Назад');
+      pages.push(actualPage);
+      pages.push(String(+actualPage + 1));
+      pages.push(String(+actualPage + 2));
+      pages.push('Далее');
+    } else if (+actualPage === pagesCount - 1) {
+      pages.push('Назад');
+      pages.push(String(+actualPage - 2));
+      pages.push(String(+actualPage - 1));
+      pages.push(actualPage);
+      pages.push('Далее');
+    } else if (+actualPage === 1) {
+      pages.push(actualPage);
+      pages.push(String(+actualPage + 1));
+      pages.push(String(+actualPage + 2));
+      pages.push('Далее');
+    } else if (+actualPage === pagesCount) {
+      pages.push('Назад');
+      pages.push(String(+actualPage - 2));
+      pages.push(String(+actualPage - 1));
+      pages.push(actualPage);
+    }
+  } else if (pagesCount === 4) {
+    if (+actualPage === pagesCount) {
+      pages.push('Назад');
+      pages.push(String(+actualPage - 2));
+      pages.push(String(+actualPage - 1));
+      pages.push(actualPage);
+    } else {
+      pages.push('1');
+      pages.push('2');
+      pages.push('3');
+      pages.push('Далее');
+    }
+  } else if (pagesCount === 3) {
+    pages.push('1');
+    pages.push('2');
+    pages.push('3');
+  } else if (pagesCount === 2) {
+    pages.push('1');
+    pages.push('2');
+  }
+
+  return pages;
+};

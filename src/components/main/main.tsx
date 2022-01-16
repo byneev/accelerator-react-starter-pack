@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { useDispatch } from 'react-redux';
+import { RouteComponentProps, useParams } from 'react-router-dom';
 import { getPriceRange } from '../../store/api-actions';
 import { AppRoute } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
@@ -17,6 +18,8 @@ function Main(): JSX.Element {
   const mockBreadcrumbsPath: AppRoute[] = [AppRoute.Main, AppRoute.Catalog];
   const dispatch = useDispatch();
   dispatch(getPriceRange());
+  const { page, } = useParams<{ page?: string }>();
+  console.log(page);
 
   return (
     <div className='wrapper'>
@@ -38,7 +41,7 @@ function Main(): JSX.Element {
             <Sort />
             <FormFilter />
             <ProductsList />
-            <Pagination />
+            <Pagination page={page} />
           </div>
         </div>
       </main>
