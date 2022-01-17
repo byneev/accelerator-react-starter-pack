@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setCurrentFilters, setCurrentPage, setIsFilterDefault, setStartRange } from '../../store/actions';
-import { initialState } from '../../store/reducer';
+import { initialStateUser } from '../../store/reducers/user-reducer';
 import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll } from '../../store/selectors';
 import { PriceRangeProps } from '../../types/price-range-type';
 import { AppRoute } from '../../utils/const';
@@ -12,8 +12,8 @@ import FilterStrings from '../filter-strings/filter-strings';
 import FilterType from '../filter-type/filter-type';
 
 function FormFilter(): JSX.Element {
-  const [guitarType, setGuitarType] = useState(initialState.currentFilters.guitarType);
-  const [stringsCount, setStringsCount] = useState(initialState.currentFilters.stringsCount);
+  const [guitarType, setGuitarType] = useState(initialStateUser.currentFilters.guitarType);
+  const [stringsCount, setStringsCount] = useState(initialStateUser.currentFilters.stringsCount);
   const priceRangeAcoustic = useSelector(getPriceRangeAcoustic);
   const priceRangeElectric = useSelector(getPriceRangeElectric);
   const priceRangeUkulele = useSelector(getPriceRangeUkulele);

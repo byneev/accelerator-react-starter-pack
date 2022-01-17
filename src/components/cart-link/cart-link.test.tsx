@@ -4,13 +4,13 @@ import { Router } from 'react-router-dom';
 import { AppRoute } from '../../utils/const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { initialState } from '../../store/reducer';
 import userEvent from '@testing-library/user-event';
 import CartLink from './cart-link';
+import { rootReducer } from '../../store/reducers/root-reducer';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore(initialState);
+const store = mockStore(rootReducer);
 
 describe('Test CartLink component', () => {
   it('Should render correctly', () => {

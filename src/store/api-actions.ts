@@ -4,7 +4,8 @@ import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
 import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
-import { RootProps } from './reducer';
+import { RootProps } from './reducers/root-reducer';
+
 
 export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInstance, Action
 >;

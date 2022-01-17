@@ -2,34 +2,34 @@ import { FilterProps } from '../types/filter-type';
 import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from '../utils/const';
-import { RootProps } from './reducer';
+import { NameSpace, RootProps } from './reducers/root-reducer';
 
-export const getGuitars = (state: RootProps): ProductProps[] => state.guitars;
+export const getGuitars = (state: RootProps): ProductProps[] => state[NameSpace.App].guitars;
 
 export const getCurrentSort = (state: RootProps): [SortType, SortType] =>
-  state.currentSort;
+  state[NameSpace.User].currentSort;
 
 export const getCurrentFilters = (state: RootProps): FilterProps =>
-  state.currentFilters;
+  state[NameSpace.User].currentFilters;
 
-export const getSearchQuery = (state: RootProps): string => state.searchQuery;
+export const getSearchQuery = (state: RootProps): string => state[NameSpace.User].searchQuery;
 
-export const getSearchedGuitars = (state: RootProps): ProductProps[] => state.searchedGuitars;
+export const getSearchedGuitars = (state: RootProps): ProductProps[] => state[NameSpace.App].searchedGuitars;
 
-export const getIsFilterDefault = (state: RootProps): boolean => state.isFilterDefault;
+export const getIsFilterDefault = (state: RootProps): boolean => state[NameSpace.User].isFilterDefault;
 
-export const getStartRange = (state: RootProps): number => state.startRange;
+export const getStartRange = (state: RootProps): number => state[NameSpace.User].startRange;
 
-export const getTotalCount = (state: RootProps): number => state.totalCount;
+export const getTotalCount = (state: RootProps): number => state[NameSpace.User].totalCount;
 
-export const getPriceRangeAcoustic = (state: RootProps): PriceRangeProps => state.priceRangeAcoustic;
+export const getPriceRangeAcoustic = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeAcoustic;
 
-export const getPriceRangeElectric = (state: RootProps): PriceRangeProps => state.priceRangeElectric;
+export const getPriceRangeElectric = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeElectric;
 
-export const getPriceRangeUkulele = (state: RootProps): PriceRangeProps => state.priceRangeUkulele;
+export const getPriceRangeUkulele = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeUkulele;
 
-export const getPriceRangeAll = (state: RootProps): PriceRangeProps => state.priceRangeAll;
+export const getPriceRangeAll = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeAll;
 
-export const getCurrentPage = (state: RootProps): string => state.currentPage;
+export const getCurrentPage = (state: RootProps): string => state[NameSpace.User].currentPage;
 
-export const getComments = (state: RootProps): string[] => state.comments;
+export const getComments = (state: RootProps): string[] => state[NameSpace.App].comments;

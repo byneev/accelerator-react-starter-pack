@@ -4,10 +4,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-import { RootReducer } from './store/reducer';
 import { createAPI } from './utils/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { rootReducer } from './store/reducers/root-reducer';
 
 const api = createAPI(
   () => toast.warn('Page not found. Input correct url.'),
@@ -17,7 +17,7 @@ const api = createAPI(
 );
 
 export const store = configureStore({
-  reducer: RootReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {

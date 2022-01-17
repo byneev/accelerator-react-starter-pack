@@ -1,30 +1,31 @@
-import { FilterProps } from '../types/filter-type';
-import { SortType } from '../utils/const';
-import { getMockProduct } from '../utils/mock';
-import { setCurrentFilters, setCurrentSort, setGuitars } from './actions';
-import { initialState, RootReducer } from './reducer';
+import { FilterProps } from '../../types/filter-type';
+import { SortType } from '../../utils/const';
+import { getMockProduct } from '../../utils/mock';
+import { setCurrentFilters, setCurrentSort, setGuitars } from '../actions';
+import { appReducer, initialStateApp } from './app-reducer';
+
 
 describe('Reducer test', () => {
   it('Should return Initial State', () => {
-    expect(RootReducer(void 0, { type: 'Unknown Action', })).toEqual(
-      initialState
+    expect(appReducer(void 0, { type: 'Unknown Action', })).toEqual(
+      initialStateApp
     );
   });
   it('Should set payload to guitars field', () => {
     const guitars = [getMockProduct(), getMockProduct()];
-    expect(RootReducer(initialState, setGuitars(guitars))).toEqual({
-      ...initialState,
+    expect(appReducer(initialStateApp, setGuitars(guitars))).toEqual({
+      ...initialStateApp,
       guitars: guitars,
     });
   });
   it('Should set payload to currentSort field', () => {
     expect(
-      RootReducer(
-        initialState,
+      appReducer(
+        initialStateApp,
         setCurrentSort([SortType.Popular, SortType.Descending])
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateApp,
       currentSort: [SortType.Popular, SortType.Descending],
     });
   });
@@ -44,8 +45,8 @@ describe('Reducer test', () => {
         isTwelve: true,
       },
     };
-    expect(RootReducer(initialState, setCurrentFilters(filters))).toEqual({
-      ...initialState,
+    expect(appReducer(initialStateApp, setCurrentFilters(filters))).toEqual({
+      ...initialStateApp,
       currentFilters: filters,
     });
   });
