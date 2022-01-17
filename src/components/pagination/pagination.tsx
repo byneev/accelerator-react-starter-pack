@@ -1,18 +1,20 @@
 /* eslint-disable no-console */
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { getTotalCount } from '../../store/selectors';
+import { getCurrentPage, getTotalCount } from '../../store/selectors';
 import { PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
-import { getPagesByContext } from '../../utils/helpers';
+import { getRange } from '../../utils/helpers';
 import PaginationItem from '../pagination-item/pagination-item';
 
-export type PaginationProps = {
-  page: string | undefined;
-}
-
-function Pagination({ page, }: PaginationProps): JSX.Element {
+function Pagination(): JSX.Element {
+  const currentPage = +useSelector(getCurrentPage);
   const totalCount = useSelector(getTotalCount);
   const pagesCount = Math.ceil(totalCount / PRODUCTS_LIMIT_ON_PAGE);
-  const pages: string[] | undefined = getPagesByContext(page, pagesCount);
+  const pages: string[] = useMemo(() => getRange(pagesCount, currentPage), [currentPage, pagesCount]);
+
+  if (pagesCount === 1) {
+    return <div></div>;
+  }
 
   return (
     <div className='pagination page-content__pagination'>

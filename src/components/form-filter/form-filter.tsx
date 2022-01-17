@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { setCurrentFilters, setCurrentPage, setIsFilterDefault, setStartRange } from '../../store/actions';
 import { initialState } from '../../store/reducer';
 import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll } from '../../store/selectors';
@@ -25,9 +25,9 @@ function FormFilter(): JSX.Element {
   const history = useHistory();
 
   useEffect(() => {
-    const actualPriceMin: string = priceMin === '' || priceMin < actualPriceRange.min ? actualPriceRange.min : priceMin;
-    const actualPriceMax: string = priceMax === '' || priceMax > actualPriceRange.max ? actualPriceRange.max : priceMax;
-    if (+actualPriceMax > +actualPriceMin) {
+    const actualPriceMin: string = priceMin === '' || +priceMin < +actualPriceRange.min ? actualPriceRange.min : priceMin;
+    const actualPriceMax: string = priceMax === '' || +priceMax > +actualPriceRange.max ? actualPriceRange.max : priceMax;
+    if (+actualPriceMax > +actualPriceMin && +actualPriceMin >= +actualPriceRange.min) {
       dispatch(setIsFilterDefault(false));
       dispatch(setCurrentFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }));
     }
@@ -135,7 +135,7 @@ function FormFilter(): JSX.Element {
   };
 
   const priceMaxResetHandle = () => {
-    if (+priceMax >= +actualPriceRange.max) {
+    if (+priceMax >= +actualPriceRange.max || +priceMax <= +priceMin) {
       setPriceMax(actualPriceRange.max);
     }
   };

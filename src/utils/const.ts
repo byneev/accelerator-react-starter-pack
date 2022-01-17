@@ -14,6 +14,8 @@ export const BAD_QUERY = 'XyZpO';
 
 export const PRODUCTS_LIMIT_ON_PAGE = 9;
 
+export const MAX_PAGES_TO_SHOW = 5;
+
 export enum AppRoute {
   Main = '/',
   NotFound = '/404',
@@ -42,6 +44,7 @@ export enum HTTPCode {
   Unauthorized = 401,
   BadRequest = 400,
   NotFound = 404,
+  Unavailable = 503,
 }
 
 export enum SortType {

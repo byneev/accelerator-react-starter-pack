@@ -1,12 +1,22 @@
+/* eslint-disable no-console */
+import { useDispatch } from 'react-redux';
+import { getPriceRange } from '../../store/api-actions';
 import { AppRoute } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
+import FormFilter from '../form-filter/form-filter';
 import FormSearch from '../form-search/form-search';
 import Logo from '../logo/logo';
 import Navigation from '../navigation/navigation';
+import Pagination from '../pagination/pagination';
+import ProductsList from '../products-list/products-list';
+import Sort from '../sort/sort';
 
-function Main(): JSX.Element {
+function Catalog(): JSX.Element {
+  const dispatch = useDispatch();
+  dispatch(getPriceRange());
+
   return (
     <div className='wrapper'>
       <header className='header' id='header'>
@@ -22,7 +32,13 @@ function Main(): JSX.Element {
           <h1 className='page-content__title title title--bigger'>
             Каталог гитар
           </h1>
-          <Breadcrumbs pathsTree={[AppRoute.Main]} />
+          <Breadcrumbs pathsTree={[AppRoute.Main, AppRoute.Catalog]} />
+          <div className='catalog'>
+            <Sort />
+            <FormFilter />
+            <ProductsList />
+            <Pagination />
+          </div>
         </div>
       </main>
       <footer className='footer'>
@@ -144,4 +160,4 @@ function Main(): JSX.Element {
   );
 }
 
-export default Main;
+export default Catalog;

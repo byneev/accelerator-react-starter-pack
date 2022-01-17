@@ -31,3 +31,5 @@ export const getPriceRangeUkulele = (state: RootProps): PriceRangeProps => state
 export const getPriceRangeAll = (state: RootProps): PriceRangeProps => state.priceRangeAll;
 
 export const getCurrentPage = (state: RootProps): string => state.currentPage;
+
+export const getComments = (state: RootProps): string[] => state.comments;

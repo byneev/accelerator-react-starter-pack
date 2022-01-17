@@ -3,7 +3,11 @@ import { FilterProps } from '../types/filter-type';
 import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
 import { SortType } from '../utils/const';
-import { setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setStartRange, setSearchedGuitars, setSearchQuery, setTotalCount, setPriceRangeAcoustic, setPriceRangeElectric, setPriceRangeUkulele, setPriceRangeAll, setCurrentPage } from './actions';
+import {
+  setCurrentFilters, setCurrentSort, setGuitars, setIsFilterDefault, setStartRange, setSearchedGuitars,
+  setSearchQuery, setTotalCount, setPriceRangeAcoustic, setPriceRangeElectric, setPriceRangeUkulele, setPriceRangeAll,
+  setCurrentPage, setComments
+} from './actions';
 
 export type InitialStateProps = {
   isFilterDefault: boolean,
@@ -19,6 +23,7 @@ export type InitialStateProps = {
   priceRangeUkulele: PriceRangeProps;
   priceRangeAll: PriceRangeProps;
   currentPage: string;
+  comments: string[];
 };
 
 export const initialState: InitialStateProps = {
@@ -61,6 +66,7 @@ export const initialState: InitialStateProps = {
     max: '',
   },
   currentPage: '1',
+  comments: [],
 };
 
 export const RootReducer = createReducer(initialState, (builder) => {
@@ -103,6 +109,9 @@ export const RootReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCurrentPage, (state, { payload, }) => {
       state.currentPage = payload;
+    })
+    .addCase(setComments, (state, { payload, }) => {
+      state.comments.push(payload);
     });
 });
 

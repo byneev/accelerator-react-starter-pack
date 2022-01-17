@@ -17,7 +17,7 @@ describe('Test ProductRate component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <ProductRate rating={4} ratingsCount={100} />
+          <ProductRate rating={4} ratingsCount={'100'} />
         </Router>
       </Provider>
     );

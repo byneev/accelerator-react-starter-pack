@@ -3,7 +3,7 @@ import ProductRateStar from '../product-rate-star/product-rate-star';
 
 export type ProductRateProps = {
   rating: number;
-  ratingsCount: number;
+  ratingsCount: string;
 };
 
 function ProductRate({ rating, ratingsCount, }: ProductRateProps): JSX.Element {

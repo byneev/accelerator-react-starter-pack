@@ -10,11 +10,11 @@ function Breadcrumbs({ pathsTree, }: BreadcrumbsProps): JSX.Element {
     <ul className='breadcrumbs page-content__breadcrumbs'>
       {pathsTree.map((item: AppRoute, index: number) =>
         index === pathsTree.length - 1 ? (
-          <BreadcrumbsItem key={item} route={item} isCurrent={false}>
+          <BreadcrumbsItem key={item} route={item} isCurrent>
             {AppRouteAliases.get(item)}
           </BreadcrumbsItem>
         ) : (
-          <BreadcrumbsItem key={item} route={item} isCurrent>
+          <BreadcrumbsItem key={item} route={item} isCurrent={false}>
             {AppRouteAliases.get(item)}
           </BreadcrumbsItem>
         )

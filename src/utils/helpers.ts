@@ -1,15 +1,34 @@
 /* eslint-disable no-console */
 import { FilterProps } from '../types/filter-type';
-import { SortType } from './const';
+import { MAX_PAGES_TO_SHOW, SortType } from './const';
 
-export const getArrayByNumber = (max: number) => {
-  let num = 0;
+export const getArrayByNumber = (start: number, end: number) => {
+  let num = start;
   const result: string[] = [];
-  while (num !== max) {
-    num++;
-    result.push(String(num));
+  while (num !== end + 1) {
+    result.push(String(num++));
   }
   return result;
+};
+
+export const getRange = (pagesCount: number, currentPage: number): string[] => {
+  let range: string[] = [];
+  if (pagesCount <= MAX_PAGES_TO_SHOW) {
+    range = getArrayByNumber(1, pagesCount);
+  }
+  const shouldShowPrevious = (currentPage - 1) > 1 && currentPage !== pagesCount;
+  const shouldShowNext = (currentPage + 1) < pagesCount && currentPage !== 1;
+
+  if (shouldShowPrevious && !shouldShowNext) {
+    range = ['Назад', ...getArrayByNumber(currentPage - 1, Math.min(currentPage + 1, pagesCount))];
+  }
+  if (!shouldShowPrevious && shouldShowNext) {
+    range = [...getArrayByNumber(Math.max(currentPage - 1, 0), currentPage + 1), 'Далее'];
+  }
+  if (shouldShowPrevious && shouldShowNext) {
+    range = ['Назад', ...getArrayByNumber(currentPage - 1, currentPage + 1), 'Вперед'];
+  }
+  return range;
 };
 
 export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, SortType]): string => {
@@ -65,62 +84,3 @@ export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, 
   return queryArray.join('');
 };
 
-
-export const getPagesByContext = (actualPage: string | undefined, pagesCount: number) => {
-  if (!actualPage) {
-    return getArrayByNumber(pagesCount);
-  }
-  const pages: string[] = [];
-  if (pagesCount >= 5) {
-    if (+actualPage >= 3 && +actualPage < pagesCount - 2) {
-      pages.push('Назад');
-      pages.push(String(+actualPage - 1));
-      pages.push(actualPage);
-      pages.push(String(+actualPage + 1));
-      pages.push('Далее');
-    } else if (+actualPage === 2) {
-      pages.push('Назад');
-      pages.push(actualPage);
-      pages.push(String(+actualPage + 1));
-      pages.push(String(+actualPage + 2));
-      pages.push('Далее');
-    } else if (+actualPage === pagesCount - 1) {
-      pages.push('Назад');
-      pages.push(String(+actualPage - 2));
-      pages.push(String(+actualPage - 1));
-      pages.push(actualPage);
-      pages.push('Далее');
-    } else if (+actualPage === 1) {
-      pages.push(actualPage);
-      pages.push(String(+actualPage + 1));
-      pages.push(String(+actualPage + 2));
-      pages.push('Далее');
-    } else if (+actualPage === pagesCount) {
-      pages.push('Назад');
-      pages.push(String(+actualPage - 2));
-      pages.push(String(+actualPage - 1));
-      pages.push(actualPage);
-    }
-  } else if (pagesCount === 4) {
-    if (+actualPage === pagesCount) {
-      pages.push('Назад');
-      pages.push(String(+actualPage - 2));
-      pages.push(String(+actualPage - 1));
-      pages.push(actualPage);
-    } else {
-      pages.push('1');
-      pages.push('2');
-      pages.push('3');
-      pages.push('Далее');
-    }
-  } else if (pagesCount === 3) {
-    pages.push('1');
-    pages.push('2');
-    pages.push('3');
-  } else if (pagesCount === 2) {
-    pages.push('1');
-    pages.push('2');
-  }
-
-  return pages;
-};

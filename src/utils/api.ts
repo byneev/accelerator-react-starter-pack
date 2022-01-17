@@ -5,7 +5,8 @@ import { BASE_URL, HTTPCode, TIMEOUT_TIME } from './const';
 export const createAPI = (
   cbOn404: DefaultFunctionProps,
   cbOn400: DefaultFunctionProps,
-  cbOn401: DefaultFunctionProps
+  cbOn401: DefaultFunctionProps,
+  cbOn503: DefaultFunctionProps
 ): AxiosInstance => {
   const api = axios.create({
     baseURL: BASE_URL,
@@ -25,6 +26,8 @@ export const createAPI = (
         case HTTPCode.Unauthorized:
           cbOn401();
           break;
+        case HTTPCode.Unavailable:
+          cbOn503();
       }
       return Promise.reject();
     }

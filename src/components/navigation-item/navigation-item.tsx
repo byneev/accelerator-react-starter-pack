@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../utils/const';
 
 export type NavigationItemProps = {
-  route: AppRoute;
+  route: string;
   children: string;
 };
 

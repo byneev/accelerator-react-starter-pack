@@ -24,7 +24,7 @@ function PaginationItem({
 
   return isActive ? (
     <li className='pagination__page pagination__page--active'>
-      <a className='link pagination__page-link'>{pageLink}</a>
+      <a href='/' className='link pagination__page-link'>{pageLink}</a>
     </li>
   ) : (
     <li className='pagination__page'>

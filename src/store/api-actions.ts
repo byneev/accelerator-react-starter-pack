@@ -3,7 +3,7 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
-import { setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
+import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
 import { RootProps } from './reducer';
 
 export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInstance, Action
@@ -44,4 +44,9 @@ export const getPriceRange = (): ThunkResult => async (dispatch, _getState, api)
     min: responseUkulele.data[0].price,
     max: responseUkulele.data.slice(-1)[0].price,
   }));
+};
+
+export const getCommentsFromServer = (id: number): ThunkResult => async (dispatch, _getState, api) => {
+  const response: AxiosResponse = await api.get(`${APIRoute.Guitars}/${id}${APIRoute.Comments}`);
+  dispatch(setComments(`${id}-${response.data.length}`));
 };

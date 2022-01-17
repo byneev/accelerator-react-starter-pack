@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { initialState } from '../../store/reducer';
-import Main from './main';
+import Catalog from './catalog';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
@@ -15,7 +15,7 @@ describe('Test Main component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Main />
+          <Catalog />
         </Router>
       </Provider>
     );
