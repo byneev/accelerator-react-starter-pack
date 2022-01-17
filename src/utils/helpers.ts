@@ -17,7 +17,7 @@ export const getRange = (pagesCount: number, currentPage: number): string[] => {
     range = getArrayByNumber(1, pagesCount);
   }
   const shouldShowPrevious = (currentPage - 1) > 1 && currentPage !== pagesCount;
-  const shouldShowNext = (currentPage + 1) < pagesCount;
+  const shouldShowNext = (currentPage + 1) < pagesCount && pagesCount > MAX_PAGES_TO_SHOW;
 
   if (shouldShowPrevious && !shouldShowNext) {
     range = ['Назад', ...getArrayByNumber(currentPage - 1, Math.min(currentPage + 1, pagesCount))];
