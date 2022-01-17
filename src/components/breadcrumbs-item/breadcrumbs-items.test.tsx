@@ -6,11 +6,11 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import BreadcrumbsItem from './breadcrumbs-item';
 import userEvent from '@testing-library/user-event';
-import { rootReducer } from '../../store/reducers/root-reducer';
+import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore(rootReducer);
+const store = mockStore({ ...getAppStateMock(), ...getUserStateMock(), });
 
 describe('Test Breadcrumbs component', () => {
   it('Should render correctly', () => {

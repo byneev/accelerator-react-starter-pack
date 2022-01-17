@@ -5,13 +5,11 @@ import { AppRoute } from '../../utils/const';
 import Breadcrumbs from './breadcrumbs';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { getMockProduct } from '../../utils/mock';
+import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore({
-  guitars: [getMockProduct()],
-});
+const store = mockStore({ ...getAppStateMock(), ...getUserStateMock(), });
 
 describe('Test Breadcrumbs component', () => {
   it('Should render correctly', () => {

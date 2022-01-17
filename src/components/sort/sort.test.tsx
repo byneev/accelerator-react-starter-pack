@@ -3,14 +3,13 @@ import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { getMockProduct } from '../../utils/mock';
 import Sort from './sort';
+import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore({
-  guitars: [getMockProduct()],
-});
+const store = mockStore({ ...getAppStateMock(), ...getUserStateMock(), });
+
 
 describe('Test Sort component', () => {
   it('Should render correctly', () => {

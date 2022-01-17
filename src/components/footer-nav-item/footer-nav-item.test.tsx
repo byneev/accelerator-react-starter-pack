@@ -6,11 +6,11 @@ import { Provider } from 'react-redux';
 import FooterNavItem from './footer-nav-item';
 import userEvent from '@testing-library/user-event';
 import { AppRoute } from '../../utils/const';
-import { rootReducer } from '../../store/reducers/root-reducer';
+import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore(rootReducer);
+const store = mockStore({ ...getAppStateMock(), ...getUserStateMock(), });
 
 describe('Test FooterNavItem component', () => {
   it('Should render correctly', () => {

@@ -4,15 +4,13 @@ import { Router } from 'react-router-dom';
 import { AppRoute } from '../../utils/const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { getMockProduct } from '../../utils/mock';
+import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import NavigationItem from './navigation-item';
 import userEvent from '@testing-library/user-event';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore({
-  guitars: [getMockProduct()],
-});
+const store = mockStore({ ...getAppStateMock(), ...getUserStateMock(), });
 
 describe('Test NavigationItem component', () => {
   it('Should render correctly', () => {
