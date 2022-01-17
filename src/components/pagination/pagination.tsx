@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { getCurrentPage, getTotalCount } from '../../store/selectors';

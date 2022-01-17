@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createAPI } from '../utils/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk, { ThunkDispatch } from 'redux-thunk';

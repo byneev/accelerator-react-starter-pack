@@ -14,7 +14,7 @@ export const BAD_QUERY = 'XyZpO';
 
 export const PRODUCTS_LIMIT_ON_PAGE = 9;
 
-export const MAX_PAGES_TO_SHOW = 5;
+export const MAX_PAGES_TO_SHOW = 3;
 
 export enum AppRoute {
   Main = '/',

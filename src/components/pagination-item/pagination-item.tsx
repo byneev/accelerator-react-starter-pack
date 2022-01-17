@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setCurrentPage, setStartRange } from '../../store/actions';

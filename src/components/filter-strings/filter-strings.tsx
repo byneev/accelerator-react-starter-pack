@@ -3,41 +3,13 @@ import { useSelector } from 'react-redux';
 import { getIsFilterDefault } from '../../store/selectors';
 import { GuitarsTypeProps, StringsCountProps } from '../../types/filter-type';
 
-export type FIlterStringsProps = {
+export type FilterStringsProps = {
   guitarType: GuitarsTypeProps;
   stringsCount: StringsCountProps;
   onChangeStringCount: (evt: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function FilterStrings({ guitarType, stringsCount, onChangeStringCount, }: FIlterStringsProps): JSX.Element {
-  // const isFilterDefault = useSelector(getIsFilterDefault);
-  // const filters = useSelector(getCurrentFilters);
-  // const minPrice = useSelector(getMinPrice);
-  // const maxPrice = useSelector(getMaxPrice);
-  // const { isFour, isSix, isSeven, isTwelve, } = filters.stringsCount;
-  // const { isAcustic, isElectro, isUkulele, } = filters.guitarType;
-  // const stringsCount = filters.stringsCount;
-
-  // const dispatch = useDispatch();
-
-  // const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
-  //   const name = evt.target.name;
-  //   dispatch(setIsFilterDefault(false));
-  //   switch (name) {
-  //     case '4-strings':
-  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isFour: !isFour, }, }));
-  //       break;
-  //     case '6-strings':
-  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSix: !isSix, }, }));
-  //       break;
-  //     case '7-strings':
-  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isSeven: !isSeven, }, }));
-  //       break;
-  //     case '12-strings':
-  //       dispatch(setCurrentFilters({ ...filters, priceMin: minPrice, priceMax: maxPrice, stringsCount: { ...stringsCount, isTwelve: !isTwelve, }, }));
-  //       break;
-  //   }
-  // };
+function FilterStrings({ guitarType, stringsCount, onChangeStringCount, }: FilterStringsProps): JSX.Element {
   const isFilterDefault = useSelector(getIsFilterDefault);
   const { isAcustic, isElectro, isUkulele, } = guitarType;
   const { isFour, isSix, isSeven, isTwelve, } = stringsCount;

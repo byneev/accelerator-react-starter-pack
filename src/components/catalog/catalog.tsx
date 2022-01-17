@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useDispatch } from 'react-redux';
 import { getPriceRange } from '../../store/api-actions';
 import { AppRoute } from '../../utils/const';
