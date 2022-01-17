@@ -7,10 +7,14 @@ import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import CartLink from './cart-link';
 import { getAppStateMock, getUserStateMock } from '../../utils/mock';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore({ ...getAppStateMock(), ...getUserStateMock(), });
+const store = mockStore({
+  [NameSpace.User]: getUserStateMock(),
+  [NameSpace.App]: getAppStateMock(),
+});
 
 describe('Test CartLink component', () => {
   it('Should render correctly', () => {

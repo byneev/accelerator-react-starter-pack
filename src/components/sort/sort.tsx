@@ -10,7 +10,6 @@ import SortButton from '../sort-button/sort-button';
 
 function Sort(): JSX.Element {
   const dispatch = useDispatch();
-  const [byType, byDirection] = useSelector(getCurrentSort);
   const filters = useSelector(getCurrentFilters);
   const sort = useSelector(getCurrentSort);
   const startRange = useSelector(getStartRange);
@@ -28,7 +27,7 @@ function Sort(): JSX.Element {
       return;
     }
     const data = evt.target.dataset.type;
-    const result: [SortType, SortType] = [byType, byDirection];
+    const result: [SortType, SortType] = sort;
     switch (data) {
       case SortType.Price:
         result[0] = data;
@@ -50,12 +49,12 @@ function Sort(): JSX.Element {
     <div className='catalog-sort'>
       <h2 className='catalog-sort__title'>Сортировать:</h2>
       <div className='catalog-sort__type'>
-        <SortButton onClick={sortButtonClickHandle} data-type={SortType.Price} isPrice isActive={byType === SortType.Price}>по цене</SortButton>
-        <SortButton onClick={sortButtonClickHandle} data-type={SortType.Popular} isPrice={false} isActive={byType === SortType.Popular}>по популярности</SortButton>
+        <SortButton onClick={sortButtonClickHandle} data-type={SortType.Price} isPrice isActive={sort[0] === SortType.Price}>по цене</SortButton>
+        <SortButton onClick={sortButtonClickHandle} data-type={SortType.Popular} isPrice={false} isActive={sort[0] === SortType.Popular}>по популярности</SortButton>
       </div>
       <div className='catalog-sort__order'>
-        <OrderButton onClick={sortButtonClickHandle} data-type={SortType.Ascending} isUp isActive={byDirection === SortType.Ascending} />
-        <OrderButton onClick={sortButtonClickHandle} data-type={SortType.Descending} isUp={false} isActive={byDirection === SortType.Descending} />
+        <OrderButton onClick={sortButtonClickHandle} data-type={SortType.Ascending} isUp isActive={sort[1] === SortType.Ascending} />
+        <OrderButton onClick={sortButtonClickHandle} data-type={SortType.Descending} isUp={false} isActive={sort[1] === SortType.Descending} />
       </div>
     </div>
   );

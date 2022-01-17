@@ -27,23 +27,23 @@ export const getSearchedProducts = (query: string): ThunkResult => async (dispat
 export const getPriceRange = (): ThunkResult => async (dispatch, _getState, api) => {
   const responseAll = await api.get(`${APIRoute.Guitars}?_sort=price&_order=asc`);
   dispatch(setPriceRangeAll({
-    min: responseAll.data[0].price,
-    max: responseAll.data.slice(-1)[0].price,
+    min: String(responseAll.data[0].price),
+    max: String(responseAll.data.slice(-1)[0].price),
   }));
   const responseAcoustic = await api.get(`${APIRoute.Guitars}?type=acoustic&_sort=price&_order=asc`);
   dispatch(setPriceRangeAcoustic({
-    min: responseAcoustic.data[0].price,
-    max: responseAcoustic.data.slice(-1)[0].price,
+    min: String(responseAcoustic.data[0].price),
+    max: String(responseAcoustic.data.slice(-1)[0].price),
   }));
   const responseElectric = await api.get(`${APIRoute.Guitars}?type=electric&_sort=price&_order=asc`);
   dispatch(setPriceRangeElectric({
-    min: responseElectric.data[0].price,
-    max: responseElectric.data.slice(-1)[0].price,
+    min: String(responseElectric.data[0].price),
+    max: String(responseElectric.data.slice(-1)[0].price),
   }));
   const responseUkulele = await api.get(`${APIRoute.Guitars}?type=ukulele&_sort=price&_order=asc`);
   dispatch(setPriceRangeUkulele({
-    min: responseUkulele.data[0].price,
-    max: responseUkulele.data.slice(-1)[0].price,
+    min: String(responseUkulele.data[0].price),
+    max: String(responseUkulele.data.slice(-1)[0].price),
   }));
 };
 

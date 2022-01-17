@@ -4,14 +4,16 @@ import { Router } from 'react-router-dom';
 import { AppRoute } from '../../utils/const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { getMockProduct } from '../../utils/mock';
+import { getAppStateMock, getMockProduct, getUserStateMock } from '../../utils/mock';
 import userEvent from '@testing-library/user-event';
 import PaginationItem from './pagination-item';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
 const store = mockStore({
-  guitars: [getMockProduct()],
+  [NameSpace.User]: getUserStateMock(),
+  [NameSpace.App]: getAppStateMock(),
 });
 
 describe('Test PaginationItem component', () => {

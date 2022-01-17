@@ -1,7 +1,5 @@
-import { FilterProps } from '../../types/filter-type';
-import { SortType } from '../../utils/const';
 import { getMockProduct } from '../../utils/mock';
-import { setCurrentFilters, setCurrentSort, setGuitars } from '../actions';
+import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars } from '../actions';
 import { appReducer, initialStateApp } from './app-reducer';
 
 
@@ -18,36 +16,25 @@ describe('Reducer test', () => {
       guitars: guitars,
     });
   });
-  it('Should set payload to currentSort field', () => {
-    expect(
-      appReducer(
-        initialStateApp,
-        setCurrentSort([SortType.Popular, SortType.Descending])
-      )
-    ).toEqual({
-      ...initialStateApp,
-      currentSort: [SortType.Popular, SortType.Descending],
+  it('Should set payload to searchedGuitars', () => {
+    const guitars = [getMockProduct(), getMockProduct()];
+    expect(appReducer(initialStateApp, setSearchedGuitars(guitars))).toEqual({
+      ...initialStateApp, searchedGuitars: guitars,
     });
   });
-  it('Should set payload to currentFilters field', () => {
-    const filters: FilterProps = {
-      priceMin: '1000',
-      priceMax: '20000',
-      guitarType: {
-        isAcustic: true,
-        isElectro: true,
-        isUkulele: true,
-      },
-      stringsCount: {
-        isFour: true,
-        isSix: true,
-        isSeven: true,
-        isTwelve: true,
-      },
-    };
-    expect(appReducer(initialStateApp, setCurrentFilters(filters))).toEqual({
-      ...initialStateApp,
-      currentFilters: filters,
-    });
+  it('Should set payload to priceRangeAcoustic', () => {
+    expect(appReducer(initialStateApp, setPriceRangeAcoustic({ min: '100', max: '999', }))).toEqual({ ...initialStateApp, priceRangeAcoustic: { min: '100', max: '999', }, });
+  });
+  it('Should set payload to priceRangeElectric', () => {
+    expect(appReducer(initialStateApp, setPriceRangeElectric({ min: '100', max: '999', }))).toEqual({ ...initialStateApp, priceRangeElectric: { min: '100', max: '999', }, });
+  });
+  it('Should set payload to priceRangeUkulele', () => {
+    expect(appReducer(initialStateApp, setPriceRangeUkulele({ min: '100', max: '999', }))).toEqual({ ...initialStateApp, priceRangeUkulele: { min: '100', max: '999', }, });
+  });
+  it('Should set payload to priceRangeAll', () => {
+    expect(appReducer(initialStateApp, setPriceRangeAll({ min: '100', max: '999', }))).toEqual({ ...initialStateApp, priceRangeAll: { min: '100', max: '999', }, });
+  });
+  it('Should set payload to comments', () => {
+    expect(appReducer(initialStateApp, setComments('1-4'))).toEqual({ ...initialStateApp, comments: ['1-4'], });
   });
 });

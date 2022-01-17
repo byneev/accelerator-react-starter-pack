@@ -1,7 +1,6 @@
 import { FilterProps } from '../../types/filter-type';
 import { SortType } from '../../utils/const';
-import { getMockProduct } from '../../utils/mock';
-import { setCurrentFilters, setCurrentSort, setGuitars } from '../actions';
+import { setCurrentFilters, setCurrentPage, setCurrentSort, setIsFilterDefault, setSearchQuery, setStartRange, setTotalCount } from '../actions';
 import { userReducer, initialStateUser } from './user-reducer';
 
 
@@ -11,12 +10,9 @@ describe('Reducer test', () => {
       initialStateUser
     );
   });
-  it('Should set payload to guitars field', () => {
-    const guitars = [getMockProduct(), getMockProduct()];
-    expect(userReducer(initialStateUser, setGuitars(guitars))).toEqual({
-      ...initialStateUser,
-      guitars: guitars,
-    });
+  it('Should set payload to isFilterDefault', () => {
+    expect(userReducer(initialStateUser,
+      setIsFilterDefault(false))).toEqual({ ...initialStateUser, isFilterDefault: false, });
   });
   it('Should set payload to currentSort field', () => {
     expect(
@@ -49,5 +45,17 @@ describe('Reducer test', () => {
       ...initialStateUser,
       currentFilters: filters,
     });
+  });
+  it('Should set payload to searchQuery', () => {
+    expect(userReducer(initialStateUser, setSearchQuery('CURT'))).toEqual({ ...initialStateUser, searchQuery: 'CURT', });
+  });
+  it('Should set payload to startRange', () => {
+    expect(userReducer(initialStateUser, setStartRange(9))).toEqual({ ...initialStateUser, startRange: 9, });
+  });
+  it('Should set payload to totalCount', () => {
+    expect(userReducer(initialStateUser, setTotalCount(27))).toEqual({ ...initialStateUser, totalCount: 27, });
+  });
+  it('Should set payload to currentPage', () => {
+    expect(userReducer(initialStateUser, setCurrentPage('2'))).toEqual({ ...initialStateUser, currentPage: '2', });
   });
 });

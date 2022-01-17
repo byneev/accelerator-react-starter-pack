@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createAPI } from '../utils/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk, { ThunkDispatch } from 'redux-thunk';
@@ -7,9 +8,8 @@ import { Action } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute } from '../utils/const';
 import { getMockProduct } from '../utils/mock';
-import { setGuitars } from './actions';
-import { getProductsFromServer } from './api-actions';
-import { initialStateApp } from './reducers/app-reducer';
+import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
+import { getCommentsFromServer, getPriceRange, getProductsFromServer, getSearchedProducts } from './api-actions';
 import { initialStateUser } from './reducers/user-reducer';
 
 describe('Test async actions', () => {
@@ -23,11 +23,40 @@ describe('Test async actions', () => {
   const mockStore = configureMockStore<RootProps, Action, ThunkDispatch<RootProps, AxiosInstance, Action>
   >(middleware);
 
-  it('Should implement action setGuitars', async () => {
+  it('Should implement action setGuitars and setTotalCount', async () => {
     const guitars = [getMockProduct(), getMockProduct()];
-    mockAPI.onGet(APIRoute.Guitars).reply(200, guitars);
+    mockAPI.onGet(`${APIRoute.Guitars}?&_start=0&_limit=9`).reply(200, guitars, { 'x-total-count': 27, });
     const store = mockStore();
     await store.dispatch(getProductsFromServer('', initialStateUser.startRange));
-    expect(store.getActions()).toEqual([setGuitars(guitars)]);
+    expect(store.getActions()).toEqual([setTotalCount(27), setGuitars(guitars)]);
+  });
+  it('Should implement action setSearchedGuitars', async () => {
+    const guitars = [getMockProduct(), getMockProduct()];
+    mockAPI.onGet(`${APIRoute.Guitars}?CURT`).reply(200, guitars);
+    const store = mockStore();
+    await store.dispatch(getSearchedProducts('CURT'));
+    expect(store.getActions()).toEqual([setSearchedGuitars(guitars)]);
+  });
+  it('Should implement action setComments', async () => {
+    const comments = ['hello', 'world'];
+    mockAPI.onGet(`${APIRoute.Guitars}/${'2'}${APIRoute.Comments}`).reply(200, comments);
+    const store = mockStore();
+    await store.dispatch(getCommentsFromServer(2));
+    expect(store.getActions()).toEqual([setComments(`2-${comments.length}`)]);
+  });
+  it('Should implement actions: setPriceRangeAcoustic, setPriceRangeElectric, setPriceRangeUkulele, setPriceRangeAll', async () => {
+    const guitars = [getMockProduct(), getMockProduct()];
+    mockAPI.onGet(`${APIRoute.Guitars}?_sort=price&_order=asc`).reply(200, guitars);
+    mockAPI.onGet(`${APIRoute.Guitars}?type=acoustic&_sort=price&_order=asc`).reply(200, guitars);
+    mockAPI.onGet(`${APIRoute.Guitars}?type=electric&_sort=price&_order=asc`).reply(200, guitars);
+    mockAPI.onGet(`${APIRoute.Guitars}?type=ukulele&_sort=price&_order=asc`).reply(200, guitars);
+    const store = mockStore();
+    await store.dispatch(getPriceRange());
+    expect(store.getActions()).toEqual([
+      setPriceRangeAll({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),
+      setPriceRangeAcoustic({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),
+      setPriceRangeElectric({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),
+      setPriceRangeUkulele({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), })
+    ]);
   });
 });

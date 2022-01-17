@@ -7,10 +7,14 @@ import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import ProductCard from './product-card';
 import userEvent from '@testing-library/user-event';
 import { AppRoute } from '../../utils/const';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore({ ...getAppStateMock(), ...getUserStateMock(), });
+const store = mockStore({
+  [NameSpace.User]: getUserStateMock(),
+  [NameSpace.App]: getAppStateMock(),
+});
 
 describe('Test ProductCard component', () => {
   it('Should render correctly', () => {
