@@ -19,7 +19,7 @@ describe('Test PaginationItem component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <PaginationItem isActive={false} pageLink={'3'} page={'3'} />
+          <PaginationItem pageLink={'3'} />
         </Router>
       </Provider>
     );

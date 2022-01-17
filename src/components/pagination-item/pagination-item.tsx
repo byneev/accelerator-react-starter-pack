@@ -1,22 +1,26 @@
 /* eslint-disable no-console */
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setStartRange } from '../../store/actions';
-import { AppRoute, PRODUTS_LIMIT_ON_PAGE } from '../../utils/const';
+import { setCurrentPage, setStartRange } from '../../store/actions';
+import { getCurrentPage } from '../../store/selectors';
+import { AppRoute, PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
 
 export type PaginationItemProps = {
-  isActive: boolean;
   pageLink: string;
-  page: string | undefined;
 };
 
 function PaginationItem({
-  isActive,
   pageLink,
-  page,
 }: PaginationItemProps): JSX.Element {
   const dispatch = useDispatch();
-  console.log(page);
+  const currentPage = useSelector(getCurrentPage);
+  let actualPage = '';
+  if (isNaN(+pageLink)) {
+    actualPage = pageLink === 'Назад' ? String(+currentPage - 1) : String(+currentPage + 1);
+  } else {
+    actualPage = pageLink;
+  }
+  const isActive = +pageLink === +currentPage;
 
   return isActive ? (
     <li className='pagination__page pagination__page--active'>
@@ -25,9 +29,12 @@ function PaginationItem({
   ) : (
     <li className='pagination__page'>
       <Link
-        onClick={() => dispatch(setStartRange((page ? +page - 1 : 1) * PRODUTS_LIMIT_ON_PAGE))}
+        onClick={() => {
+          dispatch(setStartRange((+actualPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
+          dispatch(setCurrentPage(actualPage));
+        }}
         className='link pagination__page-link'
-        to={`${AppRoute.Catalog}/${isNaN(+pageLink) ? page : pageLink}`}
+        to={`${AppRoute.Catalog}/${actualPage}`}
       >
         {pageLink}
       </Link>

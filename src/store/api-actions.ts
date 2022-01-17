@@ -2,7 +2,7 @@
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
-import { APIRoute, PRODUTS_LIMIT_ON_PAGE } from '../utils/const';
+import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
 import { setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
 import { RootProps } from './reducer';
 
@@ -11,10 +11,9 @@ export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInst
 
 export const getProductsFromServer =
   (query = '', startRange: number): ThunkResult => async (dispatch, _getState, api) => {
-    const responseWithRange: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}&${`_start=${startRange}&_limit=${PRODUTS_LIMIT_ON_PAGE}`}`);
+    const responseWithRange: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}&${`_start=${startRange}&_limit=${PRODUCTS_LIMIT_ON_PAGE}`}`);
     const headers: AxiosResponseHeaders = responseWithRange.headers;
     const actualGuitars: ProductProps[] = responseWithRange.data;
-    console.log(query);
     dispatch(setTotalCount(+headers['x-total-count']));
     dispatch(setGuitars(actualGuitars));
   };

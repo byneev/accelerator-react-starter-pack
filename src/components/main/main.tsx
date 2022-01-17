@@ -19,7 +19,6 @@ function Main(): JSX.Element {
   const dispatch = useDispatch();
   dispatch(getPriceRange());
   const { page, } = useParams<{ page?: string }>();
-  console.log(page);
 
   return (
     <div className='wrapper'>

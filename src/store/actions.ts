@@ -17,6 +17,7 @@ export enum Action {
   SetPriceRangeElectric = 'setPriceRangeElectric',
   SetPriceRangeUkulele = 'setPriceRangeUkulele',
   SetPriceRangeAll = 'setPriceRangeAll',
+  SetCurrentPage = 'setCurrentPage',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -46,3 +47,5 @@ export const setPriceRangeElectric = createAction<PriceRangeProps>(Action.SetPri
 export const setPriceRangeUkulele = createAction<PriceRangeProps>(Action.SetPriceRangeUkulele);
 
 export const setPriceRangeAll = createAction<PriceRangeProps>(Action.SetPriceRangeAll);
+
+export const setCurrentPage = createAction<string>(Action.SetCurrentPage);

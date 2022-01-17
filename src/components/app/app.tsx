@@ -6,9 +6,9 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path={`${AppRoute.Main}`} exact>
+        {/* <Route path={`${AppRoute.Main}`} exact>
           <Main />
-        </Route>
+        </Route> */}
         <Route path={`${AppRoute.Catalog}/:page`} exact>
           <Main />
         </Route>

@@ -29,3 +29,5 @@ export const getPriceRangeElectric = (state: RootProps): PriceRangeProps => stat
 export const getPriceRangeUkulele = (state: RootProps): PriceRangeProps => state.priceRangeUkulele;
 
 export const getPriceRangeAll = (state: RootProps): PriceRangeProps => state.priceRangeAll;
+
+export const getCurrentPage = (state: RootProps): string => state.currentPage;

@@ -2,7 +2,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import { setCurrentFilters, setIsFilterDefault } from '../../store/actions';
+import { setCurrentFilters, setCurrentPage, setIsFilterDefault, setStartRange } from '../../store/actions';
 import { initialState } from '../../store/reducer';
 import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll } from '../../store/selectors';
 import { PriceRangeProps } from '../../types/price-range-type';
@@ -27,10 +27,7 @@ function FormFilter(): JSX.Element {
   useEffect(() => {
     const actualPriceMin: string = priceMin === '' || priceMin < actualPriceRange.min ? actualPriceRange.min : priceMin;
     const actualPriceMax: string = priceMax === '' || priceMax > actualPriceRange.max ? actualPriceRange.max : priceMax;
-    console.log(priceMin);
-    console.log(priceMax);
     if (+actualPriceMax > +actualPriceMin) {
-      console.log('I am here');
       dispatch(setIsFilterDefault(false));
       dispatch(setCurrentFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }));
     }
@@ -72,9 +69,16 @@ function FormFilter(): JSX.Element {
     }
   }, [guitarType, priceRangeAcoustic, priceRangeAll, priceRangeElectric, priceRangeUkulele]);
 
+  const resetPagination = () => {
+    dispatch(setStartRange(0));
+    dispatch(setCurrentPage('1'));
+    history.push(`${AppRoute.Catalog}/1`);
+  };
+
   const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const isChecked = evt.target.checked;
     const name = evt.target.name;
+    resetPagination();
     switch (name) {
       case 'acoustic':
         setGuitarType({ ...guitarType, isAcustic: isChecked, });
@@ -86,12 +90,12 @@ function FormFilter(): JSX.Element {
         setGuitarType({ ...guitarType, isUkulele: isChecked, });
         break;
     }
-    history.push(AppRoute.Main);
   };
 
   const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const isChecked = evt.target.checked;
     const name = evt.target.name;
+    resetPagination();
     switch (name) {
       case '4-strings':
         setStringsCount({ ...stringsCount, isFour: isChecked, });
@@ -106,22 +110,21 @@ function FormFilter(): JSX.Element {
         setStringsCount({ ...stringsCount, isTwelve: isChecked, });
         break;
     }
-    history.push(AppRoute.Main);
   };
 
   const priceMinChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (+value >= 0) {
+      resetPagination();
       setPriceMin(value);
-      history.push(AppRoute.Main);
     }
   };
 
   const priceMaxChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (+value >= 0) {
+      resetPagination();
       setPriceMax(value);
-      history.push(AppRoute.Main);
     }
   };
 
