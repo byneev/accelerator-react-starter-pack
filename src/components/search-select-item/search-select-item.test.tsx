@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { getAppStateMock, getMockProduct, getUserStateMock } from '../../utils/mock';
+import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import SearchSelectItem from './search-select-item';
 import { NameSpace } from '../../store/reducers/root-reducer';
 
