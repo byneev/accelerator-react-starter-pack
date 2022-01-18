@@ -20,7 +20,7 @@ function Main(): JSX.Element {
       <main className='page-content'>
         <div className='container'>
           <h1 className='page-content__title title title--bigger'>
-            Каталог гитар
+            Главная
           </h1>
           <Breadcrumbs pathsTree={[AppRoute.Main]} />
         </div>
