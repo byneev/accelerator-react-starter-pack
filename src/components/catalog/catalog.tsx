@@ -11,6 +11,7 @@ import Navigation from '../navigation/navigation';
 import Pagination from '../pagination/pagination';
 import ProductsList from '../products-list/products-list';
 import Sort from '../sort/sort';
+import Spinner from '../spinner/spinner';
 
 function Catalog(): JSX.Element {
   const dispatch = useDispatch();
@@ -155,6 +156,7 @@ function Catalog(): JSX.Element {
           </section>
         </div>
       </footer>
+      <Spinner />
     </div>
   );
 }

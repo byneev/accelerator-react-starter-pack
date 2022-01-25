@@ -4,7 +4,7 @@ export const LOCALE = 'ru';
 
 export const BASE_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me';
 
-export const TIMEOUT_TIME = 5000;
+export const TIMEOUT_TIME = 10000;
 
 export const DEFAULT_MIN_PRICE = 1000;
 

@@ -3,7 +3,7 @@ import { PriceRangeProps } from '../../types/price-range-type';
 import { ProductProps } from '../../types/product-type';
 import {
   setGuitars, setSearchedGuitars, setPriceRangeAcoustic, setPriceRangeElectric,
-  setPriceRangeUkulele, setPriceRangeAll, setComments
+  setPriceRangeUkulele, setPriceRangeAll, setComments, setShouldShowSpinner
 } from '../actions';
 
 export type InitialStateAppProps = {
@@ -14,6 +14,7 @@ export type InitialStateAppProps = {
   priceRangeUkulele: PriceRangeProps;
   priceRangeAll: PriceRangeProps;
   comments: string[];
+  shouldShowSpinner: boolean;
 };
 
 export const initialStateApp: InitialStateAppProps = {
@@ -36,6 +37,7 @@ export const initialStateApp: InitialStateAppProps = {
     max: '',
   },
   comments: [],
+  shouldShowSpinner: false,
 };
 
 export const appReducer = createReducer(initialStateApp, (builder) => {
@@ -60,5 +62,8 @@ export const appReducer = createReducer(initialStateApp, (builder) => {
     })
     .addCase(setComments, (state, { payload, }) => {
       state.comments.push(payload);
+    })
+    .addCase(setShouldShowSpinner, (state, { payload, }) => {
+      state.shouldShowSpinner = payload;
     });
 });

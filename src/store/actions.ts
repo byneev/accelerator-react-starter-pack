@@ -19,6 +19,7 @@ export enum Action {
   SetPriceRangeAll = 'setPriceRangeAll',
   SetCurrentPage = 'setCurrentPage',
   SetComments = 'setComments',
+  SetShouldShowSpinner = 'setShouldShowSpinner',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -52,3 +53,5 @@ export const setPriceRangeAll = createAction<PriceRangeProps>(Action.SetPriceRan
 export const setCurrentPage = createAction<string>(Action.SetCurrentPage);
 
 export const setComments = createAction<string>(Action.SetComments);
+
+export const setShouldShowSpinner = createAction<boolean>(Action.SetShouldShowSpinner);

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { BASE_URL, HTTPCode, TIMEOUT_TIME } from './const';
@@ -26,7 +27,7 @@ export const createAPI = (
         case HTTPCode.Unauthorized:
           cbOn401();
           break;
-        case HTTPCode.Unavailable:
+        default:
           cbOn503();
       }
       return Promise.reject();

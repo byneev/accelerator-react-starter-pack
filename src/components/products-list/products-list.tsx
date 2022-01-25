@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setShouldShowSpinner } from '../../store/actions';
 import { getProductsFromServer } from '../../store/api-actions';
 import { getCurrentFilters, getCurrentSort, getGuitars, getIsFilterDefault, getStartRange } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
@@ -16,6 +17,7 @@ function ProductsList(): JSX.Element {
 
   useEffect(() => {
     if (!isFilterDefault) {
+      dispatch(setShouldShowSpinner(true));
       dispatch(getProductsFromServer(getQueryByFilters(filters, sort), startRange));
     }
   }, [filters, dispatch, isFilterDefault, sort, startRange]);

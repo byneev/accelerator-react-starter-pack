@@ -36,7 +36,7 @@ describe('Test PaginationItem component', () => {
     expect(screen.getByText(/3/)).toBeInTheDocument();
     expect(screen.getByText(/4/)).toBeInTheDocument();
     expect(screen.getByText(/5/)).toBeInTheDocument();
-    expect(screen.getByText(/Вперед/)).toBeInTheDocument();
+    expect(screen.getByText(/Далее/)).toBeInTheDocument();
   });
   it('Should render correctly with 3 pages', () => {
     const store = mockStore({
@@ -53,6 +53,7 @@ describe('Test PaginationItem component', () => {
     expect(screen.getByText(/1/)).toBeInTheDocument();
     expect(screen.getByText(/2/)).toBeInTheDocument();
     expect(screen.getByText(/3/)).toBeInTheDocument();
+    expect(screen.getByText(/Далее/)).toBeInTheDocument();
   });
   it('Should render correctly with 4 pages', () => {
     const store = mockStore({
@@ -70,6 +71,7 @@ describe('Test PaginationItem component', () => {
     expect(screen.getByText(/2/)).toBeInTheDocument();
     expect(screen.getByText(/3/)).toBeInTheDocument();
     expect(screen.getByText(/4/)).toBeInTheDocument();
+    expect(screen.getByText(/Далее/)).toBeInTheDocument();
   });
   it('Should render correctly with 2 pages', () => {
     const store = mockStore({
@@ -85,5 +87,6 @@ describe('Test PaginationItem component', () => {
     );
     expect(screen.getByText(/1/)).toBeInTheDocument();
     expect(screen.getByText(/2/)).toBeInTheDocument();
+    expect(screen.getByText(/Далее/)).toBeInTheDocument();
   });
 });

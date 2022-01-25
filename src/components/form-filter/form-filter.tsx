@@ -1,9 +1,10 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+/* eslint-disable no-console */
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setCurrentFilters, setCurrentPage, setIsFilterDefault, setStartRange } from '../../store/actions';
 import { initialStateUser } from '../../store/reducers/user-reducer';
-import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll } from '../../store/selectors';
+import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll, getGuitars } from '../../store/selectors';
 import { PriceRangeProps } from '../../types/price-range-type';
 import { AppRoute } from '../../utils/const';
 import FilterPrice from '../filter-price/filter-price';
@@ -22,6 +23,22 @@ function FormFilter(): JSX.Element {
   const [priceMax, setPriceMax] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const guitars = useSelector(getGuitars);
+
+  const resetFilters = useCallback(() => {
+    setGuitarType(initialStateUser.currentFilters.guitarType);
+    setStringsCount(initialStateUser.currentFilters.stringsCount);
+    setPriceMin(priceRangeAll.min);
+    setPriceMax(priceRangeAll.max);
+    setActualPriceRange(priceRangeAll);
+    dispatch(setCurrentFilters(initialStateUser.currentFilters));
+  }, [dispatch, priceRangeAll]);
+
+  useEffect(() => {
+    if ((guitars.length === 0 && Object.values(guitarType).includes(true)) || !Object.values(guitarType).includes(true)) {
+      resetFilters();
+    }
+  }, [guitarType, guitars.length, resetFilters]);
 
   useEffect(() => {
     const actualPriceMin: string = priceMin === '' || +priceMin < +actualPriceRange.min ? actualPriceRange.min : priceMin;
@@ -75,18 +92,17 @@ function FormFilter(): JSX.Element {
   };
 
   const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
-    const isChecked = evt.target.checked;
     const name = evt.target.name;
     resetPagination();
     switch (name) {
       case 'acoustic':
-        setGuitarType({ ...guitarType, isAcustic: isChecked, });
+        setGuitarType({ ...guitarType, isAcustic: !guitarType.isAcustic, });
         break;
       case 'electric':
-        setGuitarType({ ...guitarType, isElectro: isChecked, });
+        setGuitarType({ ...guitarType, isElectro: !guitarType.isElectro, });
         break;
       case 'ukulele':
-        setGuitarType({ ...guitarType, isUkulele: isChecked, });
+        setGuitarType({ ...guitarType, isUkulele: !guitarType.isUkulele, });
         break;
     }
   };

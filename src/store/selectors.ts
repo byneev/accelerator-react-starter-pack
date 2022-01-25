@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import { FilterProps } from '../types/filter-type';
 import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
@@ -33,3 +34,7 @@ export const getPriceRangeAll = (state: RootProps): PriceRangeProps => state[Nam
 export const getCurrentPage = (state: RootProps): string => state[NameSpace.User].currentPage;
 
 export const getComments = (state: RootProps): string[] => state[NameSpace.App].comments;
+
+export const getShouldShowSpinner = (state: RootProps): boolean => state[NameSpace.App].shouldShowSpinner;
+
+export const getStartWithQueryGuitars = createSelector([getSearchedGuitars, getSearchQuery], (guitars, query) => guitars.filter((guitar) => guitar.name.startsWith(query.split('=')[1])));

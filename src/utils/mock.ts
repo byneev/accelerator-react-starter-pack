@@ -37,6 +37,7 @@ export const getAppStateMock = (): InitialStateAppProps => ({
     max: '35000',
   },
   comments: ['1-5', '2-3', '3-7', '4-2'],
+  shouldShowSpinner: false,
 });
 
 export const getUserStateMock = (): InitialStateUserProps => (

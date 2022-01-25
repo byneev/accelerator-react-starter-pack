@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ChangeEvent } from 'react';
 import { GuitarsTypeProps } from '../../types/filter-type';
 
@@ -18,7 +19,7 @@ function FilterType({ onChangeGuitarType, guitarType, }: FilterTypeProps): JSX.E
           type='checkbox'
           id='acoustic'
           name='acoustic'
-          defaultChecked={isAcustic}
+          checked={isAcustic}
           onChange={onChangeGuitarType}
         />
         <label htmlFor='acoustic'>Акустические гитары</label>
@@ -29,7 +30,7 @@ function FilterType({ onChangeGuitarType, guitarType, }: FilterTypeProps): JSX.E
           type='checkbox'
           id='electric'
           name='electric'
-          defaultChecked={isElectro}
+          checked={isElectro}
           onChange={onChangeGuitarType}
         />
         <label htmlFor='electric'>Электрогитары</label>
@@ -40,7 +41,7 @@ function FilterType({ onChangeGuitarType, guitarType, }: FilterTypeProps): JSX.E
           type='checkbox'
           id='ukulele'
           name='ukulele'
-          defaultChecked={isUkulele}
+          checked={isUkulele}
           onChange={onChangeGuitarType}
         />
         <label htmlFor='ukulele'>Укулеле</label>

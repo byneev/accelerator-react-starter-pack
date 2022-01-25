@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
+import { toast } from 'react-toastify';
+import { DefaultFunctionProps } from '../types/default-function-type';
 import { FilterProps } from '../types/filter-type';
-import { MAX_PAGES_TO_SHOW, SortType } from './const';
+import { SortType } from './const';
 
 export const getArrayByNumber = (start: number, end: number) => {
   let num = start;
@@ -13,20 +15,21 @@ export const getArrayByNumber = (start: number, end: number) => {
 
 export const getRange = (pagesCount: number, currentPage: number): string[] => {
   let range: string[] = [];
-  if (pagesCount <= MAX_PAGES_TO_SHOW) {
-    range = getArrayByNumber(1, pagesCount);
+  if (pagesCount === 1) {
+    range = ['1'];
   }
-  const shouldShowPrevious = (currentPage - 1) > 1 && currentPage !== pagesCount;
-  const shouldShowNext = (currentPage + 1) < pagesCount && pagesCount > MAX_PAGES_TO_SHOW;
+  const shouldShowPrevious = currentPage !== 1 && pagesCount > 1;
+  const shouldShowNext = currentPage !== pagesCount && pagesCount > 1;
+  const delta = currentPage === 1 ? 2 : 1;
 
   if (shouldShowPrevious && !shouldShowNext) {
-    range = ['Назад', ...getArrayByNumber(currentPage - 1, Math.min(currentPage + 1, pagesCount))];
+    range = ['Назад', ...getArrayByNumber(Math.max(currentPage - 2, 1), Math.min(currentPage + delta, pagesCount))];
   }
   if (!shouldShowPrevious && shouldShowNext) {
-    range = [...getArrayByNumber(Math.max(currentPage - 1, 1), currentPage === 1 ? currentPage + 2 : currentPage + 1), 'Далее'];
+    range = [...getArrayByNumber(Math.max(currentPage - 1, 1), Math.min(currentPage + delta, pagesCount)), 'Далее'];
   }
   if (shouldShowPrevious && shouldShowNext) {
-    range = ['Назад', ...getArrayByNumber(currentPage - 1, currentPage + 1), 'Вперед'];
+    range = ['Назад', ...getArrayByNumber(currentPage - 1, currentPage + 1), 'Далее'];
   }
   return range;
 };
@@ -84,3 +87,15 @@ export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, 
   return queryArray.join('');
 };
 
+export const debounce = (func: DefaultFunctionProps, timeout = 300) => {
+  let timer: NodeJS.Timeout;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this); }, timeout);
+  };
+};
+
+export const error404Warn = debounce(() => toast.warn('Page not found. Input correct url.'), 1000);
+export const error400Warn = debounce(() => toast.warn('Bad request. Pass correct request.'), 1000);
+export const error401Warn = debounce(() => toast.warn('You are unauthorized. Please, login to cite'), 1000);
+export const error503Warn = debounce(() => toast.warn('Service unavalaible. Try again later.'), 1000);

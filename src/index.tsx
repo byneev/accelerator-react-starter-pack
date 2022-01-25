@@ -4,15 +4,16 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
 import { createAPI } from './utils/api';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { rootReducer } from './store/reducers/root-reducer';
+import { error400Warn, error401Warn, error404Warn, error503Warn } from './utils/helpers';
 
 const api = createAPI(
-  () => toast.warn('Page not found. Input correct url.'),
-  () => toast.warn('Bad request. Pass correct request.'),
-  () => toast.warn('You are unauthorized. Please, login to cite'),
-  () => toast.warn('Service unavalaible. Try again later.')
+  error404Warn,
+  error400Warn,
+  error401Warn,
+  error503Warn
 );
 
 export const store = configureStore({

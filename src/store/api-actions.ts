@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
-import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
+import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
 import { RootProps } from './reducers/root-reducer';
 
 
@@ -16,6 +17,7 @@ export const getProductsFromServer =
     const actualGuitars: ProductProps[] = responseWithRange.data;
     dispatch(setTotalCount(+headers['x-total-count']));
     dispatch(setGuitars(actualGuitars));
+    dispatch(setShouldShowSpinner(false));
   };
 
 export const getSearchedProducts = (query: string): ThunkResult => async (dispatch, _getState, api) => {

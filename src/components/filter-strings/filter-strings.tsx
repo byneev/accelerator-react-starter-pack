@@ -24,7 +24,7 @@ function FilterStrings({ guitarType, stringsCount, onChangeStringCount, }: Filte
           type='checkbox'
           id='4-strings'
           name='4-strings'
-          defaultChecked={isFour}
+          checked={isFour}
           disabled={isFilterDefault ? false : (!isUkulele && !isElectro)}
         />
         <label htmlFor='4-strings'>4</label>
@@ -36,7 +36,7 @@ function FilterStrings({ guitarType, stringsCount, onChangeStringCount, }: Filte
           type='checkbox'
           id='6-strings'
           name='6-strings'
-          defaultChecked={isSix}
+          checked={isSix}
           disabled={isFilterDefault ? false : (!isAcustic && !isElectro)}
         />
         <label htmlFor='6-strings'>6</label>
@@ -48,7 +48,7 @@ function FilterStrings({ guitarType, stringsCount, onChangeStringCount, }: Filte
           type='checkbox'
           id='7-strings'
           name='7-strings'
-          defaultChecked={isSeven}
+          checked={isSeven}
           disabled={isFilterDefault ? false : (!isAcustic && !isElectro)}
         />
         <label htmlFor='7-strings'>7</label>
@@ -60,7 +60,7 @@ function FilterStrings({ guitarType, stringsCount, onChangeStringCount, }: Filte
           type='checkbox'
           id='12-strings'
           name='12-strings'
-          defaultChecked={isTwelve}
+          checked={isTwelve}
           disabled={isFilterDefault ? false : (!isAcustic)}
         />
         <label htmlFor='12-strings'>12</label>
