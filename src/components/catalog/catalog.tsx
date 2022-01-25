@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import { getPriceRange } from '../../store/api-actions';
 import { AppRoute } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';

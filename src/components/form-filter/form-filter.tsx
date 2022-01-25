@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setCurrentFilters, setCurrentPage, setIsFilterDefault, setStartRange } from '../../store/actions';
@@ -18,36 +17,30 @@ function FormFilter(): JSX.Element {
   const priceRangeElectric = useSelector(getPriceRangeElectric);
   const priceRangeUkulele = useSelector(getPriceRangeUkulele);
   const priceRangeAll = useSelector(getPriceRangeAll);
+  const guitars = useSelector(getGuitars);
   const [actualPriceRange, setActualPriceRange] = useState<PriceRangeProps>(priceRangeAll);
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const guitars = useSelector(getGuitars);
-
-  const resetFilters = useCallback(() => {
-    setGuitarType(initialStateUser.currentFilters.guitarType);
-    setStringsCount(initialStateUser.currentFilters.stringsCount);
-    setPriceMin(priceRangeAll.min);
-    setPriceMax(priceRangeAll.max);
-    setActualPriceRange(priceRangeAll);
-    dispatch(setCurrentFilters(initialStateUser.currentFilters));
-  }, [dispatch, priceRangeAll]);
-
-  useEffect(() => {
-    if ((guitars.length === 0 && Object.values(guitarType).includes(true)) || !Object.values(guitarType).includes(true)) {
-      resetFilters();
-    }
-  }, [guitarType, guitars.length, resetFilters]);
 
   useEffect(() => {
     const actualPriceMin: string = priceMin === '' || +priceMin < +actualPriceRange.min ? actualPriceRange.min : priceMin;
     const actualPriceMax: string = priceMax === '' || +priceMax > +actualPriceRange.max ? actualPriceRange.max : priceMax;
-    if (+actualPriceMax > +actualPriceMin && +actualPriceMin >= +actualPriceRange.min) {
+    if (+actualPriceMax >= +actualPriceMin && (priceMin === '' ? +actualPriceMin >= +actualPriceRange.min : +priceMin >= +actualPriceRange.min)) {
       dispatch(setIsFilterDefault(false));
       dispatch(setCurrentFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }));
+      resetPagination();
     }
   }, [actualPriceRange, dispatch, guitarType, priceMax, priceMin, stringsCount]);
+
+  useEffect(() => {
+    if (Object.values(stringsCount).includes(true)
+      && Object.values(guitarType).includes(true)
+      && guitars.length === 0) {
+      setStringsCount(initialStateUser.currentFilters.stringsCount);
+    }
+  }, [guitarType, guitars.length, stringsCount]);
 
   useEffect(() => {
     if (!Object.values(guitarType).includes(true)) {
@@ -93,7 +86,6 @@ function FormFilter(): JSX.Element {
 
   const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const name = evt.target.name;
-    resetPagination();
     switch (name) {
       case 'acoustic':
         setGuitarType({ ...guitarType, isAcustic: !guitarType.isAcustic, });
@@ -110,7 +102,6 @@ function FormFilter(): JSX.Element {
   const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const isChecked = evt.target.checked;
     const name = evt.target.name;
-    resetPagination();
     switch (name) {
       case '4-strings':
         setStringsCount({ ...stringsCount, isFour: isChecked, });
@@ -130,7 +121,6 @@ function FormFilter(): JSX.Element {
   const priceMinChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (+value >= 0) {
-      resetPagination();
       setPriceMin(value);
     }
   };
@@ -138,7 +128,6 @@ function FormFilter(): JSX.Element {
   const priceMaxChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (+value >= 0) {
-      resetPagination();
       setPriceMax(value);
     }
   };

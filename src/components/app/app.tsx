@@ -3,7 +3,6 @@ import { AppRoute } from '../../utils/const';
 import Catalog from '../catalog/catalog';
 import Main from '../main/main';
 import NotFound from '../not-found/not-found';
-import Spinner from '../spinner/spinner';
 
 function App(): JSX.Element {
   return (
@@ -12,9 +11,6 @@ function App(): JSX.Element {
         <Route path={AppRoute.Main} exact>
           <Main />
         </Route >
-        <Route path={'/spinner'} exact>
-          <Spinner />
-        </Route>
         <Route path={`${AppRoute.Catalog}/:page`} exact>
           <Catalog />
         </Route>
