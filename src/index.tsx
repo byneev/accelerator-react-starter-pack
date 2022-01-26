@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { rootReducer } from './store/reducers/root-reducer';
 import { error400Warn, error401Warn, error404Warn, error503Warn } from './utils/helpers';
+import { getPriceRange } from './store/api-actions';
 
 const api = createAPI(
   error404Warn,
@@ -25,6 +26,8 @@ export const store = configureStore({
       },
     }),
 });
+
+store.dispatch(getPriceRange());
 
 ReactDOM.render(
   <React.StrictMode>

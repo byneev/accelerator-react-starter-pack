@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShouldShowSpinner } from '../../store/actions';
@@ -6,6 +7,7 @@ import { getCurrentFilters, getCurrentSort, getGuitars, getIsFilterDefault, getS
 import { ProductProps } from '../../types/product-type';
 import { getQueryByFilters } from '../../utils/helpers';
 import ProductCard from '../product-card/product-card';
+
 
 function ProductsList(): JSX.Element {
   const dispatch = useDispatch();

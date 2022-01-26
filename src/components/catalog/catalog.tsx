@@ -1,6 +1,5 @@
-import { useDispatch } from 'react-redux';
-import { useParams, useRouteMatch } from 'react-router-dom';
-import { getPriceRange } from '../../store/api-actions';
+/* eslint-disable no-console */
+import { useLocation, useParams } from 'react-router-dom';
 import { AppRoute } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
@@ -15,8 +14,11 @@ import Sort from '../sort/sort';
 import Spinner from '../spinner/spinner';
 
 function Catalog(): JSX.Element {
-  const dispatch = useDispatch();
-  dispatch(getPriceRange());
+  const location = useLocation();
+  const search = new URLSearchParams(location.search);
+  const { page, } = useParams<{ page?: string }>();
+
+  console.log(search.getAll('type'));
 
   return (
     <div className='wrapper'>
