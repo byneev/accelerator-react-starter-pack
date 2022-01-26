@@ -20,6 +20,7 @@ export enum Action {
   SetCurrentPage = 'setCurrentPage',
   SetComments = 'setComments',
   SetShouldShowSpinner = 'setShouldShowSpinner',
+  SetCurrentQuery = 'setCurrentQuery',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -55,3 +56,5 @@ export const setCurrentPage = createAction<string>(Action.SetCurrentPage);
 export const setComments = createAction<string>(Action.SetComments);
 
 export const setShouldShowSpinner = createAction<boolean>(Action.SetShouldShowSpinner);
+
+export const setCurrentQuery = createAction<string>(Action.SetCurrentQuery);

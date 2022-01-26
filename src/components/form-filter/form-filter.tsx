@@ -1,11 +1,13 @@
+/* eslint-disable no-console */
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setCurrentFilters, setCurrentPage, setIsFilterDefault, setStartRange } from '../../store/actions';
+import { setCurrentPage, setCurrentQuery, setIsFilterDefault, setStartRange } from '../../store/actions';
 import { initialStateUser } from '../../store/reducers/user-reducer';
-import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll, getGuitars } from '../../store/selectors';
+import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll, getGuitars, getCurrentSort, getCurrentQuery } from '../../store/selectors';
 import { PriceRangeProps } from '../../types/price-range-type';
 import { AppRoute } from '../../utils/const';
+import { getQueryByFilters } from '../../utils/helpers';
 import FilterPrice from '../filter-price/filter-price';
 import FilterStrings from '../filter-strings/filter-strings';
 import FilterType from '../filter-type/filter-type';
@@ -18,21 +20,23 @@ function FormFilter(): JSX.Element {
   const priceRangeUkulele = useSelector(getPriceRangeUkulele);
   const priceRangeAll = useSelector(getPriceRangeAll);
   const guitars = useSelector(getGuitars);
+  const sort = useSelector(getCurrentSort);
+  const currentQuery = useSelector(getCurrentQuery);
   const [actualPriceRange, setActualPriceRange] = useState<PriceRangeProps>(priceRangeAll);
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  console.log(currentQuery);
 
   useEffect(() => {
     const actualPriceMin: string = priceMin === '' || +priceMin < +actualPriceRange.min ? actualPriceRange.min : priceMin;
     const actualPriceMax: string = priceMax === '' || +priceMax > +actualPriceRange.max ? actualPriceRange.max : priceMax;
     if (+actualPriceMax >= +actualPriceMin && (priceMin === '' ? +actualPriceMin >= +actualPriceRange.min : +priceMin >= +actualPriceRange.min)) {
       dispatch(setIsFilterDefault(false));
-      dispatch(setCurrentFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }));
-      resetPagination();
+      const queryByFilters = getQueryByFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }, sort);
     }
-  }, [actualPriceRange, dispatch, guitarType, priceMax, priceMin, stringsCount]);
+  }, [actualPriceRange, dispatch, guitarType, priceMax, priceMin, sort, stringsCount]);
 
   useEffect(() => {
     if (Object.values(stringsCount).includes(true)
@@ -81,7 +85,7 @@ function FormFilter(): JSX.Element {
   const resetPagination = () => {
     dispatch(setStartRange(0));
     dispatch(setCurrentPage('1'));
-    history.push(`${AppRoute.Catalog}/1`);
+    history.push(`${AppRoute.Catalog}/1?${currentQuery}`);
   };
 
   const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {

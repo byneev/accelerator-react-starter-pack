@@ -3,26 +3,23 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShouldShowSpinner } from '../../store/actions';
 import { getProductsFromServer } from '../../store/api-actions';
-import { getCurrentFilters, getCurrentSort, getGuitars, getIsFilterDefault, getStartRange } from '../../store/selectors';
+import { getCurrentQuery, getGuitars, getIsFilterDefault, getStartRange } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
-import { getQueryByFilters } from '../../utils/helpers';
 import ProductCard from '../product-card/product-card';
-
 
 function ProductsList(): JSX.Element {
   const dispatch = useDispatch();
+  const currentQuery = useSelector(getCurrentQuery);
   const isFilterDefault = useSelector(getIsFilterDefault);
   const actualGuitars = useSelector(getGuitars);
-  const filters = useSelector(getCurrentFilters);
-  const sort = useSelector(getCurrentSort);
   const startRange = useSelector(getStartRange);
 
   useEffect(() => {
     if (!isFilterDefault) {
       dispatch(setShouldShowSpinner(true));
-      dispatch(getProductsFromServer(getQueryByFilters(filters, sort), startRange));
+      dispatch(getProductsFromServer(currentQuery, startRange));
     }
-  }, [filters, dispatch, isFilterDefault, sort, startRange]);
+  }, [dispatch, isFilterDefault, startRange, currentQuery]);
 
   return (
     <div className='cards catalog__cards'>

@@ -37,4 +37,6 @@ export const getComments = (state: RootProps): string[] => state[NameSpace.App].
 
 export const getShouldShowSpinner = (state: RootProps): boolean => state[NameSpace.App].shouldShowSpinner;
 
+export const getCurrentQuery = (state: RootProps): string => state[NameSpace.User].currentQuery;
+
 export const getStartWithQueryGuitars = createSelector([getSearchedGuitars, getSearchQuery], (guitars, query) => guitars.filter((guitar) => guitar.name.startsWith(query.split('=')[1])));

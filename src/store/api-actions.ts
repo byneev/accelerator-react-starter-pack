@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
+import { toast } from 'react-toastify';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
 import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
@@ -16,9 +17,16 @@ export const getProductsFromServer =
     const responseWithRange: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}&${`_start=${startRange}&_limit=${PRODUCTS_LIMIT_ON_PAGE}`}`);
     const headers: AxiosResponseHeaders = responseWithRange.headers;
     const actualGuitars: ProductProps[] = responseWithRange.data;
-    dispatch(setTotalCount(+headers['x-total-count']));
-    dispatch(setGuitars(actualGuitars));
-    dispatch(setShouldShowSpinner(false));
+    if (actualGuitars.length === 0) {
+      toast.warn('Cannot find guitars with this parameters');
+      dispatch(setGuitars([]));
+      dispatch(setTotalCount(0));
+      dispatch(setShouldShowSpinner(false));
+    } else {
+      dispatch(setTotalCount(+headers['x-total-count']));
+      dispatch(setShouldShowSpinner(false));
+      dispatch(setGuitars(actualGuitars));
+    }
   };
 
 export const getSearchedProducts = (query: string): ThunkResult => async (dispatch, _getState, api) => {

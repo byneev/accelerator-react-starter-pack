@@ -3,7 +3,7 @@ import { FilterProps } from '../../types/filter-type';
 import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import {
   setCurrentFilters, setCurrentSort, setIsFilterDefault, setStartRange,
-  setSearchQuery, setTotalCount, setCurrentPage
+  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery
 } from '../actions';
 
 export type InitialStateUserProps = {
@@ -14,6 +14,7 @@ export type InitialStateUserProps = {
   startRange: number;
   totalCount: number;
   currentPage: string;
+  currentQuery: string;
 };
 
 export const initialStateUser: InitialStateUserProps = {
@@ -38,6 +39,7 @@ export const initialStateUser: InitialStateUserProps = {
   startRange: 0,
   totalCount: PRODUCTS_LIMIT_ON_PAGE,
   currentPage: '1',
+  currentQuery: '',
 };
 
 export const userReducer = createReducer(initialStateUser, (builder) => {
@@ -62,5 +64,8 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
     })
     .addCase(setCurrentPage, (state, { payload, }) => {
       state.currentPage = payload;
+    })
+    .addCase(setCurrentQuery, (state, { payload, }) => {
+      state.currentQuery = payload;
     });
 });

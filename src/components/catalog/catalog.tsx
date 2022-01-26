@@ -1,6 +1,10 @@
 /* eslint-disable no-console */
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { AppRoute } from '../../utils/const';
+import { setCurrentPage, setCurrentQuery, setStartRange } from '../../store/actions';
+import { getProductsFromServer } from '../../store/api-actions';
+import { AppRoute, PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
@@ -14,11 +18,18 @@ import Sort from '../sort/sort';
 import Spinner from '../spinner/spinner';
 
 function Catalog(): JSX.Element {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const search = new URLSearchParams(location.search);
+  const urlSearch = new URLSearchParams(location.search);
   const { page, } = useParams<{ page?: string }>();
+  const currentPage = page ? page : '1';
+  const startRange = (+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE;
 
-  console.log(search.getAll('type'));
+  useEffect(() => {
+    dispatch(setStartRange(startRange));
+    dispatch(setCurrentPage(currentPage));
+    dispatch(setCurrentQuery(location.search.slice(1) ));
+  }, [currentPage, dispatch, location.search, startRange]);
 
   return (
     <div className='wrapper'>
