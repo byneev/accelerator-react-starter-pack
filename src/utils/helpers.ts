@@ -103,6 +103,6 @@ export const error401Warn = debounce(() => toast.warn('You are unauthorized. Ple
 
 export const error503Warn = debounce(() => toast.warn('Service unavalaible. Try again later.'), 1000);
 
-export const parseQueryToState = (query: string) => {
+// export const parseQueryToState = (query: string) => {
 
-};
+// };

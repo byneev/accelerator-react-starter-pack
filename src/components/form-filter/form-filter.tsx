@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setCurrentPage, setCurrentQuery, setIsFilterDefault, setStartRange } from '../../store/actions';
 import { initialStateUser } from '../../store/reducers/user-reducer';
-import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll, getGuitars, getCurrentSort, getCurrentQuery } from '../../store/selectors';
+import { getPriceRangeUkulele, getPriceRangeAcoustic, getPriceRangeElectric, getPriceRangeAll, getGuitars, getCurrentSort, getCurrentQuery, getCurrentPage } from '../../store/selectors';
 import { PriceRangeProps } from '../../types/price-range-type';
 import { AppRoute } from '../../utils/const';
 import { getQueryByFilters } from '../../utils/helpers';
@@ -21,6 +21,7 @@ function FormFilter(): JSX.Element {
   const priceRangeAll = useSelector(getPriceRangeAll);
   const guitars = useSelector(getGuitars);
   const sort = useSelector(getCurrentSort);
+  const currentPage = useSelector(getCurrentPage);
   const currentQuery = useSelector(getCurrentQuery);
   const [actualPriceRange, setActualPriceRange] = useState<PriceRangeProps>(priceRangeAll);
   const [priceMin, setPriceMin] = useState('');
@@ -35,8 +36,9 @@ function FormFilter(): JSX.Element {
     if (+actualPriceMax >= +actualPriceMin && (priceMin === '' ? +actualPriceMin >= +actualPriceRange.min : +priceMin >= +actualPriceRange.min)) {
       dispatch(setIsFilterDefault(false));
       const queryByFilters = getQueryByFilters({ guitarType, stringsCount, priceMin: actualPriceMin, priceMax: actualPriceMax, }, sort);
+      // history.push(`${AppRoute.Catalog}/${currentPage}${queryByFilters}`);
     }
-  }, [actualPriceRange, dispatch, guitarType, priceMax, priceMin, sort, stringsCount]);
+  }, [actualPriceRange, currentPage, dispatch, guitarType, history, priceMax, priceMin, sort, stringsCount]);
 
   useEffect(() => {
     if (Object.values(stringsCount).includes(true)
