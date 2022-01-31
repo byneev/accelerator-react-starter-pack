@@ -64,6 +64,7 @@ export const getUserStateMock = (): InitialStateUserProps => (
     totalCount: PRODUCTS_LIMIT_ON_PAGE,
     currentPage: '1',
     currentQuery: '',
+    isInnerChange: false,
   }
 );
 

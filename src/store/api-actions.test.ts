@@ -8,7 +8,7 @@ import { AxiosInstance } from 'axios';
 import { APIRoute } from '../utils/const';
 import { getMockProduct } from '../utils/mock';
 import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
-import { getCommentsFromServer, getPriceRange, getProductsFromServer, getSearchedProducts } from './api-actions';
+import { getCommentsFromServer, getProductsFromServer, getSearchedProducts } from './api-actions';
 import { initialStateUser } from './reducers/user-reducer';
 
 describe('Test async actions', () => {
@@ -50,7 +50,6 @@ describe('Test async actions', () => {
     mockAPI.onGet(`${APIRoute.Guitars}?type=electric&_sort=price&_order=asc`).reply(200, guitars);
     mockAPI.onGet(`${APIRoute.Guitars}?type=ukulele&_sort=price&_order=asc`).reply(200, guitars);
     const store = mockStore();
-    await store.dispatch(getPriceRange());
     expect(store.getActions()).toEqual([
       setPriceRangeAll({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),
       setPriceRangeAcoustic({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),

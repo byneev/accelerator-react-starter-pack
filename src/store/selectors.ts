@@ -39,4 +39,6 @@ export const getShouldShowSpinner = (state: RootProps): boolean => state[NameSpa
 
 export const getCurrentQuery = (state: RootProps): string => state[NameSpace.User].currentQuery;
 
+export const getIsInnerChange = (state: RootProps): boolean => state[NameSpace.User].isInnerChange;
+
 export const getStartWithQueryGuitars = createSelector([getSearchedGuitars, getSearchQuery], (guitars, query) => guitars.filter((guitar) => guitar.name.startsWith(query.split('=')[1])));

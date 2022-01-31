@@ -62,6 +62,7 @@ export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, 
       queryArray.push('stringCount=12&');
     }
     if (priceMin !== '' && priceMax !== '') {
+      console.log(priceMin);
       queryArray.push(`price_gte=${priceMin}&price_lte=${priceMax}&`);
     }
   }

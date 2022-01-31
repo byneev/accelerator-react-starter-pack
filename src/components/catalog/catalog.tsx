@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
-import { setCurrentPage, setCurrentQuery, setStartRange } from '../../store/actions';
-import { getProductsFromServer } from '../../store/api-actions';
-import { AppRoute, PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setIsInnerChange, setStartRange } from '../../store/actions';
+import { initialStateUser } from '../../store/reducers/user-reducer';
+import { getCurrentFilters, getIsInnerChange } from '../../store/selectors';
+import { AppRoute, PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
@@ -19,17 +20,65 @@ import Spinner from '../spinner/spinner';
 
 function Catalog(): JSX.Element {
   const dispatch = useDispatch();
+  const filters = useSelector(getCurrentFilters);
   const location = useLocation();
   const urlSearch = new URLSearchParams(location.search);
   const { page, } = useParams<{ page?: string }>();
   const currentPage = page ? page : '1';
   const startRange = (+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE;
+  const isOuterChange = filters === initialStateUser.currentFilters &&
+    (urlSearch.get('type') || urlSearch.get('stringCount') || urlSearch.get('sort') || urlSearch.get('order'));
 
   useEffect(() => {
+    if (isOuterChange) {
+      const priceMin = urlSearch.get('price_gte');
+      const priceMax = urlSearch.get('price_lte');
+      dispatch(setCurrentFilters({
+        guitarType: {
+          isAcustic: urlSearch.getAll('type').includes('acoustic'),
+          isElectro: urlSearch.getAll('type').includes('electric'),
+          isUkulele: urlSearch.getAll('type').includes('ukulele'),
+        },
+        stringsCount: {
+          isFour: urlSearch.getAll('stringCount').includes('4'),
+          isSix: urlSearch.getAll('stringCount').includes('6'),
+          isSeven: urlSearch.getAll('stringCount').includes('7'),
+          isTwelve: urlSearch.getAll('stringCount').includes('12'),
+        },
+        priceMin: priceMin !== null ? priceMin : '',
+        priceMax: priceMax !== null ? priceMax : '',
+      }));
+      if (urlSearch.get('sort') && urlSearch.get('order')) {
+        dispatch(setCurrentSort(
+          [
+            urlSearch.get('sort') === 'price' ? SortType.Price : SortType.Popular,
+            urlSearch.get('order') === 'asc' ? SortType.Ascending : SortType.Descending
+          ]
+        ));
+      }
+    }
+    dispatch(setCurrentQuery(location.search.slice(1)));
     dispatch(setStartRange(startRange));
     dispatch(setCurrentPage(currentPage));
-    dispatch(setCurrentQuery(location.search.slice(1) ));
-  }, [currentPage, dispatch, location.search, startRange]);
+  }, [currentPage, dispatch, isOuterChange, location.search, startRange]);
+
+  // useEffect(() => {
+  //   if (isOuterChange) {
+  //     const queryParams: string[] | null[] = [''];
+  //     const resultQueryParams = queryParams.concat(
+  //       urlSearch.get('type') === null ? [''] : urlSearch.getAll('type').map((item) => `type=${item}&`),
+  //       urlSearch.get('stringCount') === null ? [''] : urlSearch.getAll('stringCount').map((item) => `type=${item}&`),
+  //       urlSearch.get('price_gte') === null ? [''] : urlSearch.getAll('price_gte'),
+  //       urlSearch.get('price_lte') === null ? [''] : urlSearch.getAll('price_lte')
+  //     );
+  //     const query = resultQueryParams.join('');
+  //     dispatch(setCurrentQuery(query));
+  //   } else {
+  //     dispatch(setCurrentQuery(location.search.slice(1)));
+  //   }
+  //   dispatch(setStartRange(startRange));
+  //   dispatch(setCurrentPage(currentPage));
+  // }, [currentPage, dispatch, isInnerChange, isOuterChange, location.search, startRange]);
 
   return (
     <div className='wrapper'>

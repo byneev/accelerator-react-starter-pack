@@ -10,16 +10,15 @@ import ProductCard from '../product-card/product-card';
 function ProductsList(): JSX.Element {
   const dispatch = useDispatch();
   const currentQuery = useSelector(getCurrentQuery);
-  const isFilterDefault = useSelector(getIsFilterDefault);
   const actualGuitars = useSelector(getGuitars);
   const startRange = useSelector(getStartRange);
 
   useEffect(() => {
-    if (!isFilterDefault) {
-      dispatch(setShouldShowSpinner(true));
-      dispatch(getProductsFromServer(currentQuery, startRange));
-    }
-  }, [dispatch, isFilterDefault, startRange, currentQuery]);
+    console.log(currentQuery);
+    dispatch(setShouldShowSpinner(true));
+    dispatch(getProductsFromServer(currentQuery, startRange));
+
+  }, [dispatch, currentQuery, startRange]);
 
   return (
     <div className='cards catalog__cards'>

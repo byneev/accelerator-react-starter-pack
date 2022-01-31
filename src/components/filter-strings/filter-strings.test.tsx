@@ -20,16 +20,7 @@ describe('Test filterStrings component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <FilterStrings guitarType={{
-            isAcustic: false,
-            isElectro: false,
-            isUkulele: false,
-          }} stringsCount={{
-            isFour: false,
-            isSix: false,
-            isSeven: false,
-            isTwelve: false,
-          }} onChangeStringCount={function (evt: ChangeEvent<HTMLInputElement>): void {
+          <FilterStrings onChangeStringCount={function (evt: ChangeEvent<HTMLInputElement>): void {
             throw new Error('Function not implemented.');
           }}
           />

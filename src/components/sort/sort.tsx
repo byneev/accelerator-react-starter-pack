@@ -1,32 +1,21 @@
-import { MouseEvent, useEffect } from 'react';
+import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentSort } from '../../store/actions';
-import { getProductsFromServer } from '../../store/api-actions';
-import { getCurrentFilters, getCurrentSort, getIsFilterDefault, getStartRange } from '../../store/selectors';
+import { setCurrentSort, setIsInnerChange } from '../../store/actions';
+import { getCurrentSort } from '../../store/selectors';
 import { SortType } from '../../utils/const';
-import { getQueryByFilters } from '../../utils/helpers';
 import OrderButton from '../order-button/order-button';
 import SortButton from '../sort-button/sort-button';
 
 function Sort(): JSX.Element {
   const dispatch = useDispatch();
   const [byType, byDirection] = useSelector(getCurrentSort);
-  const filters = useSelector(getCurrentFilters);
-  const sort = useSelector(getCurrentSort);
-  const startRange = useSelector(getStartRange);
-  const isFilterDefault = useSelector(getIsFilterDefault);
-
-  useEffect(() => {
-    if (isFilterDefault) {
-      dispatch(getProductsFromServer(getQueryByFilters(null, sort), startRange));
-    }
-  }, [dispatch, filters, isFilterDefault, sort, startRange]);
 
   const sortButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>): void => {
     evt.preventDefault();
     if (!(evt.target instanceof HTMLButtonElement)) {
       return;
     }
+    dispatch(setIsInnerChange(true));
     const data = evt.target.dataset.type;
     const result: [SortType, SortType] = [byType, byDirection];
     switch (data) {

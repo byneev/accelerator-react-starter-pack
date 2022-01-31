@@ -1,6 +1,7 @@
+import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setCurrentPage, setStartRange } from '../../store/actions';
+import { setCurrentPage, setIsInnerChange, setStartRange } from '../../store/actions';
 import { getCurrentPage } from '../../store/selectors';
 import { AppRoute, PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
 
@@ -27,16 +28,17 @@ function PaginationItem({
     </li>
   ) : (
     <li className='pagination__page'>
-      <Link
-        onClick={() => {
+      <a
+        onClick={(evt: MouseEvent<HTMLAnchorElement>) => {
+          evt.preventDefault();
+          dispatch(setIsInnerChange(true));
           dispatch(setStartRange((+actualPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
           dispatch(setCurrentPage(actualPage));
         }}
         className='link pagination__page-link'
-        to={`${AppRoute.Catalog}/${actualPage}`}
       >
         {pageLink}
-      </Link>
+      </a>
     </li >
   );
 }

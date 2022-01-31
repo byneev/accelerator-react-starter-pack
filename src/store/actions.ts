@@ -21,6 +21,7 @@ export enum Action {
   SetComments = 'setComments',
   SetShouldShowSpinner = 'setShouldShowSpinner',
   SetCurrentQuery = 'setCurrentQuery',
+  SetIsInnerChange = 'setIsInnerChange',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -58,3 +59,5 @@ export const setComments = createAction<string>(Action.SetComments);
 export const setShouldShowSpinner = createAction<boolean>(Action.SetShouldShowSpinner);
 
 export const setCurrentQuery = createAction<string>(Action.SetCurrentQuery);
+
+export const setIsInnerChange = createAction<boolean>(Action.SetIsInnerChange);

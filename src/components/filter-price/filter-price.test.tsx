@@ -28,10 +28,7 @@ describe('Test filterStrings component', () => {
             throw new Error('Function not implemented.');
           }} onBlurPriceMax={function (): void {
             throw new Error('Function not implemented.');
-          }} priceMin={'1111'} priceMax={'2222'} actualPriceRange={{
-            min: '',
-            max: '',
-          }}
+          }} priceMin={'1111'} priceMax={'2222'}
           />
         </Router>
       </Provider>
