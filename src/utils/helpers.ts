@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { toast } from 'react-toastify';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { FilterProps } from '../types/filter-type';

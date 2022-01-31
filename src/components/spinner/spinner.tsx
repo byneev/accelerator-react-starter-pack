@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getShouldShowSpinner } from '../../store/selectors';

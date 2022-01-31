@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { BASE_URL, HTTPCode, TIMEOUT_TIME } from './const';

@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { ChangeEvent } from 'react';
 import { GuitarsTypeProps } from '../../types/filter-type';
 

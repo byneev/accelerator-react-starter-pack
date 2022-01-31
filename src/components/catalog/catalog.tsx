@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
