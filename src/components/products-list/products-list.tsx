@@ -14,7 +14,6 @@ function ProductsList(): JSX.Element {
   const startRange = useSelector(getStartRange);
 
   useEffect(() => {
-    console.log(currentQuery);
     dispatch(setShouldShowSpinner(true));
     dispatch(getProductsFromServer(currentQuery, startRange));
 

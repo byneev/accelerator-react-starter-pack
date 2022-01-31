@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setCurrentFilters, setCurrentPage, setIsInnerChange, setStartRange } from '../../store/actions';
@@ -51,12 +51,17 @@ function FormFilter(): JSX.Element {
   }, [currentFilters, dispatch, guitars.length]);
 
   useEffect(() => {
-    if (isInnerChange) {
+    if (isInnerChange && (currentFilters.priceMin === '' || +currentFilters.priceMax > +currentFilters.priceMin)) {
       const currentQuery = getQueryByFilters({ ...currentFilters, priceMin: currentFilters.priceMin, priceMax: currentFilters.priceMax, }, sort);
-      console.log(currentQuery);
       history.push(`${AppRoute.Catalog}/${currentPage}${currentQuery}`);
     }
   }, [currentPage, sort, currentFilters.stringsCount, currentFilters.priceMin, currentFilters.priceMax, actualPriceRange, history, dispatch]);
+
+  useEffect(() => {
+    if (guitars.length === 0 && (currentFilters.priceMin !== '' && currentFilters.priceMax !== '')) {
+      dispatch(setCurrentFilters({ ...currentFilters, priceMin: actualPriceRange.min, priceMax: actualPriceRange.max, }));
+    }
+  }, [dispatch, guitars.length]);
 
   const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const name = evt.target.name;

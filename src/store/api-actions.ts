@@ -3,9 +3,8 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
-import { setComments, setCurrentFilters, setCurrentPage, setGuitars, setIsInnerChange, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setStartRange, setTotalCount } from './actions';
+import { setComments, setGuitars, setIsInnerChange, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
 import { RootProps } from './reducers/root-reducer';
-import { initialStateUser } from './reducers/user-reducer';
 
 
 export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInstance, Action
