@@ -6,15 +6,13 @@ export const BASE_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me';
 
 export const TIMEOUT_TIME = 10000;
 
-export const DEFAULT_MIN_PRICE = 1000;
-
-export const DEFAULT_MAX_PRICE = 30000;
-
 export const BAD_QUERY = 'XyZpO';
 
 export const PRODUCTS_LIMIT_ON_PAGE = 9;
 
-export const MAX_PAGES_TO_SHOW = 3;
+export const DEFAULT_PAGE = '1';
+
+export const BASIC_DELAY = 1000;
 
 export enum AppRoute {
   Main = '/',
@@ -56,16 +54,16 @@ export enum SortType {
 }
 
 export enum StringsCount {
-  Four = '4',
-  Seven = '7',
-  Six = '6',
-  Eleven = '11',
+  Four = '4-strings',
+  Seven = '7-strings',
+  Six = '6-strings',
+  Twelve = '12-strings',
 }
 
 export enum GuitarType {
-  Ukulele = 'Ukulele',
-  Acustic = 'Acustic',
-  Electro = 'Electro',
+  Ukulele = 'ukulele',
+  Acoustic = 'acoustic',
+  Electric = 'electric',
 }
 
 export const AppRouteAliases = new Map<AppRoute, string>([

@@ -35,9 +35,5 @@ describe('Test PaginationItem component', () => {
     );
     history.replace(AppRoute.Main);
     expect(screen.getByText(/3/)).toBeInTheDocument();
-    userEvent.click(screen.getByText(/3/));
-    expect(history.entries[1].pathname).toEqual(
-      `${AppRoute.Catalog}/3`
-    );
   });
 });

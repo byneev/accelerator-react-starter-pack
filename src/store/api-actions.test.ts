@@ -1,14 +1,15 @@
+/* eslint-disable no-console */
 import { createAPI } from '../utils/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { RootProps } from './reducers/root-reducer';
+import { NameSpace, RootProps } from './reducers/root-reducer';
 import { Action } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute } from '../utils/const';
-import { getMockProduct } from '../utils/mock';
-import { setComments, setGuitars, setPriceRangeAcoustic, setPriceRangeAll, setPriceRangeElectric, setPriceRangeUkulele, setSearchedGuitars, setTotalCount } from './actions';
-import { getCommentsFromServer, getProductsFromServer, getSearchedProducts } from './api-actions';
+import { getAppStateMock, getMockProduct, getUserStateMock } from '../utils/mock';
+import { setComments, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
+import { getCommentsFromServer, getProductsFromServer, getRangeByQuery, getSearchedProducts } from './api-actions';
 import { initialStateUser } from './reducers/user-reducer';
 
 describe('Test async actions', () => {
@@ -27,13 +28,13 @@ describe('Test async actions', () => {
     mockAPI.onGet(`${APIRoute.Guitars}?&_start=0&_limit=9`).reply(200, guitars, { 'x-total-count': 27, });
     const store = mockStore();
     await store.dispatch(getProductsFromServer('', initialStateUser.startRange));
-    expect(store.getActions()).toEqual([setTotalCount(27), setGuitars(guitars)]);
+    expect(store.getActions()).toEqual([setTotalCount(27), setGuitars(guitars), setShouldShowSpinner(false)]);
   });
   it('Should implement action setSearchedGuitars', async () => {
     const guitars = [getMockProduct(), getMockProduct()];
-    mockAPI.onGet(`${APIRoute.Guitars}?CURT`).reply(200, guitars);
+    mockAPI.onGet(`${APIRoute.Guitars}?Ч`).reply(200, guitars);
     const store = mockStore();
-    await store.dispatch(getSearchedProducts('CURT'));
+    await store.dispatch(getSearchedProducts('Ч'));
     expect(store.getActions()).toEqual([setSearchedGuitars(guitars)]);
   });
   it('Should implement action setComments', async () => {
@@ -43,18 +44,14 @@ describe('Test async actions', () => {
     await store.dispatch(getCommentsFromServer(2));
     expect(store.getActions()).toEqual([setComments(`2-${comments.length}`)]);
   });
-  it('Should implement actions: setPriceRangeAcoustic, setPriceRangeElectric, setPriceRangeUkulele, setPriceRangeAll', async () => {
-    const guitars = [getMockProduct(), getMockProduct()];
-    mockAPI.onGet(`${APIRoute.Guitars}?_sort=price&_order=asc`).reply(200, guitars);
-    mockAPI.onGet(`${APIRoute.Guitars}?type=acoustic&_sort=price&_order=asc`).reply(200, guitars);
-    mockAPI.onGet(`${APIRoute.Guitars}?type=electric&_sort=price&_order=asc`).reply(200, guitars);
-    mockAPI.onGet(`${APIRoute.Guitars}?type=ukulele&_sort=price&_order=asc`).reply(200, guitars);
-    const store = mockStore();
-    expect(store.getActions()).toEqual([
-      setPriceRangeAll({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),
-      setPriceRangeAcoustic({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),
-      setPriceRangeElectric({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), }),
-      setPriceRangeUkulele({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), })
-    ]);
+  it('Should implement actions: setPriceRangeAll', async () => {
+    const guitars = [getMockProduct(), { ...getMockProduct(), price: 22500, }];
+    mockAPI.onGet(`${APIRoute.Guitars}?type=electric&`).reply(200, guitars);
+    const store = mockStore({
+      [NameSpace.App]: getAppStateMock(),
+      [NameSpace.User]: getUserStateMock(),
+    });
+    await store.dispatch(getRangeByQuery('?type=electric&price_gte=5200&price_lte=12000&_sort=price&_order=asc'));
+    expect(store.getActions()).toEqual([setPriceRangeAll({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), })]);
   });
 });

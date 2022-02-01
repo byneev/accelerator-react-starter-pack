@@ -2,12 +2,11 @@ import { createReducer } from '@reduxjs/toolkit';
 import { FilterProps } from '../../types/filter-type';
 import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import {
-  setCurrentFilters, setCurrentSort, setIsFilterDefault, setStartRange,
-  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setIsInnerChange
+  setCurrentFilters, setCurrentSort, setStartRange,
+  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery
 } from '../actions';
 
 export type InitialStateUserProps = {
-  isFilterDefault: boolean,
   currentSort: [SortType, SortType];
   currentFilters: FilterProps;
   searchQuery: string;
@@ -15,11 +14,9 @@ export type InitialStateUserProps = {
   totalCount: number;
   currentPage: string;
   currentQuery: string;
-  isInnerChange: boolean;
 };
 
 export const initialStateUser: InitialStateUserProps = {
-  isFilterDefault: true,
   currentSort: [SortType.Price, SortType.Default],
   currentFilters: {
     priceMin: '',
@@ -41,7 +38,6 @@ export const initialStateUser: InitialStateUserProps = {
   totalCount: PRODUCTS_LIMIT_ON_PAGE,
   currentPage: '1',
   currentQuery: '',
-  isInnerChange: false,
 };
 
 export const userReducer = createReducer(initialStateUser, (builder) => {
@@ -55,9 +51,6 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
     .addCase(setSearchQuery, (state, { payload, }) => {
       state.searchQuery = payload;
     })
-    .addCase(setIsFilterDefault, (state, { payload, }) => {
-      state.isFilterDefault = payload;
-    })
     .addCase(setStartRange, (state, { payload, }) => {
       state.startRange = payload;
     })
@@ -69,8 +62,5 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
     })
     .addCase(setCurrentQuery, (state, { payload, }) => {
       state.currentQuery = payload;
-    })
-    .addCase(setIsInnerChange, (state, { payload, }) => {
-      state.isInnerChange = payload;
     });
 });

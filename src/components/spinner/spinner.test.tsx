@@ -5,23 +5,25 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { NameSpace } from '../../store/reducers/root-reducer';
 import { getAppStateMock, getUserStateMock } from '../../utils/mock';
-import Main from './main';
+import Catalog from '../catalog/catalog';
 import thunk from 'redux-thunk';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
-const store = mockStore({ [NameSpace.User]: getUserStateMock(), [NameSpace.App]: getAppStateMock(), });
+const store = mockStore({
+  [NameSpace.App]: { ...getAppStateMock(), shouldShowSpinner: true, },
+  [NameSpace.User]: getUserStateMock(),
+});
 
-describe('Test component Main', () => {
+describe('Test Spinner Component', () => {
   it('Should render correctly', () => {
     render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Main />
+      <Provider store={store} >
+        <Router history={history} >
+          <Catalog />
         </Router>
       </Provider>
     );
-    expect(screen.getAllByText(/Главная/)).toHaveLength(2);
-    expect(screen.queryByText(/по цене/)).not.toBeInTheDocument();
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
 });

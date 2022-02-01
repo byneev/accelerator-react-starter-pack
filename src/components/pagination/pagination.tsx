@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { getCurrentPage, getTotalCount } from '../../store/selectors';
 import { PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
@@ -12,7 +12,10 @@ function Pagination(): JSX.Element {
   const pages: string[] = useMemo(() => getRange(pagesCount, currentPage), [currentPage, pagesCount]);
 
   if (pagesCount === 1) {
-    return <div></div>;
+    return (
+      <React.Fragment>
+      </React.Fragment>
+    );
   }
 
   return (

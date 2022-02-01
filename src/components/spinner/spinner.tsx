@@ -14,8 +14,8 @@ function Spinner(): JSX.Element {
   }
 
   return (
-    <div className='spinner-wrapper'>
-      <div id='loading'></div>
+    <div data-testid='spinner' className='spinner-wrapper'>
+      <div id='loading'>Загрузка</div>
     </div>
   );
 }

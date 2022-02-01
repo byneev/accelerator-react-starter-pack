@@ -1,10 +1,10 @@
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setIsInnerChange, setStartRange } from '../../store/actions';
+import { useLocation, useParams } from 'react-router-dom';
+import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setStartRange } from '../../store/actions';
 import { initialStateUser } from '../../store/reducers/user-reducer';
-import { getCurrentFilters, getIsInnerChange } from '../../store/selectors';
+import { getCurrentFilters } from '../../store/selectors';
 import { AppRoute, PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
@@ -61,24 +61,6 @@ function Catalog(): JSX.Element {
     dispatch(setStartRange(startRange));
     dispatch(setCurrentPage(currentPage));
   }, [currentPage, dispatch, isOuterChange, location.search, startRange]);
-
-  // useEffect(() => {
-  //   if (isOuterChange) {
-  //     const queryParams: string[] | null[] = [''];
-  //     const resultQueryParams = queryParams.concat(
-  //       urlSearch.get('type') === null ? [''] : urlSearch.getAll('type').map((item) => `type=${item}&`),
-  //       urlSearch.get('stringCount') === null ? [''] : urlSearch.getAll('stringCount').map((item) => `type=${item}&`),
-  //       urlSearch.get('price_gte') === null ? [''] : urlSearch.getAll('price_gte'),
-  //       urlSearch.get('price_lte') === null ? [''] : urlSearch.getAll('price_lte')
-  //     );
-  //     const query = resultQueryParams.join('');
-  //     dispatch(setCurrentQuery(query));
-  //   } else {
-  //     dispatch(setCurrentQuery(location.search.slice(1)));
-  //   }
-  //   dispatch(setStartRange(startRange));
-  //   dispatch(setCurrentPage(currentPage));
-  // }, [currentPage, dispatch, isInnerChange, isOuterChange, location.search, startRange]);
 
   return (
     <div className='wrapper'>

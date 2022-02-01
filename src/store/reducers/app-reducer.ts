@@ -2,16 +2,12 @@ import { createReducer } from '@reduxjs/toolkit';
 import { PriceRangeProps } from '../../types/price-range-type';
 import { ProductProps } from '../../types/product-type';
 import {
-  setGuitars, setSearchedGuitars, setPriceRangeAcoustic, setPriceRangeElectric,
-  setPriceRangeUkulele, setPriceRangeAll, setComments, setShouldShowSpinner
+  setGuitars, setSearchedGuitars, setPriceRangeAll, setComments, setShouldShowSpinner
 } from '../actions';
 
 export type InitialStateAppProps = {
   guitars: ProductProps[];
   searchedGuitars: ProductProps[];
-  priceRangeAcoustic: PriceRangeProps;
-  priceRangeElectric: PriceRangeProps;
-  priceRangeUkulele: PriceRangeProps;
   priceRangeAll: PriceRangeProps;
   comments: string[];
   shouldShowSpinner: boolean;
@@ -20,18 +16,6 @@ export type InitialStateAppProps = {
 export const initialStateApp: InitialStateAppProps = {
   guitars: [],
   searchedGuitars: [],
-  priceRangeAcoustic: {
-    min: '',
-    max: '',
-  },
-  priceRangeElectric: {
-    min: '',
-    max: '',
-  },
-  priceRangeUkulele: {
-    min: '',
-    max: '',
-  },
   priceRangeAll: {
     min: '',
     max: '',
@@ -47,15 +31,6 @@ export const appReducer = createReducer(initialStateApp, (builder) => {
     })
     .addCase(setSearchedGuitars, (state, { payload, }) => {
       state.searchedGuitars = payload;
-    })
-    .addCase(setPriceRangeAcoustic, (state, { payload, }) => {
-      state.priceRangeAcoustic = payload;
-    })
-    .addCase(setPriceRangeElectric, (state, { payload, }) => {
-      state.priceRangeElectric = payload;
-    })
-    .addCase(setPriceRangeUkulele, (state, { payload, }) => {
-      state.priceRangeUkulele = payload;
     })
     .addCase(setPriceRangeAll, (state, { payload, }) => {
       state.priceRangeAll = payload;

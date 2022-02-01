@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentSort, setIsInnerChange } from '../../store/actions';
+import { setCurrentSort } from '../../store/actions';
 import { getCurrentSort } from '../../store/selectors';
 import { SortType } from '../../utils/const';
 import OrderButton from '../order-button/order-button';
@@ -15,7 +15,6 @@ function Sort(): JSX.Element {
     if (!(evt.target instanceof HTMLButtonElement)) {
       return;
     }
-    dispatch(setIsInnerChange(true));
     const data = evt.target.dataset.type;
     const result: [SortType, SortType] = [byType, byDirection];
     switch (data) {

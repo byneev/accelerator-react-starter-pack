@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Route, Router, Switch } from 'react-router-dom';
 import { NameSpace } from '../../store/reducers/root-reducer';
-import { AppRoute } from '../../utils/const';
+import { AppRoute, BASIC_DELAY } from '../../utils/const';
 import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import Catalog from '../catalog/catalog';
 import Main from '../main/main';
@@ -39,7 +39,9 @@ describe('Test component App', () => {
     expect(screen.getAllByText('Главная')).toHaveLength(2);
     history.push(`${AppRoute.Catalog}/1`);
     expect(screen.getByText('Каталог гитар')).toBeInTheDocument();
-    history.push('/random-path');
-    expect(screen.getByText('Page not found')).toBeInTheDocument();
+    history.push(`${AppRoute.Catalog}/1?type=acoustic`);
+    setTimeout(() => {
+      expect(screen.getByTestId('acoustic')).toBeChecked();
+    }, BASIC_DELAY);
   });
 });

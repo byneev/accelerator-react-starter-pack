@@ -20,18 +20,6 @@ export const getMockProduct = (): ProductProps => ({
 export const getAppStateMock = (): InitialStateAppProps => ({
   guitars: getArrayByNumber(1, 15).map((_item) => getMockProduct()),
   searchedGuitars: [getMockProduct(), getMockProduct(), getMockProduct()],
-  priceRangeAcoustic: {
-    min: '1700',
-    max: '14900',
-  },
-  priceRangeElectric: {
-    min: '14900',
-    max: '35000',
-  },
-  priceRangeUkulele: {
-    min: '1900',
-    max: '6800',
-  },
   priceRangeAll: {
     min: '1700',
     max: '35000',
@@ -42,7 +30,6 @@ export const getAppStateMock = (): InitialStateAppProps => ({
 
 export const getUserStateMock = (): InitialStateUserProps => (
   {
-    isFilterDefault: true,
     currentSort: [SortType.Price, SortType.Ascending],
     currentFilters: {
       priceMin: '',
@@ -59,12 +46,11 @@ export const getUserStateMock = (): InitialStateUserProps => (
         isUkulele: false,
       },
     },
-    searchQuery: '',
+    searchQuery: 'x=Ч',
     startRange: 0,
     totalCount: PRODUCTS_LIMIT_ON_PAGE,
     currentPage: '1',
     currentQuery: '',
-    isInnerChange: false,
   }
 );
 

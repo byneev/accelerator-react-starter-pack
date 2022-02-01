@@ -17,17 +17,9 @@ export const getSearchQuery = (state: RootProps): string => state[NameSpace.User
 
 export const getSearchedGuitars = (state: RootProps): ProductProps[] => state[NameSpace.App].searchedGuitars;
 
-export const getIsFilterDefault = (state: RootProps): boolean => state[NameSpace.User].isFilterDefault;
-
 export const getStartRange = (state: RootProps): number => state[NameSpace.User].startRange;
 
 export const getTotalCount = (state: RootProps): number => state[NameSpace.User].totalCount;
-
-export const getPriceRangeAcoustic = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeAcoustic;
-
-export const getPriceRangeElectric = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeElectric;
-
-export const getPriceRangeUkulele = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeUkulele;
 
 export const getPriceRangeAll = (state: RootProps): PriceRangeProps => state[NameSpace.App].priceRangeAll;
 
@@ -38,7 +30,5 @@ export const getComments = (state: RootProps): string[] => state[NameSpace.App].
 export const getShouldShowSpinner = (state: RootProps): boolean => state[NameSpace.App].shouldShowSpinner;
 
 export const getCurrentQuery = (state: RootProps): string => state[NameSpace.User].currentQuery;
-
-export const getIsInnerChange = (state: RootProps): boolean => state[NameSpace.User].isInnerChange;
 
 export const getStartWithQueryGuitars = createSelector([getSearchedGuitars, getSearchQuery], (guitars, query) => guitars.filter((guitar) => guitar.name.startsWith(query.split('=')[1])));

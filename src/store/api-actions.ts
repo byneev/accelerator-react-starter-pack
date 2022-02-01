@@ -3,7 +3,7 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
-import { setComments, setGuitars, setIsInnerChange, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
+import { setComments, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
 import { RootProps } from './reducers/root-reducer';
 
 
@@ -16,7 +16,6 @@ export const getRangeByQuery = (query: string): ThunkResult => async (dispatch, 
     splitter = 'stringCount';
   }
   const splitedQuery = query.split(splitter);
-  dispatch(setIsInnerChange(true));
   const responseWithoutRange: AxiosResponse = await api.get(`${APIRoute.Guitars}${splitedQuery[0]}`);
   const sortedGuitars = responseWithoutRange.data.sort((guitarA: ProductProps, guitarB: ProductProps) => guitarA.price - guitarB.price);
   dispatch(setPriceRangeAll({ min: String(sortedGuitars[0].price), max: String(sortedGuitars.slice(-1)[0].price), }));

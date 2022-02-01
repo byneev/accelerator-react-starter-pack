@@ -13,15 +13,11 @@ export enum Action {
   SetIsFilterDefault = 'setIsFilterDefault',
   SetStartRange = 'setStartRange',
   SetTotalCount = 'setTotalCount,',
-  SetPriceRangeAcoustic = 'setPriceRangeAcoustic',
-  SetPriceRangeElectric = 'setPriceRangeElectric',
-  SetPriceRangeUkulele = 'setPriceRangeUkulele',
   SetPriceRangeAll = 'setPriceRangeAll',
   SetCurrentPage = 'setCurrentPage',
   SetComments = 'setComments',
   SetShouldShowSpinner = 'setShouldShowSpinner',
   SetCurrentQuery = 'setCurrentQuery',
-  SetIsInnerChange = 'setIsInnerChange',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -38,17 +34,9 @@ export const setSearchQuery = createAction<string>(Action.SetSearchQuery);
 
 export const setSearchedGuitars = createAction<ProductProps[]>(Action.SetSearchedGuitars);
 
-export const setIsFilterDefault = createAction<boolean>(Action.SetIsFilterDefault);
-
 export const setStartRange = createAction<number>(Action.SetStartRange);
 
 export const setTotalCount = createAction<number>(Action.SetTotalCount);
-
-export const setPriceRangeAcoustic = createAction<PriceRangeProps>(Action.SetPriceRangeAcoustic);
-
-export const setPriceRangeElectric = createAction<PriceRangeProps>(Action.SetPriceRangeElectric);
-
-export const setPriceRangeUkulele = createAction<PriceRangeProps>(Action.SetPriceRangeUkulele);
 
 export const setPriceRangeAll = createAction<PriceRangeProps>(Action.SetPriceRangeAll);
 
@@ -59,5 +47,3 @@ export const setComments = createAction<string>(Action.SetComments);
 export const setShouldShowSpinner = createAction<boolean>(Action.SetShouldShowSpinner);
 
 export const setCurrentQuery = createAction<string>(Action.SetCurrentQuery);
-
-export const setIsInnerChange = createAction<boolean>(Action.SetIsInnerChange);

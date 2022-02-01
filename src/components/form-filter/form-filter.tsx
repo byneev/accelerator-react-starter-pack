@@ -1,17 +1,16 @@
 import { ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setCurrentFilters, setCurrentPage, setIsInnerChange, setStartRange } from '../../store/actions';
+import { setCurrentFilters, setCurrentPage } from '../../store/actions';
 import { getRangeByQuery } from '../../store/api-actions';
-import { getPriceRangeAll, getGuitars, getCurrentSort, getCurrentPage, getCurrentFilters, getIsInnerChange } from '../../store/selectors';
-import { AppRoute } from '../../utils/const';
+import { getPriceRangeAll, getGuitars, getCurrentSort, getCurrentPage, getCurrentFilters } from '../../store/selectors';
+import { AppRoute, DEFAULT_PAGE, GuitarType, StringsCount } from '../../utils/const';
 import { getQueryByFilters } from '../../utils/helpers';
 import FilterPrice from '../filter-price/filter-price';
 import FilterStrings from '../filter-strings/filter-strings';
 import FilterType from '../filter-type/filter-type';
 
 function FormFilter(): JSX.Element {
-  const isInnerChange = useSelector(getIsInnerChange);
   const currentFilters = useSelector(getCurrentFilters);
   const actualPriceRange = useSelector(getPriceRangeAll);
   const guitars = useSelector(getGuitars);
@@ -50,7 +49,7 @@ function FormFilter(): JSX.Element {
   }, [currentFilters, dispatch, guitars.length]);
 
   useEffect(() => {
-    if (isInnerChange && (currentFilters.priceMin === '' || +currentFilters.priceMax > +currentFilters.priceMin)) {
+    if (currentFilters.priceMin === '' || +currentFilters.priceMax > +currentFilters.priceMin) {
       const currentQuery = getQueryByFilters({ ...currentFilters, priceMin: currentFilters.priceMin, priceMax: currentFilters.priceMax, }, sort);
       history.push(`${AppRoute.Catalog}/${currentPage}${currentQuery}`);
     }
@@ -65,23 +64,23 @@ function FormFilter(): JSX.Element {
   const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const name = evt.target.name;
     const isChecked = evt.target.checked;
-    dispatch(setCurrentPage('1'));
+    dispatch(setCurrentPage(DEFAULT_PAGE));
     switch (name) {
-      case 'acoustic':
+      case GuitarType.Acoustic:
         dispatch(setCurrentFilters({
           ...currentFilters, guitarType: {
             ...currentFilters.guitarType, isAcustic: isChecked,
           },
         }));
         break;
-      case 'electric':
+      case GuitarType.Electric:
         dispatch(setCurrentFilters({
           ...currentFilters, guitarType: {
             ...currentFilters.guitarType, isElectro: isChecked,
           },
         }));
         break;
-      case 'ukulele':
+      case GuitarType.Ukulele:
         dispatch(setCurrentFilters({
           ...currentFilters, guitarType: {
             ...currentFilters.guitarType, isUkulele: isChecked,
@@ -94,31 +93,30 @@ function FormFilter(): JSX.Element {
   const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const isChecked = evt.target.checked;
     const name = evt.target.name;
-    dispatch(setIsInnerChange(true));
-    dispatch(setCurrentPage('1'));
+    dispatch(setCurrentPage(DEFAULT_PAGE));
     switch (name) {
-      case '4-strings':
+      case StringsCount.Four:
         dispatch(setCurrentFilters({
           ...currentFilters, stringsCount: {
             ...currentFilters.stringsCount, isFour: isChecked,
           },
         }));
         break;
-      case '6-strings':
+      case StringsCount.Six:
         dispatch(setCurrentFilters({
           ...currentFilters, stringsCount: {
             ...currentFilters.stringsCount, isSix: isChecked,
           },
         }));
         break;
-      case '7-strings':
+      case StringsCount.Seven:
         dispatch(setCurrentFilters({
           ...currentFilters, stringsCount: {
             ...currentFilters.stringsCount, isSeven: isChecked,
           },
         }));
         break;
-      case '12-strings':
+      case StringsCount.Twelve:
         dispatch(setCurrentFilters({
           ...currentFilters, stringsCount: {
             ...currentFilters.stringsCount, isTwelve: isChecked,
@@ -130,8 +128,7 @@ function FormFilter(): JSX.Element {
 
   const priceMinChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
-    dispatch(setCurrentPage('1'));
-    dispatch(setIsInnerChange(true));
+    dispatch(setCurrentPage(DEFAULT_PAGE));
     dispatch(setCurrentFilters({
       ...currentFilters, priceMin: value,
     }));
@@ -140,8 +137,7 @@ function FormFilter(): JSX.Element {
 
   const priceMaxChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
-    dispatch(setCurrentPage('1'));
-    dispatch(setIsInnerChange(true));
+    dispatch(setCurrentPage(DEFAULT_PAGE));
     dispatch(setCurrentFilters({
       ...currentFilters, priceMax: value,
     }));
@@ -149,7 +145,6 @@ function FormFilter(): JSX.Element {
 
   const priceMinResetHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
-    dispatch(setIsInnerChange(true));
     if (currentFilters.priceMin !== '') {
       if (+value < +actualPriceRange.min || +value > +actualPriceRange.max || (+value > +currentFilters.priceMax && currentFilters.priceMax !== '')) {
         dispatch(setCurrentFilters({ ...currentFilters, priceMin: actualPriceRange.min, }));
@@ -159,7 +154,6 @@ function FormFilter(): JSX.Element {
 
   const priceMaxResetHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
-    dispatch(setIsInnerChange(true));
     if (currentFilters.priceMax !== '') {
       if (+value > +actualPriceRange.max || +value < +actualPriceRange.min || (+value < +currentFilters.priceMin && currentFilters.priceMin !== '')) {
         dispatch(setCurrentFilters({ ...currentFilters, priceMax: actualPriceRange.max, }));

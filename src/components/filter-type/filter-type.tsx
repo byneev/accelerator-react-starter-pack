@@ -15,6 +15,7 @@ function FilterType({ onChangeGuitarType, guitarType, }: FilterTypeProps): JSX.E
       <legend className='catalog-filter__block-title'>Тип гитар</legend>
       <div className='form-checkbox catalog-filter__block-item'>
         <input
+          data-testid='acoustic'
           className='visually-hidden'
           type='checkbox'
           id='acoustic'

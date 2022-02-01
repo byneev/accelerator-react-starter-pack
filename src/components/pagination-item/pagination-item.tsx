@@ -1,9 +1,8 @@
 import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { setCurrentPage, setIsInnerChange, setStartRange } from '../../store/actions';
+import { setCurrentPage, setStartRange } from '../../store/actions';
 import { getCurrentPage } from '../../store/selectors';
-import { AppRoute, PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
+import { PRODUCTS_LIMIT_ON_PAGE } from '../../utils/const';
 
 export type PaginationItemProps = {
   pageLink: string;
@@ -22,19 +21,20 @@ function PaginationItem({
   }
   const isActive = +pageLink === +currentPage;
 
+  const paginationClickHandle = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(setStartRange((+actualPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
+    dispatch(setCurrentPage(actualPage));
+  };
+
   return isActive ? (
     <li className='pagination__page pagination__page--active'>
       <a href='/' className='link pagination__page-link'>{pageLink}</a>
     </li>
   ) : (
     <li className='pagination__page'>
-      <a
-        onClick={(evt: MouseEvent<HTMLAnchorElement>) => {
-          evt.preventDefault();
-          dispatch(setIsInnerChange(true));
-          dispatch(setStartRange((+actualPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
-          dispatch(setCurrentPage(actualPage));
-        }}
+      <a href='/catalog/1'
+        onClick={paginationClickHandle}
         className='link pagination__page-link'
       >
         {pageLink}

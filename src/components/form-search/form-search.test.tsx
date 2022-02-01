@@ -6,9 +6,10 @@ import { Provider } from 'react-redux';
 import FormSearch from './form-search';
 import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import { NameSpace } from '../../store/reducers/root-reducer';
+import thunk from 'redux-thunk';
 
 const history = createMemoryHistory();
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 const store = mockStore({
   [NameSpace.User]: getUserStateMock(),
   [NameSpace.App]: getAppStateMock(),

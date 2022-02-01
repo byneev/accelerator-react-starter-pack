@@ -4,6 +4,7 @@ import { DefaultFunctionProps } from '../types/default-function-type';
 import { FilterProps } from '../types/filter-type';
 import { SortType } from './const';
 
+
 export const getArrayByNumber = (start: number, end: number) => {
   let num = start;
   const result: string[] = [];
@@ -12,6 +13,7 @@ export const getArrayByNumber = (start: number, end: number) => {
   }
   return result;
 };
+
 
 export const getRange = (pagesCount: number, currentPage: number): string[] => {
   let range: string[] = [];
@@ -33,6 +35,7 @@ export const getRange = (pagesCount: number, currentPage: number): string[] => {
   }
   return range;
 };
+
 
 export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, SortType]): string => {
   const queryArray: string[] = ['?'];
@@ -87,6 +90,7 @@ export const getQueryByFilters = (filters: FilterProps | null, sort: [SortType, 
   return queryArray.join('');
 };
 
+
 export const debounce = (func: DefaultFunctionProps, timeout = 300) => {
   let timer: NodeJS.Timeout;
   return () => {
@@ -95,14 +99,14 @@ export const debounce = (func: DefaultFunctionProps, timeout = 300) => {
   };
 };
 
+
 export const error404Warn = debounce(() => toast.warn('Page not found. Input correct url.'), 1000);
+
 
 export const error400Warn = debounce(() => toast.warn('Bad request. Pass correct request.'), 1000);
 
+
 export const error401Warn = debounce(() => toast.warn('You are unauthorized. Please, login to cite'), 1000);
 
+
 export const error503Warn = debounce(() => toast.warn('Service unavalaible. Try again later.'), 1000);
-
-// export const parseQueryToState = (query: string) => {
-
-// };
