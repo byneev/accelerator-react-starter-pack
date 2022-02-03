@@ -88,7 +88,7 @@ function FormFilter(): JSX.Element {
         }));
         break;
     }
-  }, []);
+  }, [currentFilters, dispatch]);
 
   const changeStringsCountHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const isChecked = evt.target.checked;
@@ -124,7 +124,7 @@ function FormFilter(): JSX.Element {
         }));
         break;
     }
-  }, []);
+  }, [currentFilters, dispatch]);
 
   const priceMinChangeHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
@@ -133,7 +133,7 @@ function FormFilter(): JSX.Element {
       ...currentFilters, priceMin: value,
     }));
 
-  }, []);
+  }, [currentFilters, dispatch]);
 
   const priceMaxChangeHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
@@ -141,7 +141,7 @@ function FormFilter(): JSX.Element {
     dispatch(setCurrentFilters({
       ...currentFilters, priceMax: value,
     }));
-  }, []);
+  }, [currentFilters, dispatch]);
 
   const priceMinResetHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
@@ -150,7 +150,7 @@ function FormFilter(): JSX.Element {
         dispatch(setCurrentFilters({ ...currentFilters, priceMin: actualPriceRange.min, }));
       }
     }
-  }, []);
+  }, [actualPriceRange.max, actualPriceRange.min, currentFilters, dispatch]);
 
   const priceMaxResetHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
@@ -159,7 +159,7 @@ function FormFilter(): JSX.Element {
         dispatch(setCurrentFilters({ ...currentFilters, priceMax: actualPriceRange.max, }));
       }
     }
-  }, []);
+  }, [actualPriceRange.max, actualPriceRange.min, currentFilters, dispatch]);
 
   return (
     <form className='catalog-filter'>
