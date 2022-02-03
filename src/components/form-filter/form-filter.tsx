@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setCurrentFilters, setCurrentPage } from '../../store/actions';
@@ -61,7 +61,7 @@ function FormFilter(): JSX.Element {
     }
   }, [dispatch, guitars.length]);
 
-  const changeGuitarTypeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  const changeGuitarTypeHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const name = evt.target.name;
     const isChecked = evt.target.checked;
     dispatch(setCurrentPage(DEFAULT_PAGE));
@@ -88,9 +88,9 @@ function FormFilter(): JSX.Element {
         }));
         break;
     }
-  };
+  }, []);
 
-  const changeStringsCountHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  const changeStringsCountHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const isChecked = evt.target.checked;
     const name = evt.target.name;
     dispatch(setCurrentPage(DEFAULT_PAGE));
@@ -124,42 +124,42 @@ function FormFilter(): JSX.Element {
         }));
         break;
     }
-  };
+  }, []);
 
-  const priceMinChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  const priceMinChangeHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     dispatch(setCurrentPage(DEFAULT_PAGE));
     dispatch(setCurrentFilters({
       ...currentFilters, priceMin: value,
     }));
 
-  };
+  }, []);
 
-  const priceMaxChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  const priceMaxChangeHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     dispatch(setCurrentPage(DEFAULT_PAGE));
     dispatch(setCurrentFilters({
       ...currentFilters, priceMax: value,
     }));
-  };
+  }, []);
 
-  const priceMinResetHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  const priceMinResetHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (currentFilters.priceMin !== '') {
       if (+value < +actualPriceRange.min || +value > +actualPriceRange.max || (+value > +currentFilters.priceMax && currentFilters.priceMax !== '')) {
         dispatch(setCurrentFilters({ ...currentFilters, priceMin: actualPriceRange.min, }));
       }
     }
-  };
+  }, []);
 
-  const priceMaxResetHandle = (evt: ChangeEvent<HTMLInputElement>) => {
+  const priceMaxResetHandle = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (currentFilters.priceMax !== '') {
       if (+value > +actualPriceRange.max || +value < +actualPriceRange.min || (+value < +currentFilters.priceMin && currentFilters.priceMin !== '')) {
         dispatch(setCurrentFilters({ ...currentFilters, priceMax: actualPriceRange.max, }));
       }
     }
-  };
+  }, []);
 
   return (
     <form className='catalog-filter'>
