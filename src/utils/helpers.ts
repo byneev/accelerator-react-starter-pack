@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 
 import { toast } from 'react-toastify';
 import { DefaultFunctionProps } from '../types/default-function-type';
@@ -109,4 +110,11 @@ export const error400Warn = debounce(() => toast.warn('Bad request. Pass correct
 export const error401Warn = debounce(() => toast.warn('You are unauthorized. Please, login to cite'), 1000);
 
 
-export const error503Warn = debounce(() => toast.warn('Service unavalaible. Try again later.'), 1000);
+export const errorGte503Warn = debounce(() => toast.warn('Service unavalaible. Try again later.'), 1000);
+
+
+export const checkIsOnline = () => {
+  if (!window.navigator.onLine) {
+    toast.warn('You’re offline. Check your connection.');
+  }
+};

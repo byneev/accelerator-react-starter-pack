@@ -3,6 +3,7 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
+import { checkIsOnline } from '../utils/helpers';
 import { setComments, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
 import { RootProps } from './reducers/root-reducer';
 
@@ -11,6 +12,7 @@ export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInst
 >;
 
 export const getRangeByQuery = (query: string): ThunkResult => async (dispatch, _getState, api) => {
+  checkIsOnline();
   let splitter = 'price_gte=';
   if (query.match(/stringCount/)) {
     splitter = 'stringCount';
@@ -23,6 +25,7 @@ export const getRangeByQuery = (query: string): ThunkResult => async (dispatch, 
 
 export const getProductsFromServer =
   (query = '', startRange: number): ThunkResult => async (dispatch, _getState, api) => {
+    checkIsOnline();
     const responseWithRange: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}&${`_start=${startRange}&_limit=${PRODUCTS_LIMIT_ON_PAGE}`}`);
     const headers: AxiosResponseHeaders = responseWithRange.headers;
     const actualGuitars: ProductProps[] = responseWithRange.data;
@@ -32,11 +35,13 @@ export const getProductsFromServer =
   };
 
 export const getSearchedProducts = (query: string): ThunkResult => async (dispatch, _getState, api) => {
+  checkIsOnline();
   const response = await api.get(`${APIRoute.Guitars}?${query}`);
   dispatch(setSearchedGuitars(response.data));
 };
 
 export const getCommentsFromServer = (id: number): ThunkResult => async (dispatch, _getState, api) => {
+  checkIsOnline();
   const response: AxiosResponse = await api.get(`${APIRoute.Guitars}/${id}${APIRoute.Comments}`);
   dispatch(setComments(`${id}-${response.data.length}`));
 };

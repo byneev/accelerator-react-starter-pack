@@ -25,12 +25,10 @@ function Catalog(): JSX.Element {
   const urlSearch = new URLSearchParams(location.search);
   const { page, } = useParams<{ page?: string }>();
   const currentPage = page ? page : '1';
-  const startRange = (+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE;
-  const isOuterChange = filters === initialStateUser.currentFilters &&
-    (urlSearch.get('type') || urlSearch.get('stringCount') || urlSearch.get('sort') || urlSearch.get('order'));
 
   useEffect(() => {
-    if (isOuterChange) {
+    if (filters === initialStateUser.currentFilters &&
+      (urlSearch.get('type') || urlSearch.get('stringCount') || urlSearch.get('sort') || urlSearch.get('order'))) {
       const priceMin = urlSearch.get('price_gte');
       const priceMax = urlSearch.get('price_lte');
       dispatch(setCurrentFilters({
@@ -58,9 +56,10 @@ function Catalog(): JSX.Element {
       }
     }
     dispatch(setCurrentQuery(location.search.slice(1)));
-    dispatch(setStartRange(startRange));
     dispatch(setCurrentPage(currentPage));
-  }, [currentPage, dispatch, isOuterChange, location.search, startRange]);
+    dispatch(setStartRange((+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
+
+  }, [dispatch, location.search]);
 
   return (
     <div className='wrapper'>

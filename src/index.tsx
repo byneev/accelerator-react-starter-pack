@@ -7,13 +7,13 @@ import { createAPI } from './utils/api';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { rootReducer } from './store/reducers/root-reducer';
-import { error400Warn, error401Warn, error404Warn, error503Warn } from './utils/helpers';
+import { error400Warn, error401Warn, error404Warn, errorGte503Warn } from './utils/helpers';
 
 const api = createAPI(
   error404Warn,
   error400Warn,
   error401Warn,
-  error503Warn
+  errorGte503Warn
 );
 
 export const store = configureStore({

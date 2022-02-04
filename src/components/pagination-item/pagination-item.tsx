@@ -21,6 +21,17 @@ function PaginationItem({
   }
   const isActive = +pageLink === +currentPage;
 
+  const classNames = ['pagination__page'];
+  if (pageLink === 'Назад') {
+    classNames.push('pagination__page--prev');
+  }
+  if (pageLink === 'Далее') {
+    classNames.push('pagination__page--next');
+  }
+  if (isActive) {
+    classNames.push('pagination__page--active');
+  }
+
   const paginationClickHandle = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(setStartRange((+actualPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
@@ -28,11 +39,11 @@ function PaginationItem({
   };
 
   return isActive ? (
-    <li className='pagination__page pagination__page--active'>
-      <a href='/' className='link pagination__page-link'>{pageLink}</a>
+    <li className={classNames.join(' ')}>
+      <a href='' className='link pagination__page-link'>{pageLink}</a>
     </li>
   ) : (
-    <li className='pagination__page'>
+    <li className={classNames.join(' ')}>
       <a href='/catalog/1'
         onClick={paginationClickHandle}
         className='link pagination__page-link'

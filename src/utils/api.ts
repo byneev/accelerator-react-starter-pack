@@ -1,5 +1,6 @@
-
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { store } from '..';
+import { setShouldShowSpinner } from '../store/actions';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { BASE_URL, HTTPCode, TIMEOUT_TIME } from './const';
 
@@ -7,7 +8,7 @@ export const createAPI = (
   cbOn404: DefaultFunctionProps,
   cbOn400: DefaultFunctionProps,
   cbOn401: DefaultFunctionProps,
-  cbOn503: DefaultFunctionProps
+  cbOnGte500: DefaultFunctionProps
 ): AxiosInstance => {
   const api = axios.create({
     baseURL: BASE_URL,
@@ -27,10 +28,13 @@ export const createAPI = (
         case HTTPCode.Unauthorized:
           cbOn401();
           break;
-        default:
-          cbOn503();
       }
-      return Promise.reject();
+      if (error.response) {
+        if (error.response?.status >= 500) {
+          cbOnGte500();
+        }
+      }
+      return Promise.reject(error);
     }
   );
 
