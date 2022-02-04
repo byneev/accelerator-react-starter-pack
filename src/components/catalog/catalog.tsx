@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,18 +47,19 @@ function Catalog(): JSX.Element {
         priceMin: priceMin !== null ? priceMin : '',
         priceMax: priceMax !== null ? priceMax : '',
       }));
-      if (urlSearch.get('sort') && urlSearch.get('order')) {
+      if (urlSearch.get('_sort') && urlSearch.get('_order')) {
         dispatch(setCurrentSort(
           [
-            urlSearch.get('sort') === 'price' ? SortType.Price : SortType.Popular,
-            urlSearch.get('order') === 'asc' ? SortType.Ascending : SortType.Descending
+            urlSearch.get('_sort') === 'price' ? SortType.Price : SortType.Popular,
+            urlSearch.get('_order') === 'asc' ? SortType.Ascending : SortType.Descending
           ]
         ));
       }
+      dispatch(setCurrentPage(currentPage));
+      dispatch(setStartRange((+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
     }
+    console.log(location.search.slice(1));
     dispatch(setCurrentQuery(location.search.slice(1)));
-    dispatch(setCurrentPage(currentPage));
-    dispatch(setStartRange((+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
 
   }, [dispatch, location.search]);
 
