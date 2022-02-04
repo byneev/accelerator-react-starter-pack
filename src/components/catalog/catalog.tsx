@@ -56,9 +56,8 @@ function Catalog(): JSX.Element {
         ));
       }
       dispatch(setCurrentPage(currentPage));
-      dispatch(setStartRange((+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
     }
-    console.log(location.search.slice(1));
+    dispatch(setStartRange((+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
     dispatch(setCurrentQuery(location.search.slice(1)));
 
   }, [dispatch, location.search]);
