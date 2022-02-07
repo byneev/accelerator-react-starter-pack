@@ -29,7 +29,7 @@ function Catalog(): JSX.Element {
 
   useEffect(() => {
     if (filters === initialStateUser.currentFilters &&
-      (urlSearch.get('type') || urlSearch.get('stringCount') || urlSearch.get('sort') || urlSearch.get('order'))) {
+      (urlSearch.get('type') || urlSearch.get('stringCount') || urlSearch.get('sort') || urlSearch.get('order') || urlSearch.get('price_gte') || urlSearch.get('price_lte'))) {
       const priceMin = urlSearch.get('price_gte');
       const priceMax = urlSearch.get('price_lte');
       dispatch(setCurrentFilters({
@@ -55,10 +55,10 @@ function Catalog(): JSX.Element {
           ]
         ));
       }
-      dispatch(setCurrentPage(currentPage));
     }
     dispatch(setStartRange((+currentPage - 1) * PRODUCTS_LIMIT_ON_PAGE));
     dispatch(setCurrentQuery(location.search.slice(1)));
+    dispatch(setCurrentPage(currentPage));
 
   }, [dispatch, location.search]);
 

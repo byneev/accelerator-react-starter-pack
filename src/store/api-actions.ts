@@ -2,10 +2,11 @@
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { ProductProps } from '../types/product-type';
-import { APIRoute, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
-import { checkIsOnline } from '../utils/helpers';
-import { setComments, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
+import { APIRoute, DEFAULT_PAGE, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
+import { checkIsOnline, errorBadFiltersWarn } from '../utils/helpers';
+import { setComments, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
 import { RootProps } from './reducers/root-reducer';
+import { initialStateUser } from './reducers/user-reducer';
 
 
 export type ThunkResult<R = Promise<void>> = ThunkAction<R, RootProps, AxiosInstance, Action
@@ -29,8 +30,18 @@ export const getProductsFromServer =
     const responseWithRange: AxiosResponse = await api.get(`${APIRoute.Guitars}?${query}&${`_start=${startRange}&_limit=${PRODUCTS_LIMIT_ON_PAGE}`}`);
     const headers: AxiosResponseHeaders = responseWithRange.headers;
     const actualGuitars: ProductProps[] = responseWithRange.data;
-    dispatch(setTotalCount(+headers['x-total-count']));
     dispatch(setGuitars(actualGuitars));
+    if (actualGuitars.length !== 0) {
+      dispatch(setTotalCount(+headers['x-total-count']));
+    } else {
+      errorBadFiltersWarn();
+      const defaultResponse: AxiosResponse = await api.get(`${APIRoute.Guitars}?_start=0&_limit=${PRODUCTS_LIMIT_ON_PAGE}`);
+      dispatch(setGuitars(defaultResponse.data));
+      dispatch(setTotalCount(+defaultResponse.headers['x-total-count']));
+      dispatch(setCurrentPage(DEFAULT_PAGE));
+      dispatch(setCurrentFilters(initialStateUser.currentFilters));
+      dispatch(setCurrentSort(initialStateUser.currentSort));
+    }
     dispatch(setShouldShowSpinner(false));
   };
 

@@ -3,7 +3,7 @@
 import { toast } from 'react-toastify';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { FilterProps } from '../types/filter-type';
-import { SortType } from './const';
+import { BASIC_DELAY, SortType } from './const';
 
 
 export const getArrayByNumber = (start: number, end: number) => {
@@ -101,16 +101,18 @@ export const debounce = (func: DefaultFunctionProps, timeout = 300) => {
 };
 
 
-export const error404Warn = debounce(() => toast.warn('Page not found. Input correct url.'), 1000);
+export const error404Warn = debounce(() => toast.warn('Page not found. Input correct url.'), BASIC_DELAY);
 
 
-export const error400Warn = debounce(() => toast.warn('Bad request. Pass correct request.'), 1000);
+export const error400Warn = debounce(() => toast.warn('Bad request. Pass correct request.'), BASIC_DELAY);
 
 
-export const error401Warn = debounce(() => toast.warn('You are unauthorized. Please, login to cite'), 1000);
+export const error401Warn = debounce(() => toast.warn('You are unauthorized. Please, login to cite'), BASIC_DELAY);
 
 
-export const errorGte503Warn = debounce(() => toast.warn('Service unavalaible. Try again later.'), 1000);
+export const errorGte503Warn = debounce(() => toast.warn('Service unavalaible. Try again later.'), BASIC_DELAY);
+
+export const errorBadFiltersWarn = debounce(() => toast.warn('Cannot find products by this filters. Filters were set to default values.'), BASIC_DELAY / 3);
 
 
 export const checkIsOnline = () => {
