@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import ProductRate from './product-rate';
 import { NameSpace } from '../../store/reducers/root-reducer';
+import { AppRoute } from '../../utils/const';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
@@ -19,7 +20,7 @@ describe('Test ProductRate component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <ProductRate rating={4} ratingsCount={'100'} />
+          <ProductRate rating={4} ratingsCount={'100'} route={AppRoute.Catalog} />
         </Router>
       </Provider>
     );

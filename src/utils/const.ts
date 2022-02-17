@@ -12,6 +12,8 @@ export const PRODUCTS_LIMIT_ON_PAGE = 9;
 
 export const DEFAULT_PAGE = '1';
 
+export const DEFAULT_REVIEWS_COUNT = 3;
+
 export const BASIC_DELAY = 1000;
 
 export enum AppRoute {
@@ -21,6 +23,7 @@ export enum AppRoute {
   Cart = '/cart',
   Catalog = '/catalog',
   Page = '/page',
+  Reviews = '/reviews',
 }
 
 export enum APIRoute {
@@ -66,8 +69,25 @@ export enum GuitarType {
   Electric = 'electric',
 }
 
-export const AppRouteAliases = new Map<AppRoute, string>([
+export enum CurrentTab {
+  Characteristics = 'Характеристики',
+  Description = 'Описание',
+}
+
+export const AppRouteAliases = new Map<AppRoute | string, string>([
   [AppRoute.Main, RouteAlias.Main],
   [AppRoute.Catalog, RouteAlias.Catalog],
   [AppRoute.Cart, RouteAlias.Cart]
+]);
+
+export enum GuitarTypeAlias {
+  Acoustic = 'Акустическая гитара',
+  Electric = 'Электрогитара',
+  Ukulele = 'Укулеле',
+}
+
+export const GuitarTypeAliases = new Map<GuitarType | string, string>([
+  [GuitarType.Acoustic, GuitarTypeAlias.Acoustic],
+  [GuitarType.Electric, GuitarTypeAlias.Electric],
+  [GuitarType.Ukulele, GuitarTypeAlias.Ukulele]
 ]);

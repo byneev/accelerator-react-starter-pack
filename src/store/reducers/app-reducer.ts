@@ -1,16 +1,22 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { CommentProps } from '../../types/comment-type';
 import { PriceRangeProps } from '../../types/price-range-type';
 import { ProductProps } from '../../types/product-type';
+import { CurrentTab } from '../../utils/const';
 import {
-  setGuitars, setSearchedGuitars, setPriceRangeAll, setComments, setShouldShowSpinner
+  setGuitars, setSearchedGuitars, setPriceRangeAll, setReviews, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen
 } from '../actions';
 
 export type InitialStateAppProps = {
   guitars: ProductProps[];
   searchedGuitars: ProductProps[];
   priceRangeAll: PriceRangeProps;
-  comments: string[];
+  reviews: CommentProps[];
   shouldShowSpinner: boolean;
+  currentTab: CurrentTab;
+  currentProduct: ProductProps | null;
+  isModalReviewSuccessOpen: boolean;
+  isModalReviewOpen: boolean;
 };
 
 export const initialStateApp: InitialStateAppProps = {
@@ -20,8 +26,12 @@ export const initialStateApp: InitialStateAppProps = {
     min: '',
     max: '',
   },
-  comments: [],
+  reviews: [],
   shouldShowSpinner: false,
+  currentTab: CurrentTab.Characteristics,
+  currentProduct: null,
+  isModalReviewSuccessOpen: false,
+  isModalReviewOpen: false,
 };
 
 export const appReducer = createReducer(initialStateApp, (builder) => {
@@ -35,10 +45,22 @@ export const appReducer = createReducer(initialStateApp, (builder) => {
     .addCase(setPriceRangeAll, (state, { payload, }) => {
       state.priceRangeAll = payload;
     })
-    .addCase(setComments, (state, { payload, }) => {
-      state.comments.push(payload);
+    .addCase(setReviews, (state, { payload, }) => {
+      state.reviews = payload;
     })
     .addCase(setShouldShowSpinner, (state, { payload, }) => {
       state.shouldShowSpinner = payload;
+    })
+    .addCase(setCurrentTab, (state, { payload, }) => {
+      state.currentTab = payload;
+    })
+    .addCase(setCurrentProduct, (state, { payload, }) => {
+      state.currentProduct = payload;
+    })
+    .addCase(setIsModalReviewSuccessOpen, (state, { payload, }) => {
+      state.isModalReviewSuccessOpen = payload;
+    })
+    .addCase(setIsModalReviewOpen, (state, { payload, }) => {
+      state.isModalReviewOpen = payload;
     });
 });

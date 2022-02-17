@@ -1,8 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
+import { CommentProps } from '../types/comment-type';
 import { FilterProps } from '../types/filter-type';
 import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
-import { SortType } from '../utils/const';
+import { CurrentTab, SortType } from '../utils/const';
 
 export enum Action {
   SetGuitars = 'setGuitars',
@@ -15,9 +16,13 @@ export enum Action {
   SetTotalCount = 'setTotalCount,',
   SetPriceRangeAll = 'setPriceRangeAll',
   SetCurrentPage = 'setCurrentPage',
-  SetComments = 'setComments',
+  SetReviews = 'setComments',
   SetShouldShowSpinner = 'setShouldShowSpinner',
   SetCurrentQuery = 'setCurrentQuery',
+  SetCurrentTab = 'setCurrentTab',
+  SetCurrentProduct = 'setCurrentProduct',
+  SetIsModalReviewSuccessOpen = 'setIsModalReviewSuccessOpen',
+  SetIsModalReviewOpen = 'setIsModalReviewOpen',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -42,8 +47,16 @@ export const setPriceRangeAll = createAction<PriceRangeProps>(Action.SetPriceRan
 
 export const setCurrentPage = createAction<string>(Action.SetCurrentPage);
 
-export const setComments = createAction<string>(Action.SetComments);
+export const setReviews = createAction<CommentProps[]>(Action.SetReviews);
 
 export const setShouldShowSpinner = createAction<boolean>(Action.SetShouldShowSpinner);
 
 export const setCurrentQuery = createAction<string>(Action.SetCurrentQuery);
+
+export const setCurrentTab = createAction<CurrentTab>(Action.SetCurrentTab);
+
+export const setCurrentProduct = createAction<ProductProps>(Action.SetCurrentProduct);
+
+export const setIsModalReviewSuccessOpen = createAction<boolean>(Action.SetIsModalReviewSuccessOpen);
+
+export const setIsModalReviewOpen = createAction<boolean>(Action.SetIsModalReviewOpen);

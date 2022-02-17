@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getCommentsFromServer } from '../../store/api-actions';
-import { getComments } from '../../store/selectors';
+import { getReviews } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, LOCALE } from '../../utils/const';
 import ProductRate from '../product-rate/product-rate';
@@ -12,20 +12,11 @@ export type ProductCardProps = {
 };
 
 function ProductCard({ product, }: ProductCardProps): JSX.Element {
+  // add getting comments count from server
   const priceString = product.price.toLocaleString(LOCALE);
   const [img, adress] = product.previewImg.split('/');
   const previewImg = [img, '/content/', adress];
-  const comments = useSelector(getComments);
   const dispatch = useDispatch();
-  let commentsCount = '';
-
-  comments.forEach((item: string) => {
-    const [id, count] = item.split('-');
-    if (+id === product.id) {
-      commentsCount = count;
-    }
-  });
-
 
   useEffect(() => {
     dispatch(getCommentsFromServer(product.id));
@@ -40,7 +31,7 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
         alt={product.name}
       />
       <div className='product-card__info'>
-        <ProductRate rating={product.rating} ratingsCount={commentsCount} />
+        <ProductRate rating={product.rating} ratingsCount={''} route={AppRoute.Catalog} />
         <p className='product-card__title'>{product.name}</p>
         <p className='product-card__price'>
           <span className='visually-hidden'>Цена:</span>

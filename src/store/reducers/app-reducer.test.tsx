@@ -1,5 +1,5 @@
-import { getMockProduct } from '../../utils/mock';
-import { setComments, setGuitars, setPriceRangeAll, setSearchedGuitars } from '../actions';
+import { getMockProduct, getMockReview } from '../../utils/mock';
+import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars } from '../actions';
 import { appReducer, initialStateApp } from './app-reducer';
 
 
@@ -26,6 +26,6 @@ describe('Reducer test', () => {
     expect(appReducer(initialStateApp, setPriceRangeAll({ min: '100', max: '999', }))).toEqual({ ...initialStateApp, priceRangeAll: { min: '100', max: '999', }, });
   });
   it('Should set payload to comments', () => {
-    expect(appReducer(initialStateApp, setComments('1-4'))).toEqual({ ...initialStateApp, comments: ['1-4'], });
+    expect(appReducer(initialStateApp, setReviews([getMockReview(), getMockReview()]))).toEqual({ ...initialStateApp, comments: [getMockReview(), getMockReview()], });
   });
 });

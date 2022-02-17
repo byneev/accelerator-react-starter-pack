@@ -19,7 +19,7 @@ describe('Test ProductRateStar component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <ProductRateStar isFull />
+          <ProductRateStar isFull sizes={[11, 12]} />
         </Router>
       </Provider>
     );

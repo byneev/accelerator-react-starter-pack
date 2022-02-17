@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
 
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
+import { CommentPostProps } from '../types/comment-type';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, DEFAULT_PAGE, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
 import { checkIsOnline, errorBadFiltersWarn } from '../utils/helpers';
-import { setComments, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
+import { setReviews, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen } from './actions';
 import { RootProps } from './reducers/root-reducer';
 import { initialStateUser } from './reducers/user-reducer';
 
@@ -54,5 +56,20 @@ export const getSearchedProducts = (query: string): ThunkResult => async (dispat
 export const getCommentsFromServer = (id: number): ThunkResult => async (dispatch, _getState, api) => {
   checkIsOnline();
   const response: AxiosResponse = await api.get(`${APIRoute.Guitars}/${id}${APIRoute.Comments}`);
-  dispatch(setComments(`${id}-${response.data.length}`));
+  dispatch(setReviews(response.data));
+};
+
+export const getProductById = (id: number): ThunkResult => async (dispatch, _getState, api) => {
+  checkIsOnline();
+  const response: AxiosResponse = await api.get(`${APIRoute.Guitars}/${id}`);
+  dispatch(setCurrentProduct(response.data));
+};
+
+export const sendReviewToServer = (comment: CommentPostProps): ThunkResult => async (dispatch, _getState, api) => {
+  checkIsOnline();
+  const response = await api.post(`${APIRoute.Comments}`, comment);
+  console.log(response.data);
+  // dispatch(setReviews(response.data));
+  // dispatch(setIsModalReviewOpen(false));
+  // dispatch(setIsModalReviewSuccessOpen(true));
 };

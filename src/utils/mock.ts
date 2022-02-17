@@ -1,7 +1,8 @@
 import { InitialStateAppProps } from '../store/reducers/app-reducer';
 import { InitialStateUserProps } from '../store/reducers/user-reducer';
+import { CommentProps } from '../types/comment-type';
 import { ProductProps } from '../types/product-type';
-import { SortType, PRODUCTS_LIMIT_ON_PAGE } from './const';
+import { SortType, PRODUCTS_LIMIT_ON_PAGE, CurrentTab } from './const';
 import { getArrayByNumber } from './helpers';
 
 export const getMockProduct = (): ProductProps => ({
@@ -17,6 +18,17 @@ export const getMockProduct = (): ProductProps => ({
   price: 17500,
 });
 
+export const getMockReview = (): CommentProps => ({
+  id: '1',
+  userName: 'Oleg',
+  advantages: 'Nice sound',
+  disadvantages: 'Bad appereance',
+  comment: 'Nice one!',
+  rating: 4,
+  createAt: 'iPhone 5s',
+  guitarId: 22,
+});
+
 export const getAppStateMock = (): InitialStateAppProps => ({
   guitars: getArrayByNumber(1, 15).map((_item) => getMockProduct()),
   searchedGuitars: [getMockProduct(), getMockProduct(), getMockProduct()],
@@ -24,8 +36,12 @@ export const getAppStateMock = (): InitialStateAppProps => ({
     min: '1700',
     max: '35000',
   },
-  comments: ['1-5', '2-3', '3-7', '4-2'],
+  reviews: [getMockReview(), getMockReview(), getMockReview(), getMockReview()],
   shouldShowSpinner: false,
+  currentTab: CurrentTab.Characteristics,
+  currentProduct: getMockProduct(),
+  isModalReviewSuccessOpen: false,
+  isModalReviewOpen: false,
 });
 
 export const getUserStateMock = (): InitialStateUserProps => (
