@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AppRoute } from '../../utils/const';
 
 export type SearchSelectItemProps = {
@@ -7,12 +7,10 @@ export type SearchSelectItemProps = {
 };
 
 function SearchSelectItem({ children, id, }: SearchSelectItemProps): JSX.Element {
-  const history = useHistory();
-
   return (
-    <li className='form-search__select-item' tabIndex={0} onClick={() => history.push(`${AppRoute.Guitars}/${id}`)} >
+    <Link to={`${AppRoute.Guitars}/${id}`} className='form-search__select-item' tabIndex={0}>
       {children}
-    </li>
+    </Link >
   );
 }
 

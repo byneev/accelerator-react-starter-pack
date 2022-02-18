@@ -14,18 +14,20 @@ function TabsCharacteristics({ currentTab, product, }: TabsCharacteristicsProps)
 
   return (
     <table className={classNames.join(' ')}>
-      <tr className='tabs__table-row'>
-        <td className='tabs__title'>Артикул:</td>
-        <td className='tabs__value'>{product.vendorCode}</td>
-      </tr>
-      <tr className='tabs__table-row'>
-        <td className='tabs__title'>Тип:</td>
-        <td className='tabs__value'>{GuitarTypeAliases.get(product.type)}</td>
-      </tr>
-      <tr className='tabs__table-row'>
-        <td className='tabs__title'>Количество струн:</td>
-        <td className='tabs__value'>{product.stringCount} струнная</td>
-      </tr>
+      <tbody>
+        <tr className='tabs__table-row'>
+          <td className='tabs__title'>Артикул:</td>
+          <td className='tabs__value'>{product.vendorCode}</td>
+        </tr>
+        <tr className='tabs__table-row'>
+          <td className='tabs__title'>Тип:</td>
+          <td className='tabs__value'>{GuitarTypeAliases.get(product.type)}</td>
+        </tr>
+        <tr className='tabs__table-row'>
+          <td className='tabs__title'>Количество струн:</td>
+          <td className='tabs__value'>{product.stringCount} струнная</td>
+        </tr>
+      </tbody>
     </table>
   );
 }

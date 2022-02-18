@@ -21,8 +21,8 @@ export const getMockProduct = (): ProductProps => ({
 export const getMockReview = (): CommentProps => ({
   id: '1',
   userName: 'Oleg',
-  advantages: 'Nice sound',
-  disadvantages: 'Bad appereance',
+  advantage: 'Nice sound',
+  disadvantage: 'Bad appereance',
   comment: 'Nice one!',
   rating: 4,
   createAt: 'iPhone 5s',

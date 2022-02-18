@@ -16,6 +16,10 @@ export const DEFAULT_REVIEWS_COUNT = 3;
 
 export const BASIC_DELAY = 1000;
 
+export const FAST_DELAY = 500;
+
+export const MIDDLE_DELAY = 2000;
+
 export enum AppRoute {
   Main = '/',
   NotFound = '/404',

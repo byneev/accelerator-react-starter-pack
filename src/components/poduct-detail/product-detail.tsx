@@ -1,23 +1,21 @@
 /* eslint-disable no-console */
-import { useSelector } from 'react-redux';
+import { KeyboardEvent, MouseEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setSearchedGuitars, setSearchQuery } from '../../store/actions';
 import { getIsModalReviewOpen, getIsModalReviewSuccessOpen, getReviews } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
-import { AppRoute } from '../../utils/const';
+import { AppRoute, BAD_QUERY } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
-import FormFilter from '../form-filter/form-filter';
 import FormSearch from '../form-search/form-search';
 import Logo from '../logo/logo';
 import ModalReview from '../modal-review/modal-review';
 import ModalSuccessReview from '../modal-success-review/modal-success-review';
 import Navigation from '../navigation/navigation';
-import Pagination from '../pagination/pagination';
 import ProductPrice from '../product-price/product-price';
 import ProductRate from '../product-rate/product-rate';
 import ProductReviewsList from '../product-reviews-list/product-reviews-list';
-import ProductsList from '../products-list/products-list';
-import Sort from '../sort/sort';
 import Spinner from '../spinner/spinner';
 import Tabs from '../tabs/tabs';
 
@@ -27,13 +25,39 @@ export type ProductDetailProps = {
 
 function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
   const [img, adress] = product.previewImg.split('/');
+  const dispatch = useDispatch();
   const previewImg = [img, '/content/', adress];
   const reviews = useSelector(getReviews);
   const isModalReviewOpen = useSelector(getIsModalReviewOpen);
   const isModalReviewSuccessOpen = useSelector(getIsModalReviewSuccessOpen);
 
+  useEffect(() => {
+    dispatch(setSearchedGuitars([]));
+    dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
+  }, []);
+
+  const keyDownEscHandle = (evt: KeyboardEvent<HTMLDivElement>) => {
+    if (evt.key === 'Escape') {
+      if (isModalReviewOpen) {
+        dispatch(setIsModalReviewOpen(false));
+      }
+      if (isModalReviewSuccessOpen) {
+        dispatch(setIsModalReviewSuccessOpen(false));
+      }
+    }
+  };
+
+  const detailPageClickHandle = (evt: MouseEvent<HTMLDivElement>) => {
+    if (isModalReviewOpen) {
+      dispatch(setIsModalReviewOpen(false));
+    }
+    if (isModalReviewSuccessOpen) {
+      dispatch(setIsModalReviewSuccessOpen(false));
+    }
+  };
+
   return (
-    <div className='wrapper'>
+    <div onKeyDown={keyDownEscHandle} className='wrapper' tabIndex={0}>
       <header className='header' id='header'>
         <div className='container header__wrapper'>
           <Logo />
@@ -43,7 +67,7 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
         </div>
       </header>
       <main className='page-content'>
-        <div className='container'>
+        <div onClick={detailPageClickHandle} className='container' tabIndex={1}>
           <h1 className='page-content__title title title--bigger'>
             {product.name}
           </h1>

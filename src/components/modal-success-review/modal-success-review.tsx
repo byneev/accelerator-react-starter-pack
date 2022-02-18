@@ -1,31 +1,51 @@
-import React, { MouseEvent } from 'react';
+/* eslint-disable no-console */
+import { KeyboardEvent, MouseEvent, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { setIsModalReviewSuccessOpen } from '../../store/actions';
-import { ProductProps } from '../../types/product-type';
-import { AppRoute } from '../../utils/const';
+import { getIsModalReviewSuccessOpen } from '../../store/selectors';
 
 function ModalSuccessReview(): JSX.Element {
   const dispatch = useDispatch();
+  const isModalReviewSuccessOpen = useSelector(getIsModalReviewSuccessOpen);
+  const submitButton = useRef<HTMLButtonElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
 
-  const buttonCloseClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
+  const tabKeydownHandle = (evt: KeyboardEvent) => {
+    if (evt.key === 'Tab') {
+      console.log(document.activeElement);
+      if (document.activeElement === submitButton.current) {
+        closeButton.current && closeButton.current.focus();
+        evt.preventDefault();
+      }
+    }
+  };
+
+  const closeButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    dispatch(setIsModalReviewSuccessOpen(false));
+    if (isModalReviewSuccessOpen) {
+      dispatch(setIsModalReviewSuccessOpen(false));
+    }
+  };
+
+  const outsideModalClickHandle = () => {
+    if (isModalReviewSuccessOpen) {
+      dispatch(setIsModalReviewSuccessOpen(false));
+    }
   };
 
   return (
-    <div className='modal is-active modal--success'>
+    <div onKeyDown={tabKeydownHandle} className='modal is-active modal--success'>
       <div className='modal__wrapper'>
-        <div className='modal__overlay' data-close-modal></div>
+        <div onClick={outsideModalClickHandle} className='modal__overlay' data-close-modal></div>
         <div className='modal__content'>
           <svg className='modal__icon' width='26' height='20' aria-hidden='true'>
             <use xlinkHref='#icon-success'></use>
           </svg>
           <p className='modal__message'>Спасибо за ваш отзыв!</p>
           <div className='modal__button-container modal__button-container--review'>
-            <button onClick={buttonCloseClickHandle} className='button button--small modal__button modal__button--review'>К покупкам!</button>
+            <button ref={closeButton} autoFocus onClick={closeButtonClickHandle} className='button button--small modal__button modal__button--review'>К покупкам!</button>
           </div>
-          <button onClick={buttonCloseClickHandle} className='modal__close-btn button-cross' type='button' aria-label='Закрыть'><span className='button-cross__icon'></span><span className='modal__close-btn-interactive-area'></span>
+          <button ref={submitButton} onClick={closeButtonClickHandle} className='modal__close-btn button-cross' type='button' aria-label='Закрыть'><span className='button-cross__icon'></span><span className='modal__close-btn-interactive-area'></span>
           </button>
         </div>
       </div>

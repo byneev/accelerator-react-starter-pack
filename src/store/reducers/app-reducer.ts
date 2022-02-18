@@ -4,7 +4,7 @@ import { PriceRangeProps } from '../../types/price-range-type';
 import { ProductProps } from '../../types/product-type';
 import { CurrentTab } from '../../utils/const';
 import {
-  setGuitars, setSearchedGuitars, setPriceRangeAll, setReviews, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen
+  setGuitars, setSearchedGuitars, setPriceRangeAll, setReviews, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews
 } from '../actions';
 
 export type InitialStateAppProps = {
@@ -62,5 +62,8 @@ export const appReducer = createReducer(initialStateApp, (builder) => {
     })
     .addCase(setIsModalReviewOpen, (state, { payload, }) => {
       state.isModalReviewOpen = payload;
+    })
+    .addCase(updateReviews, (state, { payload, }) => {
+      state.reviews.push(payload);
     });
 });
