@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setStartRange } from '../../store/actions';
+import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setSearchedGuitars, setSearchQuery, setStartRange } from '../../store/actions';
 import { initialStateUser } from '../../store/reducers/user-reducer';
 import { getCurrentFilters } from '../../store/selectors';
-import { AppRoute, PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
+import { AppRoute, BAD_QUERY, PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
@@ -24,6 +24,11 @@ function Catalog(): JSX.Element {
   const urlSearch = new URLSearchParams(location.search);
   const { page, } = useParams<{ page?: string }>();
   const currentPage = page ? page : '1';
+
+  useEffect(() => {
+    dispatch(setSearchedGuitars([]));
+    dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
+  }, []);
 
   useEffect(() => {
     if (filters === initialStateUser.currentFilters &&

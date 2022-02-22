@@ -3,7 +3,7 @@ import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { CommentPostProps } from '../types/comment-type';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, DEFAULT_PAGE, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
-import { checkIsOnline, errorBadFiltersWarn } from '../utils/helpers';
+import { checkIsOnline, errorBadFiltersWarn, validateComment } from '../utils/helpers';
 import { setReviews, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews } from './actions';
 import { RootProps } from './reducers/root-reducer';
 import { initialStateUser } from './reducers/user-reducer';
@@ -65,7 +65,8 @@ export const getProductById = (id: number): ThunkResult => async (dispatch, _get
 
 export const sendReviewToServer = (comment: CommentPostProps): ThunkResult => async (dispatch, _getState, api) => {
   checkIsOnline();
-  const response = await api.post(`${APIRoute.Comments}`, comment);
+  const validComment = validateComment(comment);
+  const response = await api.post(`${APIRoute.Comments}`, validComment);
   dispatch(updateReviews(response.data));
   dispatch(setIsModalReviewOpen(false));
   dispatch(setIsModalReviewSuccessOpen(true));

@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 
 import { toast } from 'react-toastify';
+import { CommentPostProps } from '../types/comment-type';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { FilterProps } from '../types/filter-type';
 import { BASIC_DELAY, SortType } from './const';
@@ -120,3 +120,10 @@ export const checkIsOnline = () => {
     toast.warn('You’re offline. Check your connection.');
   }
 };
+
+export const validateComment = (comment: CommentPostProps): CommentPostProps => ({
+  ...comment,
+  advantage: comment.advantage === '' ? 'Нет' : comment.advantage,
+  disadvantage: comment.disadvantage === '' ? 'Нет' : comment.disadvantage,
+  comment: comment.comment === '' ? 'Комментарий остуствует' : comment.comment,
+});

@@ -1,4 +1,7 @@
-import { AppRoute } from '../../utils/const';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
+import { AppRoute, BAD_QUERY } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
@@ -7,6 +10,13 @@ import Logo from '../logo/logo';
 import Navigation from '../navigation/navigation';
 
 function Main(): JSX.Element {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setSearchedGuitars([]));
+    dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
+  }, []);
+
   return (
     <div className='wrapper'>
       <header className='header' id='header'>

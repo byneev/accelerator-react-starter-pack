@@ -38,7 +38,7 @@ function ProductReviewsList({ id, }: ProductReviewsListProps): JSX.Element {
       {reviews.length !== 0 && reviews.slice(0, startReviewNumber + DEFAULT_REVIEWS_COUNT).map((review: CommentProps) =>
         (<ProductReview key={review.id} review={review} />))}
       {startReviewNumber + DEFAULT_REVIEWS_COUNT < reviews.length && <ReviewMoreButton onMoreClick={moreButtonClickHandle} />}
-      <a className='button button--up button--red-border button--big reviews__up-button' href='#header'>Наверх</a>
+      {reviews.length !== 0 && <a className='button button--up button--red-border button--big reviews__up-button' href='#header'>Наверх</a>}
     </section>
   );
 }

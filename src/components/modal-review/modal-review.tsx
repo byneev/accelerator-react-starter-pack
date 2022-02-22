@@ -98,7 +98,7 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
                   <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-2' name='rate' value='2' />
                   <label className='rate__label' htmlFor='star-2' title='Плохо'></label>
                   <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-1' name='rate' value='1' />
-                  <label className='rate__label' htmlFor='star-1' title='Ужасно'></label><span className='rate__count'>{reviews.length}</span>
+                  <label className='rate__label' htmlFor='star-1' title='Ужасно'></label>
                   {!isChecked && <span className='rate__message'>Поставьте оценку</span>}
                 </div>
               </div>

@@ -24,7 +24,6 @@ describe('Testing ModalReview component', () => {
       </Provider>
     );
     expect(screen.getByText(/Ваше имя/i)).toBeInTheDocument();
-    expect(screen.getByText(reviews.length)).toBeInTheDocument();
     expect(screen.getByText('Заполните поле')).toBeInTheDocument();
     expect(screen.getByText('Поставьте оценку')).toBeInTheDocument();
     const nameField = screen.getByRole('textbox', { name: 'Ваше Имя', });
