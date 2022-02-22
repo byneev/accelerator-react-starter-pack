@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import ProductDetailWrapper from '../product-detail-wrapper/product-detail-wrapper';
 import { AppRoute } from '../../utils/const';
 import Catalog from '../catalog/catalog';
 import Main from '../main/main';
@@ -13,6 +14,9 @@ function App(): JSX.Element {
         </Route >
         <Route path={`${AppRoute.Catalog}/:page`} exact>
           <Catalog />
+        </Route>
+        <Route path={`${AppRoute.Guitars}/:id`} exact>
+          <ProductDetailWrapper />
         </Route>
         <Route>
           <NotFound />
