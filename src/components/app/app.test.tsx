@@ -10,6 +10,7 @@ import Catalog from '../catalog/catalog';
 import Main from '../main/main';
 import NotFound from '../not-found/not-found';
 import thunk from 'redux-thunk';
+import ProductDetailWrapper from '../product-detail-wrapper/product-detail-wrapper';
 
 const history = createMemoryHistory();
 const middleware = [thunk];
@@ -28,6 +29,9 @@ describe('Test component App', () => {
             <Route path={`${AppRoute.Catalog}/:page`} exact>
               <Catalog />
             </Route>
+            <Route path={`${AppRoute.Guitars}/:id`} exact>
+              <ProductDetailWrapper />
+            </Route>
             <Route>
               <NotFound />
             </Route>
@@ -43,5 +47,7 @@ describe('Test component App', () => {
     setTimeout(() => {
       expect(screen.getByTestId('acoustic')).toBeChecked();
     }, BASIC_DELAY);
+    history.push(`${AppRoute.Guitars}/1`);
+    expect(screen.getByText('Добавить в корзину')).toBeInTheDocument();
   });
 });

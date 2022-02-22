@@ -1,6 +1,4 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
-import { store } from '..';
-import { setShouldShowSpinner } from '../store/actions';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { BASE_URL, HTTPCode, TIMEOUT_TIME } from './const';
 

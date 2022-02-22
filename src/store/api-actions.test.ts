@@ -1,15 +1,14 @@
-/* eslint-disable no-console */
 import { createAPI } from '../utils/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { NameSpace, RootProps } from './reducers/root-reducer';
 import { Action } from '@reduxjs/toolkit';
-import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 import { APIRoute } from '../utils/const';
-import { getAppStateMock, getMockProduct, getMockReview, getUserStateMock } from '../utils/mock';
-import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount } from './actions';
-import { getCommentsFromServer, getProductsFromServer, getRangeByQuery, getSearchedProducts } from './api-actions';
+import { getAppStateMock, getMockPostReview, getMockProduct, getMockReview, getUserStateMock } from '../utils/mock';
+import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setIsModalReviewOpen, setIsModalReviewSuccessOpen, updateReviews, setCurrentProduct } from './actions';
+import { getCommentsFromServer, getProductById, getProductsFromServer, getRangeByQuery, getSearchedProducts, sendReviewToServer } from './api-actions';
 import { initialStateUser } from './reducers/user-reducer';
 
 describe('Test async actions', () => {
@@ -28,7 +27,7 @@ describe('Test async actions', () => {
     mockAPI.onGet(`${APIRoute.Guitars}?&_start=0&_limit=9`).reply(200, guitars, { 'x-total-count': 27, });
     const store = mockStore();
     await store.dispatch(getProductsFromServer('', initialStateUser.startRange));
-    expect(store.getActions()).toEqual([setTotalCount(27), setGuitars(guitars), setShouldShowSpinner(false)]);
+    expect(store.getActions()).toEqual([setGuitars(guitars), setTotalCount(27), setShouldShowSpinner(false)]);
   });
   it('Should implement action setSearchedGuitars', async () => {
     const guitars = [getMockProduct(), getMockProduct()];
@@ -53,5 +52,19 @@ describe('Test async actions', () => {
     });
     await store.dispatch(getRangeByQuery('?type=electric&price_gte=5200&price_lte=12000&_sort=price&_order=asc'));
     expect(store.getActions()).toEqual([setPriceRangeAll({ min: String(guitars[0].price), max: String(guitars.slice(-1)[0].price), })]);
+  });
+  it('Should impement actions: setIsModalReviewsOpen, setIsModalReviewsSuccessOpen, updateReviews', async () => {
+    const comment = getMockPostReview();
+    mockAPI.onPost(`${APIRoute.Comments}`, comment).reply(200, getMockReview());
+    const store = mockStore();
+    await store.dispatch(sendReviewToServer(getMockPostReview()));
+    expect(store.getActions()).toEqual([updateReviews(getMockReview()), setIsModalReviewOpen(false), setIsModalReviewSuccessOpen(true)]);
+  });
+  it('Should implement actions: setCurrentProduct', async () => {
+    const guitar = getMockProduct();
+    mockAPI.onGet(`${APIRoute.Guitars}/${guitar.id}`).reply(200, guitar);
+    const store = mockStore();
+    await store.dispatch(getProductById(guitar.id));
+    expect(store.getActions()).toEqual([setCurrentProduct(guitar)]);
   });
 });

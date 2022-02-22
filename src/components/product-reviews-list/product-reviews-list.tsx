@@ -2,7 +2,7 @@ import React, { MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalReviewOpen } from '../../store/actions';
 import { getCommentsFromServer } from '../../store/api-actions';
-import { getReviews, getSortedReviews } from '../../store/selectors';
+import { getSortedReviews } from '../../store/selectors';
 import { CommentProps } from '../../types/comment-type';
 import { DEFAULT_REVIEWS_COUNT } from '../../utils/const';
 import ProductReview from '../product-review/product-review';

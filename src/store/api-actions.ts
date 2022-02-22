@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { CommentPostProps } from '../types/comment-type';

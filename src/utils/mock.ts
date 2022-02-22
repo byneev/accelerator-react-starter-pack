@@ -1,6 +1,6 @@
 import { InitialStateAppProps } from '../store/reducers/app-reducer';
 import { InitialStateUserProps } from '../store/reducers/user-reducer';
-import { CommentProps } from '../types/comment-type';
+import { CommentPostProps, CommentProps } from '../types/comment-type';
 import { ProductProps } from '../types/product-type';
 import { SortType, PRODUCTS_LIMIT_ON_PAGE, CurrentTab } from './const';
 import { getArrayByNumber } from './helpers';
@@ -26,6 +26,15 @@ export const getMockReview = (): CommentProps => ({
   comment: 'Nice one!',
   rating: 4,
   createAt: 'iPhone 5s',
+  guitarId: 22,
+});
+
+export const getMockPostReview = (): CommentPostProps => ({
+  userName: 'Oleg',
+  advantage: 'Nice sound',
+  disadvantage: 'Bad appereance',
+  comment: 'Nice one!',
+  rating: 4,
   guitarId: 22,
 });
 

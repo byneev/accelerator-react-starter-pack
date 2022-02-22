@@ -5,19 +5,11 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import { NameSpace } from '../../store/reducers/root-reducer';
-import thunk from 'redux-thunk';
-import { createAPI } from '../../utils/api';
 import Pagination from './pagination';
+import thunk from 'redux-thunk';
 
+const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
-const cb404 = jest.fn();
-const cb401 = jest.fn();
-const cb400 = jest.fn();
-const cb503 = jest.fn();
-const api = createAPI(cb404, cb400, cb401, cb503);
-const middleware = [thunk.withExtraArgument(api)];
-const mockStore = configureMockStore(middleware);
-
 
 describe('Test PaginationItem component', () => {
   it('Should render correctly with 5 pages', () => {

@@ -26,7 +26,7 @@ function TabsControlsItem({ children, currentTab, }: TabsControlsItemProps): JSX
   };
 
   return (
-    <a onClick={onClickHandle} className={classNames.join(' ')} href='#characteristics'>{children}</a>
+    <a data-testid={children} onClick={onClickHandle} className={classNames.join(' ')} href=''>{children}</a>
   );
 }
 

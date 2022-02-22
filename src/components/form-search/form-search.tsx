@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
 import { getSearchedProducts } from '../../store/api-actions';
 import { getSearchQuery } from '../../store/selectors';
-import { BAD_QUERY, BASIC_DELAY, FAST_DELAY } from '../../utils/const';
+import { BAD_QUERY, FAST_DELAY } from '../../utils/const';
 import SearchSelect from '../search-select/search-select';
 
 function FormSearch(): JSX.Element {

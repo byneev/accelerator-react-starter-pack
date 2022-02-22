@@ -1,5 +1,6 @@
+import { CurrentTab } from '../../utils/const';
 import { getMockProduct, getMockReview } from '../../utils/mock';
-import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars } from '../actions';
+import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews } from '../actions';
 import { appReducer, initialStateApp } from './app-reducer';
 
 
@@ -25,7 +26,25 @@ describe('Reducer test', () => {
   it('Should set payload to priceRangeAll', () => {
     expect(appReducer(initialStateApp, setPriceRangeAll({ min: '100', max: '999', }))).toEqual({ ...initialStateApp, priceRangeAll: { min: '100', max: '999', }, });
   });
-  it('Should set payload to comments', () => {
-    expect(appReducer(initialStateApp, setReviews([getMockReview(), getMockReview()]))).toEqual({ ...initialStateApp, comments: [getMockReview(), getMockReview()], });
+  it('Should set payload to reviews', () => {
+    expect(appReducer(initialStateApp, setReviews([getMockReview(), getMockReview()]))).toEqual({ ...initialStateApp, reviews: [getMockReview(), getMockReview()], });
+  });
+  it('Should set payload to isShouldShowSpinner', () => {
+    expect(appReducer(initialStateApp, setShouldShowSpinner(true))).toEqual({ ...initialStateApp, shouldShowSpinner: true, });
+  });
+  it('Should set payload to currentTab', () => {
+    expect(appReducer(initialStateApp, setCurrentTab(CurrentTab.Description))).toEqual({ ...initialStateApp, currentTab: CurrentTab.Description, });
+  });
+  it('Should set payload to currentProduct', () => {
+    expect(appReducer(initialStateApp, setCurrentProduct(getMockProduct()))).toEqual({ ...initialStateApp, currentProduct: getMockProduct(), });
+  });
+  it('Should set payload to isModalReviewSuccessOpen', () => {
+    expect(appReducer(initialStateApp, setIsModalReviewSuccessOpen(true))).toEqual({ ...initialStateApp, isModalReviewSuccessOpen: true, });
+  });
+  it('Should set payload to isModalReviewOpen', () => {
+    expect(appReducer(initialStateApp, setIsModalReviewOpen(true))).toEqual({ ...initialStateApp, isModalReviewOpen: true, });
+  });
+  it('Should add new review to reviews', () => {
+    expect(appReducer(initialStateApp, updateReviews(getMockReview()))).toEqual({ ...initialStateApp, reviews: [getMockReview()], });
   });
 });

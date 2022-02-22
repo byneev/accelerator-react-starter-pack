@@ -4,24 +4,27 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { NameSpace } from '../../store/reducers/root-reducer';
-import { getAppStateMock, getUserStateMock } from '../../utils/mock';
-import Main from './main';
+import { CurrentTab } from '../../utils/const';
+import { getAppStateMock, getMockProduct, getUserStateMock } from '../../utils/mock';
+import TabsDescription from './tabs-description';
 import thunk from 'redux-thunk';
 
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
-const store = mockStore({ [NameSpace.User]: getUserStateMock(), [NameSpace.App]: getAppStateMock(), });
+const store = mockStore({
+  [NameSpace.User]: getUserStateMock(), [NameSpace.App]: getAppStateMock(),
+});
 
-describe('Test component Main', () => {
+describe('Testing TabsDescription component', () => {
   it('Should render correctly', () => {
+    const product = getMockProduct();
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Main />
+          <TabsDescription currentTab={CurrentTab.Characteristics} product={product} />
         </Router>
       </Provider>
     );
-    expect(screen.getAllByText(/Главная/)).toHaveLength(2);
-    expect(screen.queryByText(/по цене/)).not.toBeInTheDocument();
+    expect(screen.getByText(product.description)).toBeInTheDocument();
   });
 });

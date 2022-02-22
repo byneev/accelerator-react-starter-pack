@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';

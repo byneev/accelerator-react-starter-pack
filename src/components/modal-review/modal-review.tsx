@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, MouseEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalReviewOpen } from '../../store/actions';
 import { sendReviewToServer } from '../../store/api-actions';
@@ -28,7 +27,6 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
 
   const tabKeydownHandle = (evt: KeyboardEvent) => {
     if (evt.key === 'Tab') {
-      console.log(document.activeElement);
       if (document.activeElement === buttonClose.current) {
         userName.current && userName.current.focus();
         evt.preventDefault();
@@ -77,7 +75,7 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
   return (
     <div onKeyDown={tabKeydownHandle} className='modal is-active modal--review' tabIndex={2}>
       <div className='modal__wrapper'>
-        <div onClick={outsideModalClickHandle} className='modal__overlay' data-close-modal></div>
+        <div data-testid='overlay' onClick={outsideModalClickHandle} className='modal__overlay' data-close-modal></div>
         <div className='modal__content'>
           <h2 className='modal__header modal__header--review title title--medium'>Оставить отзыв</h2>
           <h3 className='modal__product-name title title--medium-20 title--uppercase'>{product.name}</h3>
@@ -85,7 +83,7 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
             <div className='form-review__wrapper'>
               <div className='form-review__name-wrapper'>
                 <label className='form-review__label form-review__label--required' htmlFor='user-name'>Ваше Имя</label>
-                <input autoFocus onChange={userInputHandle} ref={userName} className='form-review__input form-review__input--name' id='user-name' type='text' autoComplete='off' required />
+                <input name='name-field' autoFocus onChange={userInputHandle} ref={userName} className='form-review__input form-review__input--name' id='user-name' type='text' autoComplete='off' required />
                 {userInput.length === 0 && <span className='form-review__warning'>Заполните поле</span>}
               </div>
               <div>
