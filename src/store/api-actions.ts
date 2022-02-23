@@ -4,7 +4,7 @@ import { CommentPostProps } from '../types/comment-type';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, DEFAULT_PAGE, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
 import { checkIsOnline, errorBadFiltersWarn, validateComment } from '../utils/helpers';
-import { setReviews, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews } from './actions';
+import { setReviews, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts } from './actions';
 import { RootProps } from './reducers/root-reducer';
 import { initialStateUser } from './reducers/user-reducer';
 
@@ -54,6 +54,7 @@ export const getSearchedProducts = (query: string): ThunkResult => async (dispat
 export const getCommentsFromServer = (id: number): ThunkResult => async (dispatch, _getState, api) => {
   checkIsOnline();
   const response: AxiosResponse = await api.get(`${APIRoute.Guitars}/${id}${APIRoute.Comments}`);
+  dispatch(updateReviewsCounts(`${id}-${response.data.length}`));
   dispatch(setReviews(response.data));
 };
 

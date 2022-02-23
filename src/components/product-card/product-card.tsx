@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -5,6 +6,7 @@ import { getCommentsFromServer } from '../../store/api-actions';
 import { getReviews } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, LOCALE } from '../../utils/const';
+import { getCorrectImgURL } from '../../utils/helpers';
 import ProductRate from '../product-rate/product-rate';
 
 export type ProductCardProps = {
@@ -13,10 +15,19 @@ export type ProductCardProps = {
 
 function ProductCard({ product, }: ProductCardProps): JSX.Element {
   const priceString = product.price.toLocaleString(LOCALE);
-  const [img, adress] = product.previewImg.split('/');
-  const previewImg = [img, '/content/', adress];
+  const previewImg = getCorrectImgURL(product);
   const dispatch = useDispatch();
   const reviews = useSelector(getReviews);
+  console.log(reviews.length);
+  // let commentsCount = '';
+
+  // comments.forEach((item: string) => {
+  //   const [id, count] = item.split('-');
+  //   if (+id === product.id) {
+  //     commentsCount = count;
+  //   }
+  // });
+
 
   useEffect(() => {
     dispatch(getCommentsFromServer(product.id));
@@ -25,7 +36,7 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
   return (
     <div className='product-card'>
       <img
-        src={`/${previewImg.join('')}`}
+        src={previewImg}
         width='75'
         height='190'
         alt={product.name}

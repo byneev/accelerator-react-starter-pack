@@ -51,6 +51,7 @@ export const getAppStateMock = (): InitialStateAppProps => ({
   currentProduct: getMockProduct(),
   isModalReviewSuccessOpen: false,
   isModalReviewOpen: false,
+  reviewsCounts: [],
 });
 
 export const getUserStateMock = (): InitialStateUserProps => (

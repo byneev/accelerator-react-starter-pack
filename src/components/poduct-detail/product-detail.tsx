@@ -5,6 +5,7 @@ import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setSearchedGuitars, 
 import { getIsModalReviewOpen, getIsModalReviewSuccessOpen, getReviews } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, BAD_QUERY } from '../../utils/const';
+import { getCorrectImgURL } from '../../utils/helpers';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
@@ -24,9 +25,8 @@ export type ProductDetailProps = {
 }
 
 function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
-  const [img, adress] = product.previewImg.split('/');
   const dispatch = useDispatch();
-  const previewImg = [img, '/content/', adress];
+  const previewImg = getCorrectImgURL(product);
   const reviews = useSelector(getReviews);
   const isModalReviewOpen = useSelector(getIsModalReviewOpen);
   const isModalReviewSuccessOpen = useSelector(getIsModalReviewSuccessOpen);
@@ -73,7 +73,7 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
           </h1>
           <Breadcrumbs pathsTree={[AppRoute.Main, AppRoute.Catalog, product.name]} />
 
-          <div className='product-container'><img className='product-container__img' src={`/${previewImg.join('')}`} width='90' height='235' alt='' />
+          <div className='product-container'><img className='product-container__img' src={previewImg} width='90' height='235' alt='' />
             <div className='product-container__info-wrapper'>
               <h2 className='product-container__title title title--big title--uppercase'>{product.name}</h2>
               <ProductRate rating={product.rating} ratingsCount={String(reviews.length)} route={AppRoute.Guitars} />

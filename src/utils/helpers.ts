@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { CommentPostProps } from '../types/comment-type';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { FilterProps } from '../types/filter-type';
+import { ProductProps } from '../types/product-type';
 import { BASIC_DELAY, SortType } from './const';
 
 
@@ -127,3 +128,8 @@ export const validateComment = (comment: CommentPostProps): CommentPostProps => 
   disadvantage: comment.disadvantage === '' ? 'Нет' : comment.disadvantage,
   comment: comment.comment === '' ? 'Комментарий остуствует' : comment.comment,
 });
+
+export const getCorrectImgURL = (product: ProductProps): string => {
+  const [img, adress] = product.previewImg.split('/');
+  return [img, '/content/', adress].join('');
+};

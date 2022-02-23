@@ -4,7 +4,7 @@ import { PriceRangeProps } from '../../types/price-range-type';
 import { ProductProps } from '../../types/product-type';
 import { CurrentTab } from '../../utils/const';
 import {
-  setGuitars, setSearchedGuitars, setPriceRangeAll, setReviews, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews
+  setGuitars, setSearchedGuitars, setPriceRangeAll, setReviews, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts
 } from '../actions';
 
 export type InitialStateAppProps = {
@@ -17,6 +17,7 @@ export type InitialStateAppProps = {
   currentProduct: ProductProps | null;
   isModalReviewSuccessOpen: boolean;
   isModalReviewOpen: boolean;
+  reviewsCounts: string[];
 };
 
 export const initialStateApp: InitialStateAppProps = {
@@ -32,6 +33,7 @@ export const initialStateApp: InitialStateAppProps = {
   currentProduct: null,
   isModalReviewSuccessOpen: false,
   isModalReviewOpen: false,
+  reviewsCounts: [],
 };
 
 export const appReducer = createReducer(initialStateApp, (builder) => {
@@ -65,5 +67,8 @@ export const appReducer = createReducer(initialStateApp, (builder) => {
     })
     .addCase(updateReviews, (state, { payload, }) => {
       state.reviews.push(payload);
+    })
+    .addCase(updateReviewsCounts, (state, { payload, }) => {
+      state.reviewsCounts.push(payload);
     });
 });
