@@ -7,7 +7,7 @@ import { Action } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute } from '../utils/const';
 import { getAppStateMock, getMockPostReview, getMockProduct, getMockReview, getUserStateMock } from '../utils/mock';
-import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setIsModalReviewOpen, setIsModalReviewSuccessOpen, updateReviews, setCurrentProduct } from './actions';
+import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setIsModalReviewOpen, setIsModalReviewSuccessOpen, updateReviews, setCurrentProduct, updateReviewsCounts } from './actions';
 import { getCommentsFromServer, getProductById, getProductsFromServer, getRangeByQuery, getSearchedProducts, sendReviewToServer } from './api-actions';
 import { initialStateUser } from './reducers/user-reducer';
 
@@ -36,12 +36,12 @@ describe('Test async actions', () => {
     await store.dispatch(getSearchedProducts('Ч'));
     expect(store.getActions()).toEqual([setSearchedGuitars(guitars)]);
   });
-  it('Should implement action setComments', async () => {
+  it('Should implement actions: updateReviewsCounts, setComments', async () => {
     const comments = [getMockReview(), getMockReview()];
     mockAPI.onGet(`${APIRoute.Guitars}/${'2'}${APIRoute.Comments}`).reply(200, comments);
     const store = mockStore();
     await store.dispatch(getCommentsFromServer(2));
-    expect(store.getActions()).toEqual([setReviews(comments)]);
+    expect(store.getActions()).toEqual([updateReviewsCounts(`2-${comments.length}`), setReviews(comments)]);
   });
   it('Should implement actions: setPriceRangeAll', async () => {
     const guitars = [getMockProduct(), { ...getMockProduct(), price: 22500, }];

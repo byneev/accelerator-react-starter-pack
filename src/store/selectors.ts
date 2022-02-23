@@ -42,4 +42,6 @@ export const getIsModalReviewOpen = (state: RootProps): boolean => state[NameSpa
 
 export const getStartWithQueryGuitars = createSelector([getSearchedGuitars, getSearchQuery], (guitars, query) => guitars.filter((guitar) => guitar.name.toLowerCase().startsWith(query.split('=')[1].toLowerCase())));
 
+export const getReviewsCounts = (state: RootProps): string[] => state[NameSpace.App].reviewsCounts;
+
 export const getSortedReviews = createSelector(getReviews, (reviews) => reviews.slice().sort((reviewA: CommentProps, reviewB: CommentProps) => Date.parse(reviewB.createAt) - Date.parse(reviewA.createAt)));

@@ -57,7 +57,7 @@ export const setCurrentQuery = createAction<string>(Action.SetCurrentQuery);
 
 export const setCurrentTab = createAction<CurrentTab>(Action.SetCurrentTab);
 
-export const setCurrentProduct = createAction<ProductProps>(Action.SetCurrentProduct);
+export const setCurrentProduct = createAction<ProductProps | null>(Action.SetCurrentProduct);
 
 export const setIsModalReviewSuccessOpen = createAction<boolean>(Action.SetIsModalReviewSuccessOpen);
 

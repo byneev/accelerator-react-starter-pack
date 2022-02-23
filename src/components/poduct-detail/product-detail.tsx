@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { KeyboardEvent, MouseEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setSearchedGuitars, setSearchQuery } from '../../store/actions';
@@ -17,7 +16,6 @@ import Navigation from '../navigation/navigation';
 import ProductPrice from '../product-price/product-price';
 import ProductRate from '../product-rate/product-rate';
 import ProductReviewsList from '../product-reviews-list/product-reviews-list';
-import Spinner from '../spinner/spinner';
 import Tabs from '../tabs/tabs';
 
 export type ProductDetailProps = {
@@ -199,7 +197,6 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
           </section>
         </div>
       </footer>
-      <Spinner />
       {isModalReviewSuccessOpen && <ModalSuccessReview />}
       {isModalReviewOpen && <ModalReview product={product} reviews={reviews} />}
     </div>

@@ -1,6 +1,6 @@
 import { CurrentTab } from '../../utils/const';
 import { getMockProduct, getMockReview } from '../../utils/mock';
-import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews } from '../actions';
+import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts } from '../actions';
 import { appReducer, initialStateApp } from './app-reducer';
 
 
@@ -46,5 +46,9 @@ describe('Reducer test', () => {
   });
   it('Should add new review to reviews', () => {
     expect(appReducer(initialStateApp, updateReviews(getMockReview()))).toEqual({ ...initialStateApp, reviews: [getMockReview()], });
+  });
+  it('Should add new reviewsCount to reviewsCounts', () => {
+    const reviewsCount = '1-2';
+    expect(appReducer(initialStateApp, updateReviewsCounts(reviewsCount))).toEqual({ ...initialStateApp, reviewsCounts: [reviewsCount], });
   });
 });

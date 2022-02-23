@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedGuitars, setSearchQuery } from '../../store/actions';

@@ -131,5 +131,5 @@ export const validateComment = (comment: CommentPostProps): CommentPostProps => 
 
 export const getCorrectImgURL = (product: ProductProps): string => {
   const [img, adress] = product.previewImg.split('/');
-  return [img, '/content/', adress].join('');
+  return `/${[img, '/content/', adress].join('')}`;
 };

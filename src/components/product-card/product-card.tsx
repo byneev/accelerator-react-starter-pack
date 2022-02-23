@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-import { useEffect } from 'react';
+/* */
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getCommentsFromServer } from '../../store/api-actions';
-import { getReviews } from '../../store/selectors';
+import { setCurrentProduct } from '../../store/actions';
+import { getReviewsCounts } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, LOCALE } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -14,24 +13,18 @@ export type ProductCardProps = {
 };
 
 function ProductCard({ product, }: ProductCardProps): JSX.Element {
+  const dispatch = useDispatch();
   const priceString = product.price.toLocaleString(LOCALE);
   const previewImg = getCorrectImgURL(product);
-  const dispatch = useDispatch();
-  const reviews = useSelector(getReviews);
-  console.log(reviews.length);
-  // let commentsCount = '';
+  const reviewsCounts = useSelector(getReviewsCounts);
+  let commentsCount = '';
 
-  // comments.forEach((item: string) => {
-  //   const [id, count] = item.split('-');
-  //   if (+id === product.id) {
-  //     commentsCount = count;
-  //   }
-  // });
-
-
-  useEffect(() => {
-    dispatch(getCommentsFromServer(product.id));
-  }, [dispatch, product]);
+  reviewsCounts.forEach((item: string) => {
+    const [id, count] = item.split('-');
+    if (+id === product.id) {
+      commentsCount = count;
+    }
+  });
 
   return (
     <div className='product-card'>
@@ -42,7 +35,7 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
         alt={product.name}
       />
       <div className='product-card__info'>
-        <ProductRate rating={product.rating} ratingsCount={String(reviews.length)} route={AppRoute.Catalog} />
+        <ProductRate rating={product.rating} ratingsCount={commentsCount} route={AppRoute.Catalog} />
         <p className='product-card__title'>{product.name}</p>
         <p className='product-card__price'>
           <span className='visually-hidden'>Цена:</span>
@@ -51,6 +44,7 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
       </div>
       <div className='product-card__buttons'>
         <Link
+          onClick={() => dispatch(setCurrentProduct(null))}
           className='button button--mini'
           to={`${AppRoute.Guitars}/${product.id}`}
         >

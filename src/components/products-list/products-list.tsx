@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShouldShowSpinner } from '../../store/actions';
-import { getProductsFromServer } from '../../store/api-actions';
+import { getCommentsFromServer, getProductsFromServer } from '../../store/api-actions';
 import { getCurrentQuery, getGuitars, getStartRange } from '../../store/selectors';
-import { CommentProps } from '../../types/comment-type';
 import { ProductProps } from '../../types/product-type';
-import { getMockReview } from '../../utils/mock';
 import ProductCard from '../product-card/product-card';
 
 function ProductsList(): JSX.Element {
@@ -13,15 +11,15 @@ function ProductsList(): JSX.Element {
   const currentQuery = useSelector(getCurrentQuery);
   const actualGuitars = useSelector(getGuitars);
   const startRange = useSelector(getStartRange);
-  const guitarsReviews: CommentProps[][] = [];
-  actualGuitars.forEach((guitar) => {
-    
-  })
 
   useEffect(() => {
     dispatch(setShouldShowSpinner(true));
     dispatch(getProductsFromServer(currentQuery, startRange));
   }, [dispatch, currentQuery, startRange]);
+
+  useEffect(() => {
+    actualGuitars.forEach((guitar) => dispatch(getCommentsFromServer(guitar.id)));
+  }, [actualGuitars, dispatch]);
 
   return (
     <div className='cards catalog__cards'>
