@@ -1,4 +1,4 @@
-import { KeyboardEvent, MouseEvent, useEffect } from 'react';
+import { KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setSearchedGuitars, setSearchQuery } from '../../store/actions';
 import { getIsModalReviewOpen, getIsModalReviewSuccessOpen, getReviews } from '../../store/selectors';
@@ -34,6 +34,14 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
     dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
   }, []);
 
+  useEffect(() => {
+    if (isModalReviewOpen || isModalReviewSuccessOpen) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [isModalReviewOpen, isModalReviewSuccessOpen]);
+
   const keyDownEscHandle = (evt: KeyboardEvent<HTMLDivElement>) => {
     if (evt.key === 'Escape') {
       if (isModalReviewOpen) {
@@ -55,7 +63,7 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
   };
 
   return (
-    <div onKeyDown={keyDownEscHandle} className='wrapper' tabIndex={0}>
+    <div onKeyDown={keyDownEscHandle} className='wrapper' tabIndex={0} >
       <header className='header' id='header'>
         <div className='container header__wrapper'>
           <Logo />

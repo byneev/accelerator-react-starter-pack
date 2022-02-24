@@ -1,11 +1,10 @@
-import { ChangeEvent, KeyboardEvent, MouseEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, KeyboardEvent as KeyboardEventReact, MouseEvent, SyntheticEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalReviewOpen } from '../../store/actions';
 import { sendReviewToServer } from '../../store/api-actions';
 import { getIsModalReviewOpen } from '../../store/selectors';
 import { CommentPostProps, CommentProps } from '../../types/comment-type';
 import { ProductProps } from '../../types/product-type';
-import { DEFAULT_REVIEWS_COUNT } from '../../utils/const';
 
 export type ModalReviewProps = {
   product: ProductProps,
@@ -21,11 +20,12 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
   const comment = useRef<HTMLTextAreaElement>(null);
   const buttonClose = useRef<HTMLButtonElement>(null);
   const buttonSubmit = useRef<HTMLButtonElement>(null);
-  const [currentRating, setCurrentRating] = useState(DEFAULT_REVIEWS_COUNT);
-  const [isChecked, setIsChecked] = useState(false);
-  const [userInput, setUserInput] = useState('');
+  const [checkedButtonValue, setCheckedButtonValue] = useState(0);
+  const [hoveredButtonValue, setHoveredButtonValue] = useState(0);
+  const [userNameTriesCount, setUserNameTriesCount] = useState(0);
+  const [userRateTriesCount, setRateNameTriesCount] = useState(0);
 
-  const tabKeydownHandle = (evt: KeyboardEvent) => {
+  const tabKeydownHandle = (evt: KeyboardEventReact) => {
     if (evt.key === 'Tab') {
       if (document.activeElement === buttonClose.current) {
         userName.current && userName.current.focus();
@@ -34,15 +34,9 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
     }
   };
 
-  const userInputHandle = (evt: ChangeEvent<HTMLInputElement>) => {
-    setUserInput(evt.target.value);
-  };
-
-
   const changeRateRadiobuttonHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.checked) {
-      setCurrentRating(+evt.target.value);
-      setIsChecked(true);
+      setCheckedButtonValue(+evt.target.value);
     }
   };
 
@@ -59,7 +53,7 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
     }
   };
 
-  const submitButtonClickHandle = (evt: MouseEvent<HTMLFormElement>) => {
+  const submitHandle = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const currentComment: CommentPostProps = {
       guitarId: product.id,
@@ -67,9 +61,30 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
       advantage: advantage.current ? advantage.current.value : '',
       disadvantage: disadvantage.current ? disadvantage.current.value : '',
       comment: comment.current ? comment.current.value : '',
-      rating: currentRating,
+      rating: checkedButtonValue,
     };
-    dispatch(sendReviewToServer(currentComment));
+    if (currentComment.userName !== '' && currentComment.rating !== 0) {
+      dispatch(sendReviewToServer(currentComment));
+    }
+    if (currentComment.userName === '') {
+      setUserNameTriesCount((previous) => previous + 1);
+    }
+    if (currentComment.rating === 0) {
+      setRateNameTriesCount((previous) => previous + 1);
+    }
+  };
+
+  const hoverRateLabelHandle = (evt: SyntheticEvent) => {
+    if (!(evt.target instanceof HTMLLabelElement)) {
+      return;
+    }
+    if (evt.target.dataset.id) {
+      setHoveredButtonValue(+evt.target.dataset.id);
+    }
+  };
+
+  const unhoverRateLabelHandle = (evt: MouseEvent<HTMLLabelElement>) => {
+    setHoveredButtonValue(0);
   };
 
   return (
@@ -79,27 +94,27 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
         <div className='modal__content'>
           <h2 className='modal__header modal__header--review title title--medium'>Оставить отзыв</h2>
           <h3 className='modal__product-name title title--medium-20 title--uppercase'>{product.name}</h3>
-          <form onSubmit={submitButtonClickHandle} className='form-review'>
+          <form onSubmit={submitHandle} className='form-review'>
             <div className='form-review__wrapper'>
               <div className='form-review__name-wrapper'>
                 <label className='form-review__label form-review__label--required' htmlFor='user-name'>Ваше Имя</label>
-                <input name='name-field' autoFocus onChange={userInputHandle} ref={userName} className='form-review__input form-review__input--name' id='user-name' type='text' autoComplete='off' required />
-                {userInput.length === 0 && <span className='form-review__warning'>Заполните поле</span>}
+                <input name='name-field' autoFocus ref={userName} className='form-review__input form-review__input--name' id='user-name' type='text' autoComplete='off' />
+                {userNameTriesCount > 0 && <span className='form-review__warning'>Заполните поле</span>}
               </div>
               <div>
                 <span className='form-review__label form-review__label--required'>Ваша Оценка</span>
-                <div className='rate rate--reverse'>
-                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-5' name='rate' value='5' required />
-                  <label className='rate__label' htmlFor='star-5' title='Отлично'></label>
-                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-4' name='rate' value='4' />
-                  <label className='rate__label' htmlFor='star-4' title='Хорошо'></label>
-                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-3' name='rate' value='3' />
-                  <label className='rate__label' htmlFor='star-3' title='Нормально'></label>
-                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-2' name='rate' value='2' />
-                  <label className='rate__label' htmlFor='star-2' title='Плохо'></label>
+                <div className='rate'>
                   <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-1' name='rate' value='1' />
-                  <label className='rate__label' htmlFor='star-1' title='Ужасно'></label>
-                  {!isChecked && <span className='rate__message'>Поставьте оценку</span>}
+                  <label data-id='1' onMouseLeave={unhoverRateLabelHandle} onMouseOver={hoverRateLabelHandle} className={checkedButtonValue >= 1 || hoveredButtonValue >= 1 ? 'rate__label rate__label--full-star' : 'rate__label'} htmlFor='star-1' title='Ужасно'></label>
+                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-2' name='rate' value='2' />
+                  <label data-id='2' onMouseLeave={unhoverRateLabelHandle} onMouseOver={hoverRateLabelHandle} className={checkedButtonValue >= 2 || hoveredButtonValue >= 2 ? 'rate__label rate__label--full-star' : 'rate__label'} htmlFor='star-2' title='Плохо'></label>
+                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-3' name='rate' value='3' />
+                  <label data-id='3' onMouseLeave={unhoverRateLabelHandle} onMouseOver={hoverRateLabelHandle} className={checkedButtonValue >= 3 || hoveredButtonValue >= 3 ? 'rate__label rate__label--full-star' : 'rate__label'} htmlFor='star-3' title='Нормально'></label>
+                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-4' name='rate' value='4' />
+                  <label data-id='4' onMouseLeave={unhoverRateLabelHandle} onMouseOver={hoverRateLabelHandle} className={checkedButtonValue >= 4 || hoveredButtonValue >= 4 ? 'rate__label rate__label--full-star' : 'rate__label'} htmlFor='star-4' title='Хорошо'></label>
+                  <input onChange={changeRateRadiobuttonHandle} className='visually-hidden' type='radio' id='star-5' name='rate' value='5' />
+                  <label data-id='5' onMouseLeave={unhoverRateLabelHandle} onMouseOver={hoverRateLabelHandle} className={checkedButtonValue >= 5 || hoveredButtonValue >= 5 ? 'rate__label rate__label--full-star' : 'rate__label'} htmlFor='star-5' title='Отлично'></label>
+                  {userRateTriesCount > 0 && <span className='rate__message'>Поставьте оценку</span>}
                 </div>
               </div>
             </div>

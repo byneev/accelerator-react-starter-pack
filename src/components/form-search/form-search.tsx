@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
 import { getSearchedProducts } from '../../store/api-actions';
@@ -8,14 +8,52 @@ import SearchSelect from '../search-select/search-select';
 
 function FormSearch(): JSX.Element {
   const dispatch = useDispatch();
+  const formContainer = useRef<HTMLDivElement>(null);
   const searchQuery = useSelector(getSearchQuery);
   const [inputValue, setInputValue] = useState('');
+
+  const keydownTabHandle = (evt: Event) => {
+    if (!(evt instanceof KeyboardEvent)) {
+      return;
+    }
+    if (evt.key === 'Tab') {
+      if (formContainer.current && !formContainer.current.contains(document.activeElement)) {
+        setInputValue('');
+        setTimeout(() => {
+          dispatch(setSearchedGuitars([]));
+        }, FAST_DELAY);
+        evt.preventDefault();
+      }
+    }
+  };
+
+  const clickHandle = (evt: MouseEvent) => {
+    if (!(evt.target instanceof Node)) {
+      return;
+    }
+    if (formContainer.current && !formContainer.current.contains(evt.target)) {
+      setInputValue('');
+      setTimeout(() => {
+        dispatch(setSearchedGuitars([]));
+      }, FAST_DELAY);
+    }
+    evt.preventDefault();
+  };
 
   useEffect(() => {
     if (searchQuery !== '') {
       dispatch(getSearchedProducts(searchQuery));
     }
   }, [searchQuery, dispatch]);
+
+  useEffect(() => {
+    document.body.addEventListener('keydown', keydownTabHandle);
+    document.body.addEventListener('click', clickHandle);
+    return () => {
+      document.body.removeEventListener('keydown', keydownTabHandle);
+      document.body.removeEventListener('click', clickHandle);
+    };
+  }, []);
 
   const searchFormChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     evt.preventDefault();
@@ -28,9 +66,8 @@ function FormSearch(): JSX.Element {
     }
   };
 
-
   return (
-    <div className='form-search'>
+    <div ref={formContainer} className='form-search'>
       <form className='form-search__form'>
         <button className='form-search__submit' type='submit'>
           <svg
@@ -44,12 +81,6 @@ function FormSearch(): JSX.Element {
           <span className='visually-hidden'>Начать поиск</span>
         </button>
         <input onChange={searchFormChangeHandle}
-          onBlur={() => {
-            setInputValue('');
-            setTimeout(() => {
-              dispatch(setSearchedGuitars([]));
-            }, FAST_DELAY);
-          }}
           className='form-search__input'
           id='search'
           type='text'

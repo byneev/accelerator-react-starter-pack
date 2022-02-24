@@ -8,7 +8,7 @@ export type SearchSelectItemProps = {
 
 function SearchSelectItem({ children, id, }: SearchSelectItemProps): JSX.Element {
   return (
-    <Link to={`${AppRoute.Guitars}/${id}`} className='form-search__select-item' tabIndex={0}>
+    <Link to={`${AppRoute.Guitars}/${id}`} className='form-search__select-item'>
       {children}
     </Link >
   );

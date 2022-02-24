@@ -1,8 +1,11 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../utils/const';
+import { setSearchedGuitars } from '../../store/actions';
+import { AppRoute, FAST_DELAY } from '../../utils/const';
 
 function CartLink(): JSX.Element {
   const mockGoodsCount = 2;
+  const dispatch = useDispatch();
 
   return (
     <Link
@@ -10,6 +13,11 @@ function CartLink(): JSX.Element {
       className='header__cart-link'
       to={AppRoute.Cart}
       aria-label='Корзина'
+      onFocus={() => {
+        setTimeout(() => {
+          dispatch(setSearchedGuitars([]));
+        }, FAST_DELAY);
+      }}
     >
       <svg
         className='header__cart-icon'

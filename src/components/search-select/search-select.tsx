@@ -11,7 +11,7 @@ function SearchSelect(): JSX.Element {
   }
 
   return (
-    <ul style={{ zIndex: 100, }} className={classNames.join(' ')} tabIndex={0}>
+    <ul style={{ zIndex: 100, }} className={classNames.join(' ')}>
       {searchResults.map((item: ProductProps) => (
         <SearchSelectItem key={item.id} id={item.id}>{item.name}</SearchSelectItem>
       ))}
