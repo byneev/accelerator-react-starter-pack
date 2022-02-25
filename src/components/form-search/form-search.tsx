@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
 import { getSearchedProducts } from '../../store/api-actions';
@@ -12,7 +12,7 @@ function FormSearch(): JSX.Element {
   const searchQuery = useSelector(getSearchQuery);
   const [inputValue, setInputValue] = useState('');
 
-  const keydownTabHandle = (evt: Event) => {
+  const keydownTabHandle = useCallback((evt: Event) => {
     if (!(evt instanceof KeyboardEvent)) {
       return;
     }
@@ -22,13 +22,14 @@ function FormSearch(): JSX.Element {
         setTimeout(() => {
           dispatch(setSearchedGuitars([]));
         }, FAST_DELAY);
+        document.body.removeEventListener('keydown', keydownTabHandle);
         evt.preventDefault();
       }
     }
-  };
+  }, [dispatch]);
 
-  const clickHandle = (evt: MouseEvent) => {
-    if (!(evt.target instanceof Node)) {
+  const clickHandle = useCallback((evt: MouseEvent) => {
+    if (!(evt.target instanceof Node) || evt.target instanceof HTMLLinkElement || evt.target instanceof HTMLAnchorElement || evt.target instanceof HTMLButtonElement || evt.target instanceof HTMLLabelElement || evt.target instanceof HTMLInputElement) {
       return;
     }
     if (formContainer.current && !formContainer.current.contains(evt.target)) {
@@ -38,7 +39,7 @@ function FormSearch(): JSX.Element {
       }, FAST_DELAY);
     }
     evt.preventDefault();
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchQuery !== '') {
@@ -46,14 +47,18 @@ function FormSearch(): JSX.Element {
     }
   }, [searchQuery, dispatch]);
 
+  // Можно добавлять листенеры на фокусе и удалять на blur
   useEffect(() => {
-    document.body.addEventListener('keydown', keydownTabHandle);
+    const header = document.querySelector('.header');
+    if (header) {
+      header.addEventListener('keydown', keydownTabHandle);
+    }
     document.body.addEventListener('click', clickHandle);
     return () => {
       document.body.removeEventListener('keydown', keydownTabHandle);
       document.body.removeEventListener('click', clickHandle);
     };
-  }, []);
+  }, [clickHandle, keydownTabHandle]);
 
   const searchFormChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     evt.preventDefault();

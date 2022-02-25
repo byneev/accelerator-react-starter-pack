@@ -23,7 +23,7 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
   const [checkedButtonValue, setCheckedButtonValue] = useState(0);
   const [hoveredButtonValue, setHoveredButtonValue] = useState(0);
   const [userNameTriesCount, setUserNameTriesCount] = useState(0);
-  const [userRateTriesCount, setRateNameTriesCount] = useState(0);
+  const [userRateTriesCount, setRateTriesCount] = useState(0);
 
   const tabKeydownHandle = (evt: KeyboardEventReact) => {
     if (evt.key === 'Tab') {
@@ -67,10 +67,14 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
       dispatch(sendReviewToServer(currentComment));
     }
     if (currentComment.userName === '') {
-      setUserNameTriesCount((previous) => previous + 1);
+      setUserNameTriesCount(1);
+    } else {
+      setUserNameTriesCount(0);
     }
     if (currentComment.rating === 0) {
-      setRateNameTriesCount((previous) => previous + 1);
+      setRateTriesCount(1);
+    } else {
+      setRateTriesCount(0);
     }
   };
 
