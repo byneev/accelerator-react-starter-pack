@@ -45,3 +45,5 @@ export const getStartWithQueryGuitars = createSelector([getSearchedGuitars, getS
 export const getReviewsCounts = (state: RootProps): string[] => state[NameSpace.App].reviewsCounts;
 
 export const getSortedReviews = createSelector(getReviews, (reviews) => reviews.slice().sort((reviewA: CommentProps, reviewB: CommentProps) => Date.parse(reviewB.createAt) - Date.parse(reviewA.createAt)));
+
+export const getSearchInput = (state: RootProps): string => state[NameSpace.User].searchInput;

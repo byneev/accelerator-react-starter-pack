@@ -25,6 +25,7 @@ export enum Action {
   SetIsModalReviewOpen = 'setIsModalReviewOpen',
   UpdateReviews = 'updateReviews',
   UpdateReviewsCounts = 'updateReviewsCounts',
+  SetSearchInput = 'setSearchInput',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -66,3 +67,5 @@ export const setIsModalReviewOpen = createAction<boolean>(Action.SetIsModalRevie
 export const updateReviews = createAction<CommentProps>(Action.UpdateReviews);
 
 export const updateReviewsCounts = createAction<string>(Action.UpdateReviewsCounts);
+
+export const setSearchInput = createAction<string>(Action.SetSearchInput);

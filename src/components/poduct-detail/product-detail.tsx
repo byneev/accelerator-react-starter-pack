@@ -1,6 +1,6 @@
 import { KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setSearchedGuitars, setSearchQuery } from '../../store/actions';
+import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setSearchedGuitars, setSearchInput, setSearchQuery } from '../../store/actions';
 import { getIsModalReviewOpen, getIsModalReviewSuccessOpen, getReviews } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, BAD_QUERY } from '../../utils/const';
@@ -30,9 +30,10 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
   const isModalReviewSuccessOpen = useSelector(getIsModalReviewSuccessOpen);
 
   useEffect(() => {
+    dispatch(setSearchInput(''));
     dispatch(setSearchedGuitars([]));
     dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
-  }, []);
+  }, [dispatch, product]);
 
   useEffect(() => {
     if (isModalReviewOpen || isModalReviewSuccessOpen) {

@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setSearchedGuitars } from '../../store/actions';
+import { setSearchedGuitars, setSearchInput } from '../../store/actions';
 import { AppRoute, FAST_DELAY } from '../../utils/const';
 
 function CartLink(): JSX.Element {
@@ -15,6 +15,7 @@ function CartLink(): JSX.Element {
       aria-label='Корзина'
       onFocus={() => {
         setTimeout(() => {
+          dispatch(setSearchInput(''));
           dispatch(setSearchedGuitars([]));
         }, FAST_DELAY);
       }}

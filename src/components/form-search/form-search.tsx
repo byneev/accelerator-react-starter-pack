@@ -1,8 +1,8 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
+import { setSearchedGuitars, setSearchInput, setSearchQuery } from '../../store/actions';
 import { getSearchedProducts } from '../../store/api-actions';
-import { getSearchQuery } from '../../store/selectors';
+import { getSearchInput, getSearchQuery } from '../../store/selectors';
 import { BAD_QUERY, FAST_DELAY } from '../../utils/const';
 import SearchSelect from '../search-select/search-select';
 
@@ -10,7 +10,7 @@ function FormSearch(): JSX.Element {
   const dispatch = useDispatch();
   const formContainer = useRef<HTMLDivElement>(null);
   const searchQuery = useSelector(getSearchQuery);
-  const [inputValue, setInputValue] = useState('');
+  const searchInput = useSelector(getSearchInput);
 
   const keydownTabHandle = useCallback((evt: Event) => {
     if (!(evt instanceof KeyboardEvent)) {
@@ -18,7 +18,7 @@ function FormSearch(): JSX.Element {
     }
     if (evt.key === 'Tab') {
       if (formContainer.current && !formContainer.current.contains(document.activeElement)) {
-        setInputValue('');
+        dispatch(setSearchInput(''));
         setTimeout(() => {
           dispatch(setSearchedGuitars([]));
         }, FAST_DELAY);
@@ -33,7 +33,7 @@ function FormSearch(): JSX.Element {
       return;
     }
     if (formContainer.current && !formContainer.current.contains(evt.target)) {
-      setInputValue('');
+      dispatch(setSearchInput(''));
       setTimeout(() => {
         dispatch(setSearchedGuitars([]));
       }, FAST_DELAY);
@@ -42,33 +42,40 @@ function FormSearch(): JSX.Element {
   }, [dispatch]);
 
   useEffect(() => {
+    document.body.removeEventListener('keydown', keydownTabHandle);
+    document.body.removeEventListener('click', clickHandle);
+    return () => {
+      document.body.removeEventListener('keydown', keydownTabHandle);
+      document.body.removeEventListener('click', clickHandle);
+    };
+  }, []);
+
+  useEffect(() => {
     if (searchQuery !== '') {
       dispatch(getSearchedProducts(searchQuery));
     }
   }, [searchQuery, dispatch]);
 
-  // Можно добавлять листенеры на фокусе и удалять на blur
   useEffect(() => {
-    const header = document.querySelector('.header');
-    if (header) {
-      header.addEventListener('keydown', keydownTabHandle);
-    }
-    document.body.addEventListener('click', clickHandle);
-    return () => {
+    if (searchInput === '') {
       document.body.removeEventListener('keydown', keydownTabHandle);
       document.body.removeEventListener('click', clickHandle);
-    };
-  }, [clickHandle, keydownTabHandle]);
+    }
+  }, [clickHandle, keydownTabHandle, searchInput]);
 
   const searchFormChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
-    evt.preventDefault();
-    setInputValue(evt.target.value);
+    dispatch(setSearchInput(evt.target.value));
     if (evt.target.value === '') {
       dispatch(setSearchedGuitars([]));
       dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
     } else {
       dispatch(setSearchQuery(`name_like=${evt.target.value}`));
     }
+  };
+
+  const setListeners = () => {
+    document.body.addEventListener('keydown', keydownTabHandle);
+    document.body.addEventListener('click', clickHandle);
   };
 
   return (
@@ -86,12 +93,13 @@ function FormSearch(): JSX.Element {
           <span className='visually-hidden'>Начать поиск</span>
         </button>
         <input onChange={searchFormChangeHandle}
+          onFocus={setListeners}
           className='form-search__input'
           id='search'
           type='text'
           autoComplete='off'
           placeholder='что вы ищите?'
-          value={inputValue}
+          value={searchInput}
         />
         <label className='visually-hidden' htmlFor='search'>
           Поиск

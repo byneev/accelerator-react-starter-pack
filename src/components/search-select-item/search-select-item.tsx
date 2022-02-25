@@ -1,5 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../utils/const';
+import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
+import { AppRoute, BAD_QUERY } from '../../utils/const';
 
 export type SearchSelectItemProps = {
   children: string;
@@ -7,8 +9,14 @@ export type SearchSelectItemProps = {
 };
 
 function SearchSelectItem({ children, id, }: SearchSelectItemProps): JSX.Element {
+  const dispatch = useDispatch();
+
   return (
-    <Link to={`${AppRoute.Guitars}/${id}`} className='form-search__select-item'>
+    <Link to={`${AppRoute.Guitars}/${id}`} onClick={() => {
+      dispatch(setSearchedGuitars([]));
+      dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
+    }} className='form-search__select-item'
+    >
       {children}
     </Link >
   );
