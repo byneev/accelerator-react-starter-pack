@@ -1,9 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { FilterProps } from '../../types/filter-type';
+import { ProductProps } from '../../types/product-type';
 import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import {
   setCurrentFilters, setCurrentSort, setStartRange,
-  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput
+  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars
 } from '../actions';
 
 export type InitialStateUserProps = {
@@ -15,6 +16,7 @@ export type InitialStateUserProps = {
   currentPage: string;
   currentQuery: string;
   searchInput: string;
+  cartGuitars: ProductProps[];
 };
 
 export const initialStateUser: InitialStateUserProps = {
@@ -40,6 +42,7 @@ export const initialStateUser: InitialStateUserProps = {
   currentPage: '1',
   currentQuery: '',
   searchInput: '',
+  cartGuitars: [],
 };
 
 export const userReducer = createReducer(initialStateUser, (builder) => {
@@ -67,5 +70,16 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
     })
     .addCase(setSearchInput, (state, { payload, }) => {
       state.searchInput = payload;
+    })
+    .addCase(addToCartGuitars, (state, { payload, }) => {
+      if (!state.cartGuitars.includes(payload)) {
+        state.cartGuitars.push(payload);
+      }
+    })
+    .addCase(removeFromCartGuitars, (state, { payload, }) => {
+      const index = state.cartGuitars.indexOf(payload);
+      if (index !== -1) {
+        state.cartGuitars = [...state.cartGuitars.slice(0, index), ...state.cartGuitars.slice(index)];
+      }
     });
 });

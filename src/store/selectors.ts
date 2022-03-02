@@ -47,3 +47,11 @@ export const getReviewsCounts = (state: RootProps): string[] => state[NameSpace.
 export const getSortedReviews = createSelector(getReviews, (reviews) => reviews.slice().sort((reviewA: CommentProps, reviewB: CommentProps) => Date.parse(reviewB.createAt) - Date.parse(reviewA.createAt)));
 
 export const getSearchInput = (state: RootProps): string => state[NameSpace.User].searchInput;
+
+export const getCartGuitars = (state: RootProps): ProductProps[] => state[NameSpace.User].cartGuitars;
+
+export const getCartSum = (state: RootProps): number => state[NameSpace.Cart];
+
+export const getIsModalToCartOpen = (state: RootProps): boolean => state[NameSpace.App].isModalToCartOpen;
+
+export const getIsModalToCartSuccessOpen = (state: RootProps): boolean => state[NameSpace.App].isModalToCartSuccessOpen;

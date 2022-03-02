@@ -20,6 +20,8 @@ export const FAST_DELAY = 500;
 
 export const MIDDLE_DELAY = 2000;
 
+export const MAX_COUNT_IN_CART = 99;
+
 export enum AppRoute {
   Main = '/',
   NotFound = '/404',

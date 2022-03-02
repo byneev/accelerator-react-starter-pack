@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { setSearchedGuitars, setSearchInput } from '../../store/actions';
 import { AppRoute, FAST_DELAY } from '../../utils/const';
 
-function CartLink(): JSX.Element {
-  const mockGoodsCount = 2;
+export type CartLinkProps = {
+  productsCount: number;
+}
+
+function CartLink({ productsCount, }: CartLinkProps): JSX.Element {
   const dispatch = useDispatch();
 
   return (
@@ -29,7 +32,7 @@ function CartLink(): JSX.Element {
         <use xlinkHref='#icon-basket'></use>
       </svg>
       <span className='visually-hidden'>Перейти в корзину</span>
-      <span className='header__cart-count'>{mockGoodsCount}</span>
+      <span className='header__cart-count'>{productsCount !== 0 ? productsCount : ''}</span>
     </Link>
   );
 }

@@ -26,6 +26,10 @@ export enum Action {
   UpdateReviews = 'updateReviews',
   UpdateReviewsCounts = 'updateReviewsCounts',
   SetSearchInput = 'setSearchInput',
+  AddToCartGuitars = 'addToCartGuitars',
+  RemoveFromCartGuitars = 'removeFromCartGuitars',
+  SetIsModalToCartOpen = 'setIsModalToCartOpen',
+  SetIsModalToCartSuccessOpen = 'setIsModalToCartSuccessOpen'
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -69,3 +73,11 @@ export const updateReviews = createAction<CommentProps>(Action.UpdateReviews);
 export const updateReviewsCounts = createAction<string>(Action.UpdateReviewsCounts);
 
 export const setSearchInput = createAction<string>(Action.SetSearchInput);
+
+export const addToCartGuitars = createAction<ProductProps>(Action.AddToCartGuitars);
+
+export const removeFromCartGuitars = createAction<ProductProps>(Action.RemoveFromCartGuitars);
+
+export const setIsModalToCartOpen = createAction<boolean>(Action.SetIsModalToCartOpen);
+
+export const setIsModalToCartSuccessOpen = createAction<boolean>(Action.SetIsModalToCartSuccessOpen);

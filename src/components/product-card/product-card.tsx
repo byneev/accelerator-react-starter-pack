@@ -1,8 +1,8 @@
-/* */
+import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setCurrentProduct } from '../../store/actions';
-import { getReviewsCounts } from '../../store/selectors';
+import { setCurrentProduct, setIsModalToCartOpen } from '../../store/actions';
+import { getCartGuitars, getReviewsCounts } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, LOCALE } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -17,6 +17,7 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
   const priceString = product.price.toLocaleString(LOCALE);
   const previewImg = getCorrectImgURL(product);
   const reviewsCounts = useSelector(getReviewsCounts);
+  const cartGuitars = useSelector(getCartGuitars);
   let commentsCount = '';
 
   reviewsCounts.forEach((item: string) => {
@@ -25,6 +26,11 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
       commentsCount = count;
     }
   });
+
+  const AddToCartButtonClickHandle = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(setIsModalToCartOpen(true));
+  };
 
   return (
     <div className='product-card'>
@@ -50,12 +56,9 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
         >
           Подробнее
         </Link>
-        <a
-          className='button button--red button--mini button--add-to-cart'
-          href='/'
-        >
-          Купить
-        </a>
+        {cartGuitars.includes(product) ?
+          <Link to={AppRoute.Cart} className='button button--red-border button--mini button--in-cart'>В Корзине</Link> :
+          <a onClick={AddToCartButtonClickHandle} className='button button--red button--mini button--add-to-cart' href=''>Купить</a>}
       </div>
     </div>
   );

@@ -18,6 +18,8 @@ export type InitialStateAppProps = {
   isModalReviewSuccessOpen: boolean;
   isModalReviewOpen: boolean;
   reviewsCounts: string[];
+  isModalToCartOpen: boolean;
+  isModalToCartSuccessOpen: boolean;
 };
 
 export const initialStateApp: InitialStateAppProps = {
@@ -34,6 +36,8 @@ export const initialStateApp: InitialStateAppProps = {
   isModalReviewSuccessOpen: false,
   isModalReviewOpen: false,
   reviewsCounts: [],
+  isModalToCartOpen: false,
+  isModalToCartSuccessOpen: false,
 };
 
 export const appReducer = createReducer(initialStateApp, (builder) => {
