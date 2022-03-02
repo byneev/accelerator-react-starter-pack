@@ -21,7 +21,7 @@ function Cart(): JSX.Element {
           <Logo />
           <Navigation />
           <FormSearch />
-          <CartLink />
+          <CartLink productsCount={cartGuitars.length} />
         </div>
       </header>
       <main className='page-content'>
