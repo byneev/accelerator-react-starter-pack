@@ -1,6 +1,6 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFromCartGuitars } from '../../store/actions';
+import { setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
 import { cartReducer } from '../../store/reducers/cart-reducer';
 import { getCartSum } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
@@ -16,27 +16,23 @@ function CartItem({ product, }: CartItemProps): JSX.Element {
   const cartSum = useSelector(getCartSum);
   const [quantity, setQuantity] = useState(1);
 
-  // useEffect(() => {
-  //   if (quantity === 0) {
-  //     dispatch(removeFromCartGuitars(product));
-  //   }
-  // }, [dispatch, product, quantity]);
-
   const quantityButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!(evt.target instanceof HTMLButtonElement)) {
       return;
     }
     const name = evt.target.name;
-    if (name === 'minus' && quantity > 0) {
-      if (quantity === 0) {
-        dispatch(removeFromCartGuitars(product));
-      }
+    if (name === 'minus' && quantity > 1) {
       setQuantity((previous) => previous - 1);
       dispatch(cartReducer.actions.decrementCartSum(product.price));
     }
     if (name === 'plus' && quantity < 99) {
       setQuantity((previous) => previous + 1);
       dispatch(cartReducer.actions.incrementCartSum(product.price));
+    }
+    if (name === 'minus' && quantity === 1) {
+      dispatch(cartReducer.actions.decrementCartSum(product.price));
+      dispatch(setLastQuantity(quantity));
+      dispatch(setIsModalToCartOpen(true));
     }
   };
 
@@ -53,13 +49,15 @@ function CartItem({ product, }: CartItemProps): JSX.Element {
     }
   };
 
-  const closeButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
-    dispatch(removeFromCartGuitars(product));
+  const removeButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
+    dispatch(cartReducer.actions.decrementCartSum(quantity * product.price));
+    dispatch(setLastQuantity(quantity));
+    dispatch(setIsModalToCartOpen(true));
   };
 
   return (
     <div className='cart-item'>
-      <button onClick={closeButtonClickHandle} className='cart-item__close-button button-cross' type='button' aria-label='Удалить'><span className='button-cross__icon'></span><span className='cart-item__close-button-interactive-area'></span>
+      <button onClick={removeButtonClickHandle} className='cart-item__close-button button-cross' type='button' aria-label='Удалить'><span className='button-cross__icon'></span><span className='cart-item__close-button-interactive-area'></span>
       </button>
       <div className='cart-item__image'>
         <img src={getCorrectImgURL(product)} width='55' height='130' alt='ЭлектроГитара Честер bass' />

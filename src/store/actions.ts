@@ -29,7 +29,9 @@ export enum Action {
   AddToCartGuitars = 'addToCartGuitars',
   RemoveFromCartGuitars = 'removeFromCartGuitars',
   SetIsModalToCartOpen = 'setIsModalToCartOpen',
-  SetIsModalToCartSuccessOpen = 'setIsModalToCartSuccessOpen'
+  SetIsModalToCartSuccessOpen = 'setIsModalToCartSuccessOpen',
+  SetLastQuantity = 'setLastQuantity',
+  SetCartProduct = 'setCartProduct',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -81,3 +83,7 @@ export const removeFromCartGuitars = createAction<ProductProps>(Action.RemoveFro
 export const setIsModalToCartOpen = createAction<boolean>(Action.SetIsModalToCartOpen);
 
 export const setIsModalToCartSuccessOpen = createAction<boolean>(Action.SetIsModalToCartSuccessOpen);
+
+export const setLastQuantity = createAction<number>(Action.SetLastQuantity);
+
+export const setCartProduct = createAction<ProductProps | null>(Action.SetCartProduct);

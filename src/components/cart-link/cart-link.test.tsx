@@ -21,7 +21,7 @@ describe('Test CartLink component', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <CartLink />
+          <CartLink productsCount={2} />
         </Router>
       </Provider>
     );

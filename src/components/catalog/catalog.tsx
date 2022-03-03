@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { KeyboardEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setSearchedGuitars, setSearchQuery, setStartRange } from '../../store/actions';
+import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setIsModalToCartOpen, setIsModalToCartSuccessOpen, setSearchedGuitars, setSearchQuery, setStartRange } from '../../store/actions';
 import { initialStateUser } from '../../store/reducers/user-reducer';
-import { getCurrentFilters } from '../../store/selectors';
+import { getCartGuitars, getCartProduct, getCurrentFilters, getIsModalToCartOpen, getIsModalToCartSuccessOpen } from '../../store/selectors';
 import { AppRoute, BAD_QUERY, PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
@@ -11,6 +11,8 @@ import FooterNavItem from '../footer-nav-item/footer-nav-item';
 import FormFilter from '../form-filter/form-filter';
 import FormSearch from '../form-search/form-search';
 import Logo from '../logo/logo';
+import ModalCartSuccess from '../modal-cart-success/modal-cart-success';
+import ModalToCart from '../modal-to-cart/modal-to-cart';
 import Navigation from '../navigation/navigation';
 import Pagination from '../pagination/pagination';
 import ProductsList from '../products-list/products-list';
@@ -20,6 +22,10 @@ import Spinner from '../spinner/spinner';
 function Catalog(): JSX.Element {
   const dispatch = useDispatch();
   const filters = useSelector(getCurrentFilters);
+  const cartGuitars = useSelector(getCartGuitars);
+  const isModalToCartOpen = useSelector(getIsModalToCartOpen);
+  const isModalToCartSuccessOpen = useSelector(getIsModalToCartSuccessOpen);
+  const cartProduct = useSelector(getCartProduct);
   const location = useLocation();
   const urlSearch = new URLSearchParams(location.search);
   const { page, } = useParams<{ page?: string }>();
@@ -29,6 +35,14 @@ function Catalog(): JSX.Element {
     dispatch(setSearchedGuitars([]));
     dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
   }, []);
+
+  useEffect(() => {
+    if (isModalToCartOpen && isModalToCartSuccessOpen) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [isModalToCartOpen, isModalToCartSuccessOpen]);
 
   useEffect(() => {
     if (filters === initialStateUser.currentFilters &&
@@ -65,14 +79,30 @@ function Catalog(): JSX.Element {
 
   }, [dispatch, location.search]);
 
+  const modalCloseHandle = () => {
+    if (isModalToCartOpen) {
+      dispatch(setIsModalToCartOpen(false));
+    }
+    if (isModalToCartSuccessOpen) {
+      dispatch(setIsModalToCartSuccessOpen(false));
+    }
+  };
+
+  const keydownEscapeHandle = (evt: KeyboardEvent<HTMLDivElement>) => {
+    if (evt.key === 'Escape') {
+      modalCloseHandle();
+    }
+  };
+
+
   return (
-    <div className='wrapper'>
+    <div onKeyDown={keydownEscapeHandle} className='wrapper'>
       <header className='header' id='header'>
         <div className='container header__wrapper'>
           <Logo />
           <Navigation />
           <FormSearch />
-          <CartLink />
+          <CartLink productsCount={cartGuitars.length} />
         </div>
       </header>
       <main className='page-content'>
@@ -205,6 +235,8 @@ function Catalog(): JSX.Element {
         </div>
       </footer>
       <Spinner />
+      {isModalToCartOpen && cartProduct && <ModalToCart product={cartProduct} container={AppRoute.Cart} />}
+      {isModalToCartSuccessOpen && cartProduct && <ModalCartSuccess product={cartProduct} container={AppRoute.Cart} />}
     </div>
   );
 }

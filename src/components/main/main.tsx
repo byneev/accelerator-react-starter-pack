@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedGuitars, setSearchQuery } from '../../store/actions';
+import { getCartGuitars } from '../../store/selectors';
 import { AppRoute, BAD_QUERY } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartLink from '../cart-link/cart-link';
@@ -11,6 +12,7 @@ import Navigation from '../navigation/navigation';
 
 function Main(): JSX.Element {
   const dispatch = useDispatch();
+  const cartGuitars = useSelector(getCartGuitars);
 
   useEffect(() => {
     dispatch(setSearchedGuitars([]));
@@ -24,7 +26,7 @@ function Main(): JSX.Element {
           <Logo />
           <Navigation />
           <FormSearch />
-          <CartLink />
+          <CartLink productsCount={cartGuitars.length} />
         </div>
       </header>
       <main className='page-content'>

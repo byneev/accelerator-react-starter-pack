@@ -52,6 +52,9 @@ export const getAppStateMock = (): InitialStateAppProps => ({
   isModalReviewSuccessOpen: false,
   isModalReviewOpen: false,
   reviewsCounts: [],
+  isModalToCartOpen: false,
+  isModalToCartSuccessOpen: false,
+  lastQuantity: 0,
 });
 
 export const getUserStateMock = (): InitialStateUserProps => (
@@ -78,6 +81,8 @@ export const getUserStateMock = (): InitialStateUserProps => (
     currentPage: '1',
     currentQuery: '',
     searchInput: '',
+    cartGuitars: [getMockProduct(), getMockProduct()],
+    cartProduct: getMockProduct(),
   }
 );
 

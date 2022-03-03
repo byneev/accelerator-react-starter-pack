@@ -4,7 +4,7 @@ import { ProductProps } from '../../types/product-type';
 import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import {
   setCurrentFilters, setCurrentSort, setStartRange,
-  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars
+  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct
 } from '../actions';
 
 export type InitialStateUserProps = {
@@ -17,6 +17,7 @@ export type InitialStateUserProps = {
   currentQuery: string;
   searchInput: string;
   cartGuitars: ProductProps[];
+  cartProduct: ProductProps | null;
 };
 
 export const initialStateUser: InitialStateUserProps = {
@@ -43,6 +44,7 @@ export const initialStateUser: InitialStateUserProps = {
   currentQuery: '',
   searchInput: '',
   cartGuitars: [],
+  cartProduct: null,
 };
 
 export const userReducer = createReducer(initialStateUser, (builder) => {
@@ -81,5 +83,8 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
       if (index !== -1) {
         state.cartGuitars = [...state.cartGuitars.slice(0, index), ...state.cartGuitars.slice(index)];
       }
+    })
+    .addCase(setCartProduct, (state, { payload, }) => {
+      state.cartProduct = payload;
     });
 });

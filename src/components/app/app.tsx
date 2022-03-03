@@ -4,6 +4,7 @@ import { AppRoute } from '../../utils/const';
 import Catalog from '../catalog/catalog';
 import Main from '../main/main';
 import NotFound from '../not-found/not-found';
+import Cart from '../cart/cart';
 
 function App(): JSX.Element {
   return (
@@ -17,6 +18,9 @@ function App(): JSX.Element {
         </Route>
         <Route path={`${AppRoute.Guitars}/:id`} exact>
           <ProductDetailWrapper />
+        </Route>
+        <Route path={AppRoute.Cart} exact>
+          <Cart />
         </Route>
         <Route>
           <NotFound />

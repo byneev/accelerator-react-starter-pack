@@ -32,7 +32,9 @@ function CartLink({ productsCount, }: CartLinkProps): JSX.Element {
         <use xlinkHref='#icon-basket'></use>
       </svg>
       <span className='visually-hidden'>Перейти в корзину</span>
-      <span className='header__cart-count'>{productsCount !== 0 ? productsCount : ''}</span>
+      {productsCount !== 0 ?
+        <span className='header__cart-count'>{productsCount}</span> :
+        ''}
     </Link>
   );
 }

@@ -1,6 +1,8 @@
-import { useSelector } from 'react-redux';
-import { getCartGuitars } from '../../store/selectors';
-import { AppRoute } from '../../utils/const';
+import { KeyboardEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsModalToCartOpen, setIsModalToCartSuccessOpen, setSearchedGuitars, setSearchQuery } from '../../store/actions';
+import { getCartGuitars, getCartProduct, getIsModalToCartOpen, getIsModalToCartSuccessOpen } from '../../store/selectors';
+import { AppRoute, BAD_QUERY } from '../../utils/const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CartFooter from '../cart-footer/cart-footer';
 import CartLink from '../cart-link/cart-link';
@@ -8,14 +10,48 @@ import CartList from '../cart-list/cart-list';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
 import FormSearch from '../form-search/form-search';
 import Logo from '../logo/logo';
+import ModalCartSuccess from '../modal-cart-success/modal-cart-success';
+import ModalToCart from '../modal-to-cart/modal-to-cart';
 import Navigation from '../navigation/navigation';
 import Spinner from '../spinner/spinner';
 
 function Cart(): JSX.Element {
+  const dispatch = useDispatch();
   const cartGuitars = useSelector(getCartGuitars);
+  const isModalToCartOpen = useSelector(getIsModalToCartOpen);
+  const cartProduct = useSelector(getCartProduct);
+  const isModalToCartSuccessOpen = useSelector(getIsModalToCartSuccessOpen);
+
+  useEffect(() => {
+    dispatch(setSearchedGuitars([]));
+    dispatch(setSearchQuery(`name_like=${BAD_QUERY}`));
+  }, []);
+
+  useEffect(() => {
+    if (isModalToCartOpen && isModalToCartSuccessOpen) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [isModalToCartOpen, isModalToCartSuccessOpen]);
+
+  const modalCloseHandle = () => {
+    if (isModalToCartOpen) {
+      dispatch(setIsModalToCartOpen(false));
+    }
+    if (isModalToCartSuccessOpen) {
+      dispatch(setIsModalToCartSuccessOpen(false));
+    }
+  };
+
+  const keydownEscapeHandle = (evt: KeyboardEvent<HTMLDivElement>) => {
+    if (evt.key === 'Escape') {
+      modalCloseHandle();
+    }
+  };
 
   return (
-    <div className='wrapper'>
+    <div onKeyDown={keydownEscapeHandle} className='wrapper'>
       <header className='header' id='header'>
         <div className='container header__wrapper'>
           <Logo />
@@ -92,6 +128,8 @@ function Cart(): JSX.Element {
           </section>
         </div>
       </footer>
+      {isModalToCartOpen && cartProduct && <ModalToCart product={cartProduct} container={AppRoute.Cart} />}
+      {isModalToCartSuccessOpen && cartProduct && <ModalCartSuccess product={cartProduct} container={AppRoute.Cart} />}
       <Spinner />
     </div>
   );

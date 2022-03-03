@@ -1,7 +1,7 @@
-import { KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setSearchedGuitars, setSearchInput, setSearchQuery } from '../../store/actions';
-import { getIsModalReviewOpen, getIsModalReviewSuccessOpen, getReviews } from '../../store/selectors';
+import { setIsModalReviewOpen, setIsModalReviewSuccessOpen, setIsModalToCartOpen, setIsModalToCartSuccessOpen, setSearchedGuitars, setSearchInput, setSearchQuery } from '../../store/actions';
+import { getCartGuitars, getIsModalReviewOpen, getIsModalReviewSuccessOpen, getIsModalToCartOpen, getIsModalToCartSuccessOpen, getReviews } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, BAD_QUERY } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -10,8 +10,10 @@ import CartLink from '../cart-link/cart-link';
 import FooterNavItem from '../footer-nav-item/footer-nav-item';
 import FormSearch from '../form-search/form-search';
 import Logo from '../logo/logo';
+import ModalCartSuccess from '../modal-cart-success/modal-cart-success';
 import ModalReview from '../modal-review/modal-review';
 import ModalSuccessReview from '../modal-success-review/modal-success-review';
+import ModalToCart from '../modal-to-cart/modal-to-cart';
 import Navigation from '../navigation/navigation';
 import ProductPrice from '../product-price/product-price';
 import ProductRate from '../product-rate/product-rate';
@@ -28,6 +30,9 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
   const reviews = useSelector(getReviews);
   const isModalReviewOpen = useSelector(getIsModalReviewOpen);
   const isModalReviewSuccessOpen = useSelector(getIsModalReviewSuccessOpen);
+  const isModalToCartOpen = useSelector(getIsModalToCartOpen);
+  const isModalToCartSuccessOpen = useSelector(getIsModalToCartSuccessOpen);
+  const cartGuitars = useSelector(getCartGuitars);
 
   useEffect(() => {
     dispatch(setSearchInput(''));
@@ -43,23 +48,24 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
     }
   }, [isModalReviewOpen, isModalReviewSuccessOpen]);
 
-  const keyDownEscHandle = (evt: KeyboardEvent<HTMLDivElement>) => {
-    if (evt.key === 'Escape') {
-      if (isModalReviewOpen) {
-        dispatch(setIsModalReviewOpen(false));
-      }
-      if (isModalReviewSuccessOpen) {
-        dispatch(setIsModalReviewSuccessOpen(false));
-      }
-    }
-  };
-
-  const detailPageClickHandle = (evt: MouseEvent<HTMLDivElement>) => {
+  const modalCloseHandle = () => {
     if (isModalReviewOpen) {
       dispatch(setIsModalReviewOpen(false));
     }
     if (isModalReviewSuccessOpen) {
       dispatch(setIsModalReviewSuccessOpen(false));
+    }
+    if (isModalToCartOpen) {
+      dispatch(setIsModalToCartOpen(false));
+    }
+    if (isModalToCartSuccessOpen) {
+      dispatch(setIsModalToCartSuccessOpen(false));
+    }
+  };
+
+  const keyDownEscHandle = (evt: KeyboardEvent<HTMLDivElement>) => {
+    if (evt.key === 'Escape') {
+      modalCloseHandle();
     }
   };
 
@@ -70,11 +76,11 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
           <Logo />
           <Navigation />
           <FormSearch />
-          <CartLink />
+          <CartLink productsCount={cartGuitars.length} />
         </div>
       </header>
       <main className='page-content'>
-        <div onClick={detailPageClickHandle} className='container' tabIndex={1}>
+        <div className='container' tabIndex={1}>
           <h1 className='page-content__title title title--bigger'>
             {product.name}
           </h1>
@@ -208,6 +214,8 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
       </footer>
       {isModalReviewSuccessOpen && <ModalSuccessReview />}
       {isModalReviewOpen && <ModalReview product={product} reviews={reviews} />}
+      {isModalToCartOpen && <ModalToCart product={product} container={AppRoute.Catalog} />}
+      {isModalToCartSuccessOpen && <ModalCartSuccess product={product} container={AppRoute.Catalog} />}
     </div>
   );
 }

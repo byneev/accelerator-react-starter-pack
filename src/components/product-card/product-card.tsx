@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setCurrentProduct, setIsModalToCartOpen } from '../../store/actions';
+import { setCartProduct, setCurrentProduct, setIsModalToCartOpen } from '../../store/actions';
 import { getCartGuitars, getReviewsCounts } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, LOCALE } from '../../utils/const';
@@ -29,6 +29,7 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
 
   const AddToCartButtonClickHandle = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
+    dispatch(setCartProduct(product));
     dispatch(setIsModalToCartOpen(true));
   };
 
