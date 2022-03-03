@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
+import { setAmountToChangeSum, setCartProduct, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
 import { cartReducer } from '../../store/reducers/cart-reducer';
 import { getCartSum } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
@@ -13,7 +14,6 @@ export type CartItemProps = {
 
 function CartItem({ product, }: CartItemProps): JSX.Element {
   const dispatch = useDispatch();
-  const cartSum = useSelector(getCartSum);
   const [quantity, setQuantity] = useState(1);
 
   const quantityButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -30,8 +30,9 @@ function CartItem({ product, }: CartItemProps): JSX.Element {
       dispatch(cartReducer.actions.incrementCartSum(product.price));
     }
     if (name === 'minus' && quantity === 1) {
-      dispatch(cartReducer.actions.decrementCartSum(product.price));
+      dispatch(setCartProduct(product));
       dispatch(setLastQuantity(quantity));
+      dispatch(setAmountToChangeSum(quantity * product.price));
       dispatch(setIsModalToCartOpen(true));
     }
   };
@@ -50,8 +51,9 @@ function CartItem({ product, }: CartItemProps): JSX.Element {
   };
 
   const removeButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
-    dispatch(cartReducer.actions.decrementCartSum(quantity * product.price));
+    dispatch(setCartProduct(product));
     dispatch(setLastQuantity(quantity));
+    dispatch(setAmountToChangeSum(quantity * product.price));
     dispatch(setIsModalToCartOpen(true));
   };
 
@@ -81,7 +83,7 @@ function CartItem({ product, }: CartItemProps): JSX.Element {
           </svg>
         </button>
       </div>
-      <div className='cart-item__price-total'>{(cartSum).toLocaleString(LOCALE)} ₽</div>
+      <div className='cart-item__price-total'>{(quantity * product.price).toLocaleString(LOCALE)} ₽</div>
     </div>
   );
 }

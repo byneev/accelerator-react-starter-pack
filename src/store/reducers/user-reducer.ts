@@ -1,4 +1,6 @@
-import { createReducer } from '@reduxjs/toolkit';
+/* eslint-disable no-console */
+import { createReducer, current } from '@reduxjs/toolkit';
+import { store } from '../..';
 import { FilterProps } from '../../types/filter-type';
 import { ProductProps } from '../../types/product-type';
 import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
@@ -6,6 +8,7 @@ import {
   setCurrentFilters, setCurrentSort, setStartRange,
   setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct
 } from '../actions';
+import { getCartGuitars } from '../selectors';
 
 export type InitialStateUserProps = {
   currentSort: [SortType, SortType];
@@ -74,15 +77,12 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
       state.searchInput = payload;
     })
     .addCase(addToCartGuitars, (state, { payload, }) => {
-      if (!state.cartGuitars.includes(payload)) {
+      if (!current(state.cartGuitars).some((guitar : ProductProps) => guitar.id === payload.id)) {
         state.cartGuitars.push(payload);
       }
     })
     .addCase(removeFromCartGuitars, (state, { payload, }) => {
-      const index = state.cartGuitars.indexOf(payload);
-      if (index !== -1) {
-        state.cartGuitars = [...state.cartGuitars.slice(0, index), ...state.cartGuitars.slice(index)];
-      }
+      state.cartGuitars = current(state.cartGuitars).filter((guitar: ProductProps) => guitar.id !== payload.id);
     })
     .addCase(setCartProduct, (state, { payload, }) => {
       state.cartProduct = payload;

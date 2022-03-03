@@ -4,7 +4,7 @@ import { PriceRangeProps } from '../../types/price-range-type';
 import { ProductProps } from '../../types/product-type';
 import { CurrentTab } from '../../utils/const';
 import {
-  setGuitars, setSearchedGuitars, setPriceRangeAll, setReviews, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts, setLastQuantity, setIsModalToCartOpen, setIsModalToCartSuccessOpen
+  setGuitars, setSearchedGuitars, setPriceRangeAll, setReviews, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts, setLastQuantity, setIsModalToCartOpen, setIsModalToCartSuccessOpen, setAmountToChangeSum
 } from '../actions';
 
 export type InitialStateAppProps = {
@@ -21,6 +21,7 @@ export type InitialStateAppProps = {
   isModalToCartOpen: boolean;
   isModalToCartSuccessOpen: boolean;
   lastQuantity: number;
+  amountToChangeSum: number;
 };
 
 export const initialStateApp: InitialStateAppProps = {
@@ -40,6 +41,7 @@ export const initialStateApp: InitialStateAppProps = {
   isModalToCartOpen: false,
   isModalToCartSuccessOpen: false,
   lastQuantity: 0,
+  amountToChangeSum: 0,
 };
 
 export const appReducer = createReducer(initialStateApp, (builder) => {
@@ -85,5 +87,8 @@ export const appReducer = createReducer(initialStateApp, (builder) => {
     })
     .addCase(setLastQuantity, (state, { payload, }) => {
       state.lastQuantity = payload;
+    })
+    .addCase(setAmountToChangeSum, (state, { payload, }) => {
+      state.amountToChangeSum = payload;
     });
 });

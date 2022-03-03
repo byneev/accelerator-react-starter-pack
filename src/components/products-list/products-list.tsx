@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShouldShowSpinner } from '../../store/actions';
 import { getCommentsFromServer, getProductsFromServer } from '../../store/api-actions';
-import { getCurrentQuery, getGuitars, getStartRange } from '../../store/selectors';
+import { getCartGuitars, getCurrentQuery, getGuitars, getStartRange } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import ProductCard from '../product-card/product-card';
 
@@ -11,6 +12,8 @@ function ProductsList(): JSX.Element {
   const currentQuery = useSelector(getCurrentQuery);
   const actualGuitars = useSelector(getGuitars);
   const startRange = useSelector(getStartRange);
+  const cartGuitars = useSelector(getCartGuitars);
+  console.log(cartGuitars);
 
   useEffect(() => {
     dispatch(setShouldShowSpinner(true));
@@ -24,7 +27,7 @@ function ProductsList(): JSX.Element {
   return (
     <div className='cards catalog__cards'>
       {actualGuitars.map((item: ProductProps) => (
-        <ProductCard key={item.id} product={item} />
+        <ProductCard key={item.id} product={item} isInCart={cartGuitars.some((guitar : ProductProps) => guitar.id === item.id)} />
       ))}
     </div>
   );

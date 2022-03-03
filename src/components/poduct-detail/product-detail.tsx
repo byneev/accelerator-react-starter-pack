@@ -214,8 +214,8 @@ function ProductDetail({ product, }: ProductDetailProps): JSX.Element {
       </footer>
       {isModalReviewSuccessOpen && <ModalSuccessReview />}
       {isModalReviewOpen && <ModalReview product={product} reviews={reviews} />}
-      {isModalToCartOpen && <ModalToCart product={product} container={AppRoute.Catalog} />}
-      {isModalToCartSuccessOpen && <ModalCartSuccess product={product} container={AppRoute.Catalog} />}
+      {isModalToCartOpen && <ModalToCart product={product} container={AppRoute.Guitars} />}
+      {isModalToCartSuccessOpen && <ModalCartSuccess product={product} container={AppRoute.Guitars} />}
     </div>
   );
 }

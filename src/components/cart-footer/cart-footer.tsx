@@ -1,4 +1,10 @@
+import { useSelector } from 'react-redux';
+import { getCartSum } from '../../store/selectors';
+import { LOCALE } from '../../utils/const';
+
 function CartFooter(): JSX.Element {
+  const totalPrice = useSelector(getCartSum);
+
   return (
     <div className='cart__footer'>
       <div className='cart__coupon coupon'>
@@ -14,7 +20,7 @@ function CartFooter(): JSX.Element {
         </form>
       </div>
       <div className='cart__total-info'>
-        <p className='cart__total-item'><span className='cart__total-value-name'>Всего:</span><span className='cart__total-value'>52 000 ₽</span></p>
+        <p className='cart__total-item'><span className='cart__total-value-name'>Всего:</span><span className='cart__total-value'>{totalPrice.toLocaleString(LOCALE)} ₽</span></p>
         <p className='cart__total-item'><span className='cart__total-value-name'>Скидка:</span><span className='cart__total-value cart__total-value--bonus'>- 3000 ₽</span></p>
         <p className='cart__total-item'><span className='cart__total-value-name'>К оплате:</span><span className='cart__total-value cart__total-value--payment'>49 000 ₽</span></p>
         <button className='button button--red button--big cart__order-button'>Оформить заказ</button>

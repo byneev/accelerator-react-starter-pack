@@ -1,9 +1,7 @@
 import { KeyboardEvent, MouseEvent, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setIsModalToCartOpen, setIsModalToCartSuccessOpen } from '../../store/actions';
-import { cartReducer } from '../../store/reducers/cart-reducer';
-import { getLastQuantity } from '../../store/selectors';
+import { setIsModalToCartSuccessOpen } from '../../store/actions';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute } from '../../utils/const';
 
@@ -30,11 +28,6 @@ function ModalCartSuccess({ container, product, }: ModalCartSuccessProps): JSX.E
     }
   };
 
-  const followButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
-    dispatch(setIsModalToCartOpen(false));
-    dispatch(setIsModalToCartSuccessOpen(false));
-  };
-
   return (
     <div className='modal is-active modal--success'>
       <div onKeyDown={tabKeydownHandle} className='modal__wrapper'>
@@ -53,10 +46,6 @@ function ModalCartSuccess({ container, product, }: ModalCartSuccessProps): JSX.E
             {container === AppRoute.Guitars ?
               <Link to={`${AppRoute.Catalog}/1`} onClick={closeHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</Link> :
               ''}
-
-            {/* {container === AppRoute.Cart ?
-              <button onClick={followButtonClickHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</button> :
-              ''} */}
           </div>
           <button ref={buttonClose} onClick={closeHandle} className='modal__close-btn button-cross' type='button' aria-label='Закрыть'><span className='button-cross__icon'></span><span className='modal__close-btn-interactive-area'></span>
           </button>

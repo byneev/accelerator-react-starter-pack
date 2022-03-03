@@ -235,8 +235,8 @@ function Catalog(): JSX.Element {
         </div>
       </footer>
       <Spinner />
-      {isModalToCartOpen && cartProduct && <ModalToCart product={cartProduct} container={AppRoute.Cart} />}
-      {isModalToCartSuccessOpen && cartProduct && <ModalCartSuccess product={cartProduct} container={AppRoute.Cart} />}
+      {isModalToCartOpen && cartProduct && <ModalToCart product={cartProduct} container={AppRoute.Catalog} />}
+      {isModalToCartSuccessOpen && cartProduct && <ModalCartSuccess product={cartProduct} container={AppRoute.Catalog} />}
     </div>
   );
 }

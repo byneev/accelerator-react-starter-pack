@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -10,14 +11,14 @@ import ProductRate from '../product-rate/product-rate';
 
 export type ProductCardProps = {
   product: ProductProps;
+  isInCart: boolean;
 };
 
-function ProductCard({ product, }: ProductCardProps): JSX.Element {
+function ProductCard({ product, isInCart, }: ProductCardProps): JSX.Element {
   const dispatch = useDispatch();
   const priceString = product.price.toLocaleString(LOCALE);
   const previewImg = getCorrectImgURL(product);
   const reviewsCounts = useSelector(getReviewsCounts);
-  const cartGuitars = useSelector(getCartGuitars);
   let commentsCount = '';
 
   reviewsCounts.forEach((item: string) => {
@@ -57,7 +58,7 @@ function ProductCard({ product, }: ProductCardProps): JSX.Element {
         >
           Подробнее
         </Link>
-        {cartGuitars.includes(product) ?
+        {isInCart ?
           <Link to={AppRoute.Cart} className='button button--red-border button--mini button--in-cart'>В Корзине</Link> :
           <a onClick={AddToCartButtonClickHandle} className='button button--red button--mini button--add-to-cart' href=''>Купить</a>}
       </div>

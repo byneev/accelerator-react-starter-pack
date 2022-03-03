@@ -59,3 +59,5 @@ export const getIsModalToCartSuccessOpen = (state: RootProps): boolean => state[
 export const getLastQuantity = (state: RootProps): number => state[NameSpace.App].lastQuantity;
 
 export const getCartProduct = (state: RootProps): ProductProps | null => state[NameSpace.User].cartProduct;
+
+export const getAmountToChangeSum = (state: RootProps): number => state[NameSpace.App].amountToChangeSum;

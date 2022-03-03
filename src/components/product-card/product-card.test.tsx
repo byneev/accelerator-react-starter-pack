@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { getAppStateMock, getUserStateMock } from '../../utils/mock';
+import { getAppStateMock, getMockProduct, getUserStateMock } from '../../utils/mock';
 import ProductCard from './product-card';
 import userEvent from '@testing-library/user-event';
 import { AppRoute } from '../../utils/const';
@@ -23,17 +23,8 @@ describe('Test ProductCard component', () => {
       <Provider store={store}>
         <Router history={history}>
           <ProductCard
-            product={{
-              id: 14,
-              name: 'Example',
-              vendorCode: '',
-              type: '',
-              description: '',
-              previewImg: '',
-              stringCount: 0,
-              rating: 0,
-              price: 0,
-            }}
+            product={getMockProduct()}
+            isInCart={false}
           />
         </Router>
       </Provider>

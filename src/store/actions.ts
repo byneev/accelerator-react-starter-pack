@@ -32,6 +32,7 @@ export enum Action {
   SetIsModalToCartSuccessOpen = 'setIsModalToCartSuccessOpen',
   SetLastQuantity = 'setLastQuantity',
   SetCartProduct = 'setCartProduct',
+  SetAmountToChangeSum = 'setAmountToChangeSum',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -87,3 +88,5 @@ export const setIsModalToCartSuccessOpen = createAction<boolean>(Action.SetIsMod
 export const setLastQuantity = createAction<number>(Action.SetLastQuantity);
 
 export const setCartProduct = createAction<ProductProps | null>(Action.SetCartProduct);
+
+export const setAmountToChangeSum = createAction<number>(Action.SetAmountToChangeSum);

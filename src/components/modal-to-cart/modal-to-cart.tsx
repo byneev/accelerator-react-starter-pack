@@ -2,9 +2,9 @@
 import { KeyboardEvent, MouseEvent, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addToCartGuitars, removeFromCartGuitars, setIsModalToCartOpen, setIsModalToCartSuccessOpen } from '../../store/actions';
+import { addToCartGuitars, removeFromCartGuitars, setCartProduct, setIsModalToCartOpen, setIsModalToCartSuccessOpen } from '../../store/actions';
 import { cartReducer } from '../../store/reducers/cart-reducer';
-import { getCartGuitars, getLastQuantity } from '../../store/selectors';
+import { getAmountToChangeSum, getCartGuitars, getLastQuantity } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, GuitarTypeAliases, LOCALE } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -15,10 +15,10 @@ export type ModalToCartProps = {
 }
 
 function ModalToCart({ product, container, }: ModalToCartProps): JSX.Element {
-  console.log('modaltocart');
   const dispatch = useDispatch();
   const cartGuitars = useSelector(getCartGuitars);
   const lastQuantity = useSelector(getLastQuantity);
+  const amountToChangeSum = useSelector(getAmountToChangeSum);
   const buttonClose = useRef<HTMLButtonElement>(null);
   const buttonRemove = useRef<HTMLButtonElement>(null);
   const isInCart = cartGuitars.includes(product);
@@ -33,11 +33,14 @@ function ModalToCart({ product, container, }: ModalToCartProps): JSX.Element {
 
   const removeFromCartButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    console.log(amountToChangeSum);
+    dispatch(cartReducer.actions.decrementCartSum(amountToChangeSum));
+    dispatch(setCartProduct(product));
     dispatch(removeFromCartGuitars(product));
+    dispatch(setIsModalToCartOpen(false));
   };
 
   const closeHandle = (evt: MouseEvent<HTMLElement>) => {
-    // evt.preventDefault();
     dispatch(setIsModalToCartOpen(false));
     dispatch(setIsModalToCartSuccessOpen(false));
   };
@@ -52,7 +55,7 @@ function ModalToCart({ product, container, }: ModalToCartProps): JSX.Element {
   };
 
   const followButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
-    dispatch(cartReducer.actions.incrementCartSum((lastQuantity === 0 ? 1 : lastQuantity) * product.price));
+    // dispatch(cartReducer.actions.incrementCartSum((lastQuantity === 0 ? 1 : lastQuantity) * product.price));
     dispatch(setIsModalToCartOpen(false));
     dispatch(setIsModalToCartSuccessOpen(false));
   };
