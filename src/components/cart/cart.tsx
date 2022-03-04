@@ -17,10 +17,10 @@ import Spinner from '../spinner/spinner';
 
 function Cart(): JSX.Element {
   const dispatch = useDispatch();
-  const cartGuitars = useSelector(getCartGuitars);
   const isModalToCartOpen = useSelector(getIsModalToCartOpen);
   const cartProduct = useSelector(getCartProduct);
   const isModalToCartSuccessOpen = useSelector(getIsModalToCartSuccessOpen);
+  const cartGuitars = useSelector(getCartGuitars);
 
   useEffect(() => {
     dispatch(setSearchedGuitars([]));

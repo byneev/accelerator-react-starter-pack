@@ -2,7 +2,7 @@ import { InitialStateAppProps } from '../store/reducers/app-reducer';
 import { InitialStateUserProps } from '../store/reducers/user-reducer';
 import { CommentPostProps, CommentProps } from '../types/comment-type';
 import { ProductProps } from '../types/product-type';
-import { SortType, PRODUCTS_LIMIT_ON_PAGE, CurrentTab } from './const';
+import { SortType, PRODUCTS_LIMIT_ON_PAGE, CurrentTab, CouponType } from './const';
 import { getArrayByNumber } from './helpers';
 
 export const getMockProduct = (): ProductProps => ({
@@ -82,8 +82,9 @@ export const getUserStateMock = (): InitialStateUserProps => (
     currentPage: '1',
     currentQuery: '',
     searchInput: '',
-    cartGuitars: [getMockProduct(), getMockProduct()],
+    cartGuitars: [[getMockProduct(), 2]],
     cartProduct: getMockProduct(),
+    currentCoupon: CouponType.None,
   }
 );
 

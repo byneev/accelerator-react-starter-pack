@@ -1,20 +1,20 @@
-/* eslint-disable no-console */
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAmountToChangeSum, setCartProduct, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
-import { cartReducer } from '../../store/reducers/cart-reducer';
-import { getCartSum } from '../../store/selectors';
+import { addToCartGuitars, removeFromCartGuitars, setAmountToChangeSum, setCartProduct, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
+import { getLastQuantity } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { GuitarTypeAliases, LOCALE, MAX_COUNT_IN_CART } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
 
 export type CartItemProps = {
   product: ProductProps;
+  count: number;
 }
-
-function CartItem({ product, }: CartItemProps): JSX.Element {
+// переделать на добавление всех гитар в корзину, а затем получение уникальных гитар
+function CartItem({ product, count, }: CartItemProps): JSX.Element {
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(1);
+  const lastQuantity = useSelector(getLastQuantity);
+  const [quantity, setQuantity] = useState(count);
 
   const quantityButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!(evt.target instanceof HTMLButtonElement)) {
@@ -23,16 +23,15 @@ function CartItem({ product, }: CartItemProps): JSX.Element {
     const name = evt.target.name;
     if (name === 'minus' && quantity > 1) {
       setQuantity((previous) => previous - 1);
-      dispatch(cartReducer.actions.decrementCartSum(product.price));
+      dispatch(removeFromCartGuitars(product));
     }
     if (name === 'plus' && quantity < 99) {
       setQuantity((previous) => previous + 1);
-      dispatch(cartReducer.actions.incrementCartSum(product.price));
+      dispatch(addToCartGuitars(product));
     }
     if (name === 'minus' && quantity === 1) {
       dispatch(setCartProduct(product));
       dispatch(setLastQuantity(quantity));
-      dispatch(setAmountToChangeSum(quantity * product.price));
       dispatch(setIsModalToCartOpen(true));
     }
   };
@@ -42,11 +41,7 @@ function CartItem({ product, }: CartItemProps): JSX.Element {
     if (value >= 0 && value <= MAX_COUNT_IN_CART) {
       const range = value - quantity;
       setQuantity(value);
-      if (range >= 0) {
-        dispatch(cartReducer.actions.incrementCartSum(range * product.price));
-      } else {
-        dispatch(cartReducer.actions.decrementCartSum(range * product.price));
-      }
+      // TODO
     }
   };
 

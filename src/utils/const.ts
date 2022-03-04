@@ -97,3 +97,10 @@ export const GuitarTypeAliases = new Map<GuitarType | string, string>([
   [GuitarType.Electric, GuitarTypeAlias.Electric],
   [GuitarType.Ukulele, GuitarTypeAlias.Ukulele]
 ]);
+
+export enum CouponType {
+  None = 'none',
+  Light = 'light-333',
+  Medium = 'medium-444',
+  Height = 'height-555',
+}

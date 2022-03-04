@@ -40,7 +40,7 @@ export const initialStateApp: InitialStateAppProps = {
   reviewsCounts: [],
   isModalToCartOpen: false,
   isModalToCartSuccessOpen: false,
-  lastQuantity: 0,
+  lastQuantity: 1,
   amountToChangeSum: 0,
 };
 

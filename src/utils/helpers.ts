@@ -4,7 +4,7 @@ import { CommentPostProps } from '../types/comment-type';
 import { DefaultFunctionProps } from '../types/default-function-type';
 import { FilterProps } from '../types/filter-type';
 import { ProductProps } from '../types/product-type';
-import { BASIC_DELAY, SortType } from './const';
+import { BASIC_DELAY, CouponType, SortType } from './const';
 
 
 export const getArrayByNumber = (start: number, end: number) => {
@@ -133,3 +133,5 @@ export const getCorrectImgURL = (product: ProductProps): string => {
   const [img, adress] = product.previewImg.split('/');
   return `/${[img, '/content/', adress].join('')}`;
 };
+
+export const getSumAfterSale = (sum: number, coupon: CouponType): number => sum;

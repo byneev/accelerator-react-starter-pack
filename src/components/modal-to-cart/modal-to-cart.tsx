@@ -1,10 +1,9 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-console */
 import { KeyboardEvent, MouseEvent, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { addToCartGuitars, removeFromCartGuitars, setCartProduct, setIsModalToCartOpen, setIsModalToCartSuccessOpen } from '../../store/actions';
-import { cartReducer } from '../../store/reducers/cart-reducer';
-import { getAmountToChangeSum, getCartGuitars, getLastQuantity } from '../../store/selectors';
+import { addToCartGuitars, removeFromCartGuitars, removeFullCountGuitarFromCart, setCartProduct, setIsModalToCartOpen, setIsModalToCartSuccessOpen } from '../../store/actions';
+import { getCartGuitars, getLastQuantity } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, GuitarTypeAliases, LOCALE } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -18,26 +17,25 @@ function ModalToCart({ product, container, }: ModalToCartProps): JSX.Element {
   const dispatch = useDispatch();
   const cartGuitars = useSelector(getCartGuitars);
   const lastQuantity = useSelector(getLastQuantity);
-  const amountToChangeSum = useSelector(getAmountToChangeSum);
   const buttonClose = useRef<HTMLButtonElement>(null);
   const buttonRemove = useRef<HTMLButtonElement>(null);
-  const isInCart = cartGuitars.includes(product);
+  const isInCart = cartGuitars.some((item: [ProductProps, number]) => item[0].id === product.id);
 
   const toCartButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     dispatch(addToCartGuitars(product));
-    dispatch(cartReducer.actions.incrementCartSum(product.price));
     dispatch(setIsModalToCartOpen(false));
     dispatch(setIsModalToCartSuccessOpen(true));
   };
 
   const removeFromCartButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    console.log(amountToChangeSum);
-    dispatch(cartReducer.actions.decrementCartSum(amountToChangeSum));
     dispatch(setCartProduct(product));
-    dispatch(removeFromCartGuitars(product));
     dispatch(setIsModalToCartOpen(false));
+    if (lastQuantity > 1) {
+      dispatch(removeFullCountGuitarFromCart(product));
+    }
+    dispatch(removeFromCartGuitars(product));
   };
 
   const closeHandle = (evt: MouseEvent<HTMLElement>) => {
@@ -55,7 +53,6 @@ function ModalToCart({ product, container, }: ModalToCartProps): JSX.Element {
   };
 
   const followButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
-    // dispatch(cartReducer.actions.incrementCartSum((lastQuantity === 0 ? 1 : lastQuantity) * product.price));
     dispatch(setIsModalToCartOpen(false));
     dispatch(setIsModalToCartSuccessOpen(false));
   };
@@ -79,22 +76,20 @@ function ModalToCart({ product, container, }: ModalToCartProps): JSX.Element {
           </div>
 
           <div className='modal__button-container'>
-            {!isInCart ?
+            {container === AppRoute.Guitars ?
               <button ref={buttonRemove} onClick={toCartButtonClickHandle} className='button button--red button--big modal__button modal__button--add'>Добавить в корзину</button> :
-              <>
-                <button ref={buttonRemove} onClick={removeFromCartButtonClickHandle} className='button button--small modal__button'>Удалить товар</button>
-                {container === AppRoute.Catalog ?
-                  <button onClick={closeHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</button> :
-                  ''}
+              !isInCart ?
+                <button ref={buttonRemove} onClick={toCartButtonClickHandle} className='button button--red button--big modal__button modal__button--add'>Добавить в корзину</button> :
+                <>
+                  <button ref={buttonRemove} onClick={removeFromCartButtonClickHandle} className='button button--small modal__button'>Удалить товар</button>
+                  {container === AppRoute.Catalog ?
+                    <button onClick={closeHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</button> :
+                    ''}
+                  {container === AppRoute.Cart ?
+                    <button onClick={followButtonClickHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</button> :
+                    ''}
+                </>}
 
-                {container === AppRoute.Guitars ?
-                  <Link to={`${AppRoute.Catalog}/1`} onClick={closeHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</Link> :
-                  ''}
-
-                {container === AppRoute.Cart ?
-                  <button onClick={followButtonClickHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</button> :
-                  ''}
-              </>}
           </div>
           <button ref={buttonClose} onClick={container === AppRoute.Cart ? followButtonClickHandle : closeHandle} className='modal__close-btn button-cross' type='button' aria-label='Закрыть'><span className='button-cross__icon'></span><span className='modal__close-btn-interactive-area'></span>
           </button>

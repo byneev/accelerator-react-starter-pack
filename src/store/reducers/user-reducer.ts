@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
 import { createReducer, current } from '@reduxjs/toolkit';
-import { store } from '../..';
 import { FilterProps } from '../../types/filter-type';
 import { ProductProps } from '../../types/product-type';
-import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
+import { CouponType, PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import {
   setCurrentFilters, setCurrentSort, setStartRange,
-  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct
+  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct, removeFullCountGuitarFromCart, setCurrentCoupon
 } from '../actions';
-import { getCartGuitars } from '../selectors';
 
 export type InitialStateUserProps = {
   currentSort: [SortType, SortType];
@@ -19,8 +17,9 @@ export type InitialStateUserProps = {
   currentPage: string;
   currentQuery: string;
   searchInput: string;
-  cartGuitars: ProductProps[];
+  cartGuitars: [ProductProps, number][];
   cartProduct: ProductProps | null;
+  currentCoupon: CouponType,
 };
 
 export const initialStateUser: InitialStateUserProps = {
@@ -48,6 +47,7 @@ export const initialStateUser: InitialStateUserProps = {
   searchInput: '',
   cartGuitars: [],
   cartProduct: null,
+  currentCoupon: CouponType.None,
 };
 
 export const userReducer = createReducer(initialStateUser, (builder) => {
@@ -77,14 +77,36 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
       state.searchInput = payload;
     })
     .addCase(addToCartGuitars, (state, { payload, }) => {
-      if (!current(state.cartGuitars).some((guitar : ProductProps) => guitar.id === payload.id)) {
-        state.cartGuitars.push(payload);
+      if (!current(state.cartGuitars).some((item: [ProductProps, number]) => item[0].id === payload.id)) {
+        state.cartGuitars.push([payload, 1]);
+      } else {
+        const guitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id === payload.id);
+        const [guitar, count] = guitars[0];
+        const newGuitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id !== payload.id);
+        newGuitars.push([guitar, count + 1]);
+        state.cartGuitars = newGuitars;
       }
     })
     .addCase(removeFromCartGuitars, (state, { payload, }) => {
-      state.cartGuitars = current(state.cartGuitars).filter((guitar: ProductProps) => guitar.id !== payload.id);
+      const guitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id === payload.id);
+      if (guitars[0]) {
+        const [guitar, count] = guitars[0];
+        if (count === 1) {
+          state.cartGuitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id !== payload.id);
+        } else {
+          const newGuitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id !== payload.id);
+          newGuitars.push([guitar, count - 1]);
+          state.cartGuitars = newGuitars;
+        }
+      }
     })
     .addCase(setCartProduct, (state, { payload, }) => {
       state.cartProduct = payload;
+    })
+    .addCase(removeFullCountGuitarFromCart, (state, { payload, }) => {
+      state.cartGuitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id !== payload.id);
+    })
+    .addCase(setCurrentCoupon, (state, { payload, }) => {
+      state.currentCoupon = payload;
     });
 });

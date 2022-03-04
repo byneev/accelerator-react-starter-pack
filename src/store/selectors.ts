@@ -3,7 +3,7 @@ import { CommentProps } from '../types/comment-type';
 import { FilterProps } from '../types/filter-type';
 import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
-import { CurrentTab, SortType } from '../utils/const';
+import { CouponType, CurrentTab, SortType } from '../utils/const';
 import { NameSpace, RootProps } from './reducers/root-reducer';
 
 export const getGuitars = (state: RootProps): ProductProps[] => state[NameSpace.App].guitars;
@@ -48,9 +48,7 @@ export const getSortedReviews = createSelector(getReviews, (reviews) => reviews.
 
 export const getSearchInput = (state: RootProps): string => state[NameSpace.User].searchInput;
 
-export const getCartGuitars = (state: RootProps): ProductProps[] => state[NameSpace.User].cartGuitars;
-
-export const getCartSum = (state: RootProps): number => state[NameSpace.Cart];
+export const getCartGuitars = (state: RootProps): [ProductProps, number][] => state[NameSpace.User].cartGuitars;
 
 export const getIsModalToCartOpen = (state: RootProps): boolean => state[NameSpace.App].isModalToCartOpen;
 
@@ -61,3 +59,5 @@ export const getLastQuantity = (state: RootProps): number => state[NameSpace.App
 export const getCartProduct = (state: RootProps): ProductProps | null => state[NameSpace.User].cartProduct;
 
 export const getAmountToChangeSum = (state: RootProps): number => state[NameSpace.App].amountToChangeSum;
+
+export const getCurrentCoupon = (state: RootProps): CouponType => state[NameSpace.User].currentCoupon;

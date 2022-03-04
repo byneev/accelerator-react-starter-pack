@@ -27,7 +27,7 @@ function ProductsList(): JSX.Element {
   return (
     <div className='cards catalog__cards'>
       {actualGuitars.map((item: ProductProps) => (
-        <ProductCard key={item.id} product={item} isInCart={cartGuitars.some((guitar : ProductProps) => guitar.id === item.id)} />
+        <ProductCard key={item.id} product={item} isInCart={cartGuitars.some((guitar: [ProductProps, number]) => guitar[0].id === item.id)} />
       ))}
     </div>
   );

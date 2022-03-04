@@ -1,6 +1,7 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setSearchedGuitars, setSearchInput } from '../../store/actions';
+import { getCartGuitars } from '../../store/selectors';
 import { AppRoute, FAST_DELAY } from '../../utils/const';
 
 export type CartLinkProps = {
@@ -9,6 +10,7 @@ export type CartLinkProps = {
 
 function CartLink({ productsCount, }: CartLinkProps): JSX.Element {
   const dispatch = useDispatch();
+  const cartGuitars = useSelector(getCartGuitars);
 
   return (
     <Link
@@ -33,7 +35,7 @@ function CartLink({ productsCount, }: CartLinkProps): JSX.Element {
       </svg>
       <span className='visually-hidden'>Перейти в корзину</span>
       {productsCount !== 0 ?
-        <span className='header__cart-count'>{productsCount}</span> :
+        <span className='header__cart-count'>{cartGuitars.map((item) => item[1]).reduce((prev, curr) => prev + curr, 0)}</span> :
         ''}
     </Link>
   );

@@ -1,7 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
-
 import { appReducer } from './app-reducer';
-import { cartReducer } from './cart-reducer';
 import { userReducer } from './user-reducer';
 
 export enum NameSpace {
@@ -13,7 +11,6 @@ export enum NameSpace {
 export const rootReducer = combineReducers({
   [NameSpace.User]: userReducer,
   [NameSpace.App]: appReducer,
-  [NameSpace.Cart]: cartReducer.reducer,
 });
 
 
