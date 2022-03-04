@@ -31,7 +31,7 @@ function ModalCartSuccess({ container, product, }: ModalCartSuccessProps): JSX.E
   return (
     <div className='modal is-active modal--success'>
       <div onKeyDown={tabKeydownHandle} className='modal__wrapper'>
-        <div className='modal__overlay' data-close-modal></div>
+        <div onClick={closeHandle} className='modal__overlay' data-close-modal></div>
         <div className='modal__content'>
           <svg className='modal__icon' width='26' height='20' aria-hidden='true'>
             <use xlinkHref='#icon-success'></use>

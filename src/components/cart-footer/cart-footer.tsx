@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentSale } from '../../store/actions';
 import { setCouponToServer } from '../../store/api-actions';
 import { getCartGuitars, getCurrentSale } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
@@ -26,10 +27,11 @@ function CartFooter(): JSX.Element {
     if (Object.values(CouponType).includes(promocode as CouponType)) {
       dispatch(setCouponToServer(promocode));
       setValidCode(1);
-      setPromocode('');
     } else {
+      dispatch(setCurrentSale(0));
       setValidCode(2);
     }
+    setPromocode('');
   };
 
   return (

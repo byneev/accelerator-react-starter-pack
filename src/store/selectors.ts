@@ -3,7 +3,7 @@ import { CommentProps } from '../types/comment-type';
 import { FilterProps } from '../types/filter-type';
 import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
-import { CouponType, CurrentTab, SortType } from '../utils/const';
+import { CurrentTab, SortType } from '../utils/const';
 import { NameSpace, RootProps } from './reducers/root-reducer';
 
 export const getGuitars = (state: RootProps): ProductProps[] => state[NameSpace.App].guitars;

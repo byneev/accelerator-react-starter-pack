@@ -5,7 +5,7 @@ import { ProductProps } from '../../types/product-type';
 import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import {
   setCurrentFilters, setCurrentSort, setStartRange,
-  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct, removeFullCountGuitarFromCart, setCurrentSale
+  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct, removeFullCountGuitarFromCart, setCurrentSale, setGuitarsCount
 } from '../actions';
 
 export type InitialStateUserProps = {
@@ -100,11 +100,17 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
         }
       }
     })
-    .addCase(setCartProduct, (state, { payload, }) => {
-      state.cartProduct = payload;
-    })
     .addCase(removeFullCountGuitarFromCart, (state, { payload, }) => {
       state.cartGuitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id !== payload.id);
+    })
+    .addCase(setGuitarsCount, (state, { payload, }) => {
+      const [product, count] = payload;
+      const newGuitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id !== product.id);
+      newGuitars.push([product, count]);
+      state.cartGuitars = newGuitars;
+    })
+    .addCase(setCartProduct, (state, { payload, }) => {
+      state.cartProduct = payload;
     })
     .addCase(setCurrentSale, (state, { payload, }) => {
       state.currentSale = payload;

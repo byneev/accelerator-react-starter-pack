@@ -3,7 +3,7 @@ import { CommentProps } from '../types/comment-type';
 import { FilterProps } from '../types/filter-type';
 import { PriceRangeProps } from '../types/price-range-type';
 import { ProductProps } from '../types/product-type';
-import { CouponType, CurrentTab, SortType } from '../utils/const';
+import { CurrentTab, SortType } from '../utils/const';
 
 export enum Action {
   SetGuitars = 'setGuitars',
@@ -28,12 +28,13 @@ export enum Action {
   SetSearchInput = 'setSearchInput',
   AddToCartGuitars = 'addToCartGuitars',
   RemoveFromCartGuitars = 'removeFromCartGuitars',
+  RemoveFullCountGuitarFromCart = 'removeFullCountGuitarFromCart',
+  SetGuitarsCount = 'setGuitarsCount',
   SetIsModalToCartOpen = 'setIsModalToCartOpen',
   SetIsModalToCartSuccessOpen = 'setIsModalToCartSuccessOpen',
   SetLastQuantity = 'setLastQuantity',
   SetCartProduct = 'setCartProduct',
   SetAmountToChangeSum = 'setAmountToChangeSum',
-  RemoveFullCountGuitarFromCart = 'removeFullCountGuitarFromCart',
   SetCurrentSale = 'setCurrentSale',
 }
 
@@ -96,3 +97,5 @@ export const setAmountToChangeSum = createAction<number>(Action.SetAmountToChang
 export const removeFullCountGuitarFromCart = createAction<ProductProps>(Action.RemoveFullCountGuitarFromCart);
 
 export const setCurrentSale = createAction<number>(Action.SetCurrentSale);
+
+export const setGuitarsCount = createAction<[ProductProps, number]>(Action.SetGuitarsCount);

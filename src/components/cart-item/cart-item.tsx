@@ -1,7 +1,6 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCartGuitars, removeFromCartGuitars, setAmountToChangeSum, setCartProduct, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
-import { getLastQuantity } from '../../store/selectors';
+import { useDispatch } from 'react-redux';
+import { addToCartGuitars, removeFromCartGuitars, setAmountToChangeSum, setCartProduct, setGuitarsCount, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
 import { ProductProps } from '../../types/product-type';
 import { GuitarTypeAliases, LOCALE, MAX_COUNT_IN_CART } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -10,10 +9,9 @@ export type CartItemProps = {
   product: ProductProps;
   count: number;
 }
-// переделать на добавление всех гитар в корзину, а затем получение уникальных гитар
+
 function CartItem({ product, count, }: CartItemProps): JSX.Element {
   const dispatch = useDispatch();
-  const lastQuantity = useSelector(getLastQuantity);
   const [quantity, setQuantity] = useState(count);
 
   const quantityButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -39,9 +37,8 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
   const quantityChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = +evt.target.value;
     if (value >= 0 && value <= MAX_COUNT_IN_CART) {
-      const range = value - quantity;
       setQuantity(value);
-      // TODO
+      dispatch(setGuitarsCount([product, value]));
     }
   };
 
