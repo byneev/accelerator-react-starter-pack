@@ -60,4 +60,4 @@ export const getCartProduct = (state: RootProps): ProductProps | null => state[N
 
 export const getAmountToChangeSum = (state: RootProps): number => state[NameSpace.App].amountToChangeSum;
 
-export const getCurrentCoupon = (state: RootProps): CouponType => state[NameSpace.User].currentCoupon;
+export const getCurrentSale = (state: RootProps): number => state[NameSpace.User].currentSale;

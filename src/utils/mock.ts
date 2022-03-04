@@ -84,7 +84,7 @@ export const getUserStateMock = (): InitialStateUserProps => (
     searchInput: '',
     cartGuitars: [[getMockProduct(), 2]],
     cartProduct: getMockProduct(),
-    currentCoupon: CouponType.None,
+    currentSale: 0,
   }
 );
 

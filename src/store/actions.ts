@@ -34,7 +34,7 @@ export enum Action {
   SetCartProduct = 'setCartProduct',
   SetAmountToChangeSum = 'setAmountToChangeSum',
   RemoveFullCountGuitarFromCart = 'removeFullCountGuitarFromCart',
-  SetCurrentCoupon = 'setCurrentCoupon',
+  SetCurrentSale = 'setCurrentSale',
 }
 
 export const setGuitars = createAction<ProductProps[]>(Action.SetGuitars);
@@ -95,4 +95,4 @@ export const setAmountToChangeSum = createAction<number>(Action.SetAmountToChang
 
 export const removeFullCountGuitarFromCart = createAction<ProductProps>(Action.RemoveFullCountGuitarFromCart);
 
-export const setCurrentCoupon = createAction<CouponType>(Action.SetCurrentCoupon);
+export const setCurrentSale = createAction<number>(Action.SetCurrentSale);

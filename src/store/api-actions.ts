@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { CommentPostProps } from '../types/comment-type';
 import { ProductProps } from '../types/product-type';
 import { APIRoute, DEFAULT_PAGE, PRODUCTS_LIMIT_ON_PAGE } from '../utils/const';
 import { checkIsOnline, errorBadFiltersWarn, validateComment } from '../utils/helpers';
-import { setReviews, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts } from './actions';
+import { setReviews, setCurrentFilters, setCurrentPage, setCurrentSort, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts, setCurrentSale } from './actions';
 import { RootProps } from './reducers/root-reducer';
 import { initialStateUser } from './reducers/user-reducer';
 
@@ -71,4 +72,11 @@ export const sendReviewToServer = (comment: CommentPostProps): ThunkResult => as
   dispatch(updateReviews(response.data));
   dispatch(setIsModalReviewOpen(false));
   dispatch(setIsModalReviewSuccessOpen(true));
+};
+
+export const setCouponToServer = (coupon: string): ThunkResult => async (dispatch, _getState, api) => {
+  console.log(coupon);
+  const response: AxiosResponse = await api.post(APIRoute.Coupons, { 'coupon': coupon, });
+  console.log(response);
+  dispatch(setCurrentSale(response.data));
 };

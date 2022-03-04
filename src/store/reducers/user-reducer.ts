@@ -2,10 +2,10 @@
 import { createReducer, current } from '@reduxjs/toolkit';
 import { FilterProps } from '../../types/filter-type';
 import { ProductProps } from '../../types/product-type';
-import { CouponType, PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
+import { PRODUCTS_LIMIT_ON_PAGE, SortType } from '../../utils/const';
 import {
   setCurrentFilters, setCurrentSort, setStartRange,
-  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct, removeFullCountGuitarFromCart, setCurrentCoupon
+  setSearchQuery, setTotalCount, setCurrentPage, setCurrentQuery, setSearchInput, addToCartGuitars, removeFromCartGuitars, setCartProduct, removeFullCountGuitarFromCart, setCurrentSale
 } from '../actions';
 
 export type InitialStateUserProps = {
@@ -19,7 +19,7 @@ export type InitialStateUserProps = {
   searchInput: string;
   cartGuitars: [ProductProps, number][];
   cartProduct: ProductProps | null;
-  currentCoupon: CouponType,
+  currentSale: number,
 };
 
 export const initialStateUser: InitialStateUserProps = {
@@ -47,7 +47,7 @@ export const initialStateUser: InitialStateUserProps = {
   searchInput: '',
   cartGuitars: [],
   cartProduct: null,
-  currentCoupon: CouponType.None,
+  currentSale: 0,
 };
 
 export const userReducer = createReducer(initialStateUser, (builder) => {
@@ -106,7 +106,7 @@ export const userReducer = createReducer(initialStateUser, (builder) => {
     .addCase(removeFullCountGuitarFromCart, (state, { payload, }) => {
       state.cartGuitars = current(state.cartGuitars).filter((item: [ProductProps, number]) => item[0].id !== payload.id);
     })
-    .addCase(setCurrentCoupon, (state, { payload, }) => {
-      state.currentCoupon = payload;
+    .addCase(setCurrentSale, (state, { payload, }) => {
+      state.currentSale = payload;
     });
 });
