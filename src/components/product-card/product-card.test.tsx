@@ -5,8 +5,6 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { getAppStateMock, getMockProduct, getUserStateMock } from '../../utils/mock';
 import ProductCard from './product-card';
-import userEvent from '@testing-library/user-event';
-import { AppRoute } from '../../utils/const';
 import { NameSpace } from '../../store/reducers/root-reducer';
 import thunk from 'redux-thunk';
 
@@ -17,21 +15,24 @@ const store = mockStore({
   [NameSpace.App]: getAppStateMock(),
 });
 
+const getTestingView = (isInCart: boolean) => render(
+  <Provider store={store}>
+    <Router history={history}>
+      <ProductCard
+        product={getMockProduct()}
+        isInCart={isInCart}
+      />
+    </Router>
+  </Provider>
+);
+
 describe('Test ProductCard component', () => {
-  it('Should render correctly', () => {
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <ProductCard
-            product={getMockProduct()}
-            isInCart={false}
-          />
-        </Router>
-      </Provider>
-    );
-    history.replace(AppRoute.Cart);
-    expect(screen.getByText(/Example/)).toBeInTheDocument();
-    userEvent.click(screen.getByText(/Подробнее/));
-    expect(history.entries[1].pathname).toEqual(`${AppRoute.Guitars}/14`);
+  it('Should render correctly with when already in cart', () => {
+    getTestingView(true);
+    expect(screen.getByText(/В корзине/i)).toBeInTheDocument();
+  });
+  it('Should render correctly with when not in cart', () => {
+    getTestingView(false);
+    expect(screen.getByText(/Подробнее/i)).toBeInTheDocument();
   });
 });

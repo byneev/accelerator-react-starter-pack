@@ -1,5 +1,5 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
@@ -24,13 +24,15 @@ describe('Testing ModalReview component', () => {
       </Provider>
     );
     expect(screen.getByText(/Ваше имя/i)).toBeInTheDocument();
-    expect(screen.getByText('Заполните поле')).toBeInTheDocument();
-    expect(screen.getByText('Поставьте оценку')).toBeInTheDocument();
+    fireEvent.submit(screen.getByTestId('form'));
+    expect(screen.getByText(/Заполните поле/i)).toBeInTheDocument();
+    expect(screen.getByText(/Поставьте оценку/i)).toBeInTheDocument();
     const nameField = screen.getByRole('textbox', { name: 'Ваше Имя', });
     userEvent.type(nameField, 'Oleg');
-    expect(screen.queryByText('Заполните поле')).not.toBeInTheDocument();
     const radioFields = screen.getAllByRole('radio');
     userEvent.click(radioFields[0]);
-    expect(screen.queryByText('Поставьте оценку')).not.toBeInTheDocument();
+    fireEvent.submit(screen.getByTestId('form'));
+    expect(screen.queryByText(/Заполните поле/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Поставьте оценку/i)).not.toBeInTheDocument();
   });
 });

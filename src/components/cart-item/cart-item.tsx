@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addToCartGuitars, removeFromCartGuitars, setAmountToChangeSum, setCartProduct, setGuitarsCount, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
+import { addToCartGuitars, removeFromCartGuitars, setCartProduct, setGuitarsCount, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
 import { ProductProps } from '../../types/product-type';
 import { GuitarTypeAliases, LOCALE, MAX_COUNT_IN_CART } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -45,7 +45,6 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
   const removeButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     dispatch(setCartProduct(product));
     dispatch(setLastQuantity(quantity));
-    dispatch(setAmountToChangeSum(quantity * product.price));
     dispatch(setIsModalToCartOpen(true));
   };
 
@@ -63,19 +62,19 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
       </div>
       <div className='cart-item__price'>{product.price.toLocaleString(LOCALE)} ₽</div>
       <div className='quantity cart-item__quantity'>
-        <button onClick={quantityButtonClickHandle} name='minus' className='quantity__button' aria-label='Уменьшить количество'>
+        <button data-testid='minus' onClick={quantityButtonClickHandle} name='minus' className='quantity__button' aria-label='Уменьшить количество'>
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-minus'></use>
           </svg>
         </button>
         <input onChange={quantityChangeHandle} className='quantity__input' type='number' placeholder='1' id='2-count' name='2-count' max='99' value={quantity} />
-        <button onClick={quantityButtonClickHandle} name='plus' className='quantity__button' aria-label='Увеличить количество'>
+        <button data-testid='plus' onClick={quantityButtonClickHandle} name='plus' className='quantity__button' aria-label='Увеличить количество'>
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-plus'></use>
           </svg>
         </button>
       </div>
-      <div className='cart-item__price-total'>{(quantity * product.price).toLocaleString(LOCALE)} ₽</div>
+      <div data-testid='price-total' className='cart-item__price-total'>{(quantity * product.price).toLocaleString(LOCALE)} ₽</div>
     </div>
   );
 }

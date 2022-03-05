@@ -74,9 +74,8 @@ export const sendReviewToServer = (comment: CommentPostProps): ThunkResult => as
   dispatch(setIsModalReviewSuccessOpen(true));
 };
 
-export const setCouponToServer = (coupon: string): ThunkResult => async (dispatch, _getState, api) => {
+export const sendCouponToServer = (coupon: string): ThunkResult => async (dispatch, _getState, api) => {
   console.log(coupon);
   const response: AxiosResponse = await api.post(APIRoute.Coupons, { 'coupon': coupon, });
-  console.log(response);
   dispatch(setCurrentSale(response.data));
 };

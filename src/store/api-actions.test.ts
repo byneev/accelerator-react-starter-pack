@@ -4,11 +4,11 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { NameSpace, RootProps } from './reducers/root-reducer';
 import { Action } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { APIRoute } from '../utils/const';
 import { getAppStateMock, getMockPostReview, getMockProduct, getMockReview, getUserStateMock } from '../utils/mock';
-import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setIsModalReviewOpen, setIsModalReviewSuccessOpen, updateReviews, setCurrentProduct, updateReviewsCounts } from './actions';
-import { getCommentsFromServer, getProductById, getProductsFromServer, getRangeByQuery, getSearchedProducts, sendReviewToServer } from './api-actions';
+import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setIsModalReviewOpen, setIsModalReviewSuccessOpen, updateReviews, setCurrentProduct, updateReviewsCounts, setCurrentSale } from './actions';
+import { getCommentsFromServer, getProductById, getProductsFromServer, getRangeByQuery, getSearchedProducts, sendCouponToServer, sendReviewToServer } from './api-actions';
 import { initialStateUser } from './reducers/user-reducer';
 
 describe('Test async actions', () => {
@@ -66,5 +66,11 @@ describe('Test async actions', () => {
     const store = mockStore();
     await store.dispatch(getProductById(guitar.id));
     expect(store.getActions()).toEqual([setCurrentProduct(guitar)]);
+  });
+  it('Should implement action setCurrentSale', async () => {
+    mockAPI.onPost(APIRoute.Coupons, { coupon: 'light-333', }).reply(200, 15);
+    const store = mockStore();
+    await store.dispatch(sendCouponToServer('light-333'));
+    expect(store.getActions()).toEqual([setCurrentSale(15)]);
   });
 });

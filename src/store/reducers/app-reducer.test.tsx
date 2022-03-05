@@ -1,6 +1,6 @@
 import { CurrentTab } from '../../utils/const';
 import { getMockProduct, getMockReview } from '../../utils/mock';
-import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts } from '../actions';
+import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setCurrentTab, setCurrentProduct, setIsModalReviewSuccessOpen, setIsModalReviewOpen, updateReviews, updateReviewsCounts, setIsModalToCartOpen, setIsModalToCartSuccessOpen, setLastQuantity } from '../actions';
 import { appReducer, initialStateApp } from './app-reducer';
 
 
@@ -51,4 +51,14 @@ describe('Reducer test', () => {
     const reviewsCount = '1-2';
     expect(appReducer(initialStateApp, updateReviewsCounts(reviewsCount))).toEqual({ ...initialStateApp, reviewsCounts: [reviewsCount], });
   });
+  it('Should set payload to isModalToCartOpen', () => {
+    expect(appReducer(initialStateApp, setIsModalToCartOpen(true))).toEqual({ ...initialStateApp, isModalToCartOpen: true, });
+  });
+  it('Should set payload to isModalCartSuccessOpen', () => {
+    expect(appReducer(initialStateApp, setIsModalToCartSuccessOpen(true))).toEqual({ ...initialStateApp, isModalToCartSuccessOpen: true, });
+  });
+  it('Should set payload to lastQuantity', () => {
+    expect(appReducer(initialStateApp, setLastQuantity(5))).toEqual({ ...initialStateApp, lastQuantity: 5, });
+  });
 });
+

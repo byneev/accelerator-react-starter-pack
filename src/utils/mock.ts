@@ -55,7 +55,6 @@ export const getAppStateMock = (): InitialStateAppProps => ({
   isModalToCartOpen: false,
   isModalToCartSuccessOpen: false,
   lastQuantity: 0,
-  amountToChangeSum: 0,
 });
 
 export const getUserStateMock = (): InitialStateUserProps => (
@@ -84,7 +83,7 @@ export const getUserStateMock = (): InitialStateUserProps => (
     searchInput: '',
     cartGuitars: [[getMockProduct(), 2]],
     cartProduct: getMockProduct(),
-    currentSale: 0,
+    currentSale: 15,
   }
 );
 

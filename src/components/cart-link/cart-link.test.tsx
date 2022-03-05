@@ -16,20 +16,25 @@ const store = mockStore({
   [NameSpace.App]: getAppStateMock(),
 });
 
+const getTestingView = () => render(
+  <Provider store={store}>
+    <Router history={history}>
+      <CartLink productsCount={2} />
+    </Router>
+  </Provider>
+);
+
 describe('Test CartLink component', () => {
   it('Should render correctly', () => {
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <CartLink productsCount={2} />
-        </Router>
-      </Provider>
-    );
+    getTestingView();
     history.replace(AppRoute.Main);
     expect(screen.getByText(/Перейти в корзину/)).toBeInTheDocument();
     userEvent.click(screen.getByTestId(/cart-link/));
-
     expect(history.entries.length).toBeGreaterThan(1);
     expect(history.entries[1].pathname).toEqual(AppRoute.Cart);
+  });
+  it('Should show total count of products in cart', () => {
+    getTestingView();
+    expect(screen.getByText(/2/)).toBeInTheDocument();
   });
 });

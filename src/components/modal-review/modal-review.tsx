@@ -98,7 +98,7 @@ function ModalReview({ product, reviews, }: ModalReviewProps): JSX.Element {
         <div className='modal__content'>
           <h2 className='modal__header modal__header--review title title--medium'>Оставить отзыв</h2>
           <h3 className='modal__product-name title title--medium-20 title--uppercase'>{product.name}</h3>
-          <form onSubmit={submitHandle} className='form-review'>
+          <form data-testid='form' onSubmit={submitHandle} className='form-review'>
             <div className='form-review__wrapper'>
               <div className='form-review__name-wrapper'>
                 <label className='form-review__label form-review__label--required' htmlFor='user-name'>Ваше Имя</label>

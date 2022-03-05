@@ -58,6 +58,4 @@ export const getLastQuantity = (state: RootProps): number => state[NameSpace.App
 
 export const getCartProduct = (state: RootProps): ProductProps | null => state[NameSpace.User].cartProduct;
 
-export const getAmountToChangeSum = (state: RootProps): number => state[NameSpace.App].amountToChangeSum;
-
 export const getCurrentSale = (state: RootProps): number => state[NameSpace.User].currentSale;

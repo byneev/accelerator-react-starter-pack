@@ -1,6 +1,8 @@
 import { FilterProps } from '../../types/filter-type';
+import { ProductProps } from '../../types/product-type';
 import { BAD_QUERY, SortType } from '../../utils/const';
-import { setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSort, setSearchQuery, setStartRange, setTotalCount } from '../actions';
+import { getMockProduct } from '../../utils/mock';
+import { addToCartGuitars, removeFromCartGuitars, removeFullCountGuitarFromCart, setCartProduct, setCurrentFilters, setCurrentPage, setCurrentQuery, setCurrentSale, setCurrentSort, setGuitarsCount, setSearchInput, setSearchQuery, setStartRange, setTotalCount } from '../actions';
 import { userReducer, initialStateUser } from './user-reducer';
 
 
@@ -56,5 +58,38 @@ describe('Reducer test', () => {
   });
   it('Should set payload to currentQuery', () => {
     expect(userReducer(initialStateUser, setCurrentQuery(BAD_QUERY))).toEqual({ ...initialStateUser, currentQuery: BAD_QUERY, });
+  });
+  it('Should set payload to search input', () => {
+    expect(userReducer(initialStateUser, setSearchInput('Curt'))).toEqual({ ...initialStateUser, searchInput: 'Curt', });
+  });
+  it('Should add new card guitar item to card guitars', () => {
+    const cartGuitar = getMockProduct();
+    expect(userReducer(initialStateUser, addToCartGuitars(cartGuitar))).toEqual({ ...initialStateUser, cartGuitars: [[cartGuitar, 1]], });
+  });
+  it('Should increment count in concrete card guitar item', () => {
+    const cartGuitars: [ProductProps, number][] = [[getMockProduct(), 1], [{ ...getMockProduct(), id: 10, }, 3]];
+    expect(userReducer({ ...initialStateUser, cartGuitars: cartGuitars, }, addToCartGuitars({ ...getMockProduct(), id: 10, }))).toEqual({ ...initialStateUser, cartGuitars: [[getMockProduct(), 1], [{ ...getMockProduct(), id: 10, }, 4]], });
+  });
+  it('Should remove from cart guitars if count === 1', () => {
+    const cartGuitars: [ProductProps, number][] = [[getMockProduct(), 1]];
+    expect(userReducer({ ...initialStateUser, cartGuitars: cartGuitars, }, removeFromCartGuitars(getMockProduct()))).toEqual(initialStateUser);
+  });
+  it('Should remove count for concrete cart guitars item', () => {
+    const cartGuitars: [ProductProps, number][] = [[getMockProduct(), 2]];
+    expect(userReducer({ ...initialStateUser, cartGuitars: cartGuitars, }, removeFromCartGuitars(getMockProduct()))).toEqual({ ...initialStateUser, cartGuitars: [[getMockProduct(), 1]], });
+  });
+  it('Should remove guitar cart item from cart even if count > 1', () => {
+    const cartGuitars: [ProductProps, number][] = [[getMockProduct(), 10]];
+    expect(userReducer({ ...initialStateUser, cartGuitars: cartGuitars, }, removeFullCountGuitarFromCart(getMockProduct()))).toEqual(initialStateUser);
+  });
+  it('Should set count for concrete cart guitars item', () => {
+    const cartGuitars: [ProductProps, number][] = [[getMockProduct(), 2]];
+    expect(userReducer({ ...initialStateUser, cartGuitars: cartGuitars, }, setGuitarsCount([getMockProduct(), 13]))).toEqual({ ...initialStateUser, cartGuitars: [[getMockProduct(), 13]], });
+  });
+  it('Should set payload to cartProduct', () => {
+    expect(userReducer(initialStateUser, setCartProduct(getMockProduct()))).toEqual({ ...initialStateUser, cartProduct: getMockProduct(), });
+  });
+  it('Should set payload to currentSale', () => {
+    expect(userReducer(initialStateUser, setCurrentSale(30))).toEqual({ ...initialStateUser, currentSale: 30, });
   });
 });

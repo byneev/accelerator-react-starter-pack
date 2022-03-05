@@ -11,6 +11,7 @@ import Main from '../main/main';
 import NotFound from '../not-found/not-found';
 import thunk from 'redux-thunk';
 import ProductDetailWrapper from '../product-detail-wrapper/product-detail-wrapper';
+import Cart from '../cart/cart';
 
 const history = createMemoryHistory();
 const middleware = [thunk];
@@ -32,6 +33,9 @@ describe('Test component App', () => {
             <Route path={`${AppRoute.Guitars}/:id`} exact>
               <ProductDetailWrapper />
             </Route>
+            <Route path={AppRoute.Cart} exact>
+              <Cart />
+            </Route>
             <Route>
               <NotFound />
             </Route>
@@ -49,5 +53,7 @@ describe('Test component App', () => {
     }, BASIC_DELAY);
     history.push(`${AppRoute.Guitars}/1`);
     expect(screen.getByText('Добавить в корзину')).toBeInTheDocument();
+    history.push(AppRoute.Cart);
+    expect(screen.getByText(/Оформить заказ/i)).toBeInTheDocument();
   });
 });

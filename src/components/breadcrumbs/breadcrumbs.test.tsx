@@ -16,7 +16,7 @@ const store = mockStore({
 });
 
 describe('Test Breadcrumbs component', () => {
-  it('Should render correctly', () => {
+  it('Should render correctly in Catalog', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -26,5 +26,16 @@ describe('Test Breadcrumbs component', () => {
     );
 
     expect(screen.getByText(/Каталог/)).toBeInTheDocument();
+  });
+  it('Should render correctly in Cart', () => {
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <Breadcrumbs pathsTree={[AppRoute.Main, AppRoute.Catalog, AppRoute.Cart]} />
+        </Router>
+      </Provider>
+    );
+
+    expect(screen.getByText(/Корзина/)).toBeInTheDocument();
   });
 });

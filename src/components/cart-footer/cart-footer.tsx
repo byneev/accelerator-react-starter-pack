@@ -2,7 +2,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSale } from '../../store/actions';
-import { setCouponToServer } from '../../store/api-actions';
+import { sendCouponToServer } from '../../store/api-actions';
 import { getCartGuitars, getCurrentSale } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { CouponType, LOCALE } from '../../utils/const';
@@ -25,7 +25,7 @@ function CartFooter(): JSX.Element {
   const promocodeSubmitChangeHandle = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (Object.values(CouponType).includes(promocode as CouponType)) {
-      dispatch(setCouponToServer(promocode));
+      dispatch(sendCouponToServer(promocode));
       setValidCode(1);
     } else {
       dispatch(setCurrentSale(0));
@@ -39,7 +39,7 @@ function CartFooter(): JSX.Element {
       <div className='cart__coupon coupon'>
         <h2 className='title title--little coupon__title'>Промокод на скидку</h2>
         <p className='coupon__info'>Введите свой промокод, если он у вас есть.</p>
-        <form onSubmit={promocodeSubmitChangeHandle} className='coupon__form' id='coupon-form' method='post' action='/'>
+        <form data-testid='form' onSubmit={promocodeSubmitChangeHandle} className='coupon__form' id='coupon-form' method='post' action='/'>
           <div className='form-input coupon__input'>
             <label className='visually-hidden'>Промокод</label>
             <input onChange={promocodeInputChangeHandle} type='text' placeholder='Введите промокод' id='coupon' name='coupon' value={promocode} />

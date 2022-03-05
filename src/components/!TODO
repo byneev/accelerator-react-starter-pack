@@ -1,3 +1,6 @@
 1. Delete unreachable store entities
-2. Check change count in cart manually
 3. Tests
+- selectors ?
+- components
+- app routes
+Modal testing in Cart Component
