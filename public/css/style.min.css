@@ -2055,6 +2055,11 @@ button {
   -webkit-transition: color 0.3s ease, outline-color 0.3s ease;
   transition: color 0.3s ease, outline-color 0.3s ease;
 }
+
+.quantity__button svg {
+  pointer-events: none;
+}
+
 .quantity__button:focus,
 .quantity__button:hover {
   color: #c90606;
