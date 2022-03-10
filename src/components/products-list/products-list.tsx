@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShouldShowSpinner } from '../../store/actions';
@@ -13,7 +12,6 @@ function ProductsList(): JSX.Element {
   const actualGuitars = useSelector(getGuitars);
   const startRange = useSelector(getStartRange);
   const cartGuitars = useSelector(getCartGuitars);
-  console.log(cartGuitars);
 
   useEffect(() => {
     dispatch(setShouldShowSpinner(true));

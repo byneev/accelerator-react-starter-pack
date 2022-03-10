@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { NameSpace } from '../../store/reducers/root-reducer';
-import { LOCALE } from '../../utils/const';
 import { getAppStateMock, getMockProduct, getUserStateMock } from '../../utils/mock';
 import CartItem from './cart-item';
 
@@ -26,27 +25,23 @@ const getTestingView = () => render(
 );
 
 describe('Testing CartItem component', () => {
-  it('Should render correctly', () => {
-    getTestingView();
-    expect(screen.getByText(getMockProduct.name)).toBeInTheDocument();
-  });
   it('Should decrement value by control buttons click', () => {
     getTestingView();
     userEvent.click(screen.getByTestId('minus'));
-    expect(screen.getByRole('spinbutton')).toHaveValue(1);
+    expect(screen.getByTestId('quantity')).toHaveValue(1);
   });
   it('Should increment value by control buttons click', () => {
     getTestingView();
     userEvent.click(screen.getByTestId('plus'));
-    expect(screen.getByRole('spinbutton')).toHaveValue(3);
+    expect(screen.getByTestId('quantity')).toHaveValue(3);
   });
   it('Should set value with manual input', () => {
     getTestingView();
-    fireEvent.input(screen.getByRole('spinbutton'), 10);
-    expect(screen.getByRole('spinbutton')).toHaveValue(10);
+    fireEvent.change(screen.getByTestId('quantity'), 10);
+    setTimeout(() => expect(screen.getByTestId('quantity')).toHaveValue(10), 500);
   });
-  it('Should correct calculate total price concrete item', () => {
+  it('Should show correct vendor code', () => {
     getTestingView();
-    expect(screen.getByText((getMockProduct().price * 2).toLocaleString(LOCALE))).toBeInTheDocument();
+    expect(screen.getByText(/SO757575/i)).toBeInTheDocument();
   });
 });

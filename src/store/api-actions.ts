@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance, AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { CommentPostProps } from '../types/comment-type';
@@ -75,7 +74,6 @@ export const sendReviewToServer = (comment: CommentPostProps): ThunkResult => as
 };
 
 export const sendCouponToServer = (coupon: string): ThunkResult => async (dispatch, _getState, api) => {
-  console.log(coupon);
   const response: AxiosResponse = await api.post(APIRoute.Coupons, { 'coupon': coupon, });
   dispatch(setCurrentSale(response.data));
 };

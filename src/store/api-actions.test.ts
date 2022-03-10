@@ -4,7 +4,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { NameSpace, RootProps } from './reducers/root-reducer';
 import { Action } from '@reduxjs/toolkit';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 import { APIRoute } from '../utils/const';
 import { getAppStateMock, getMockPostReview, getMockProduct, getMockReview, getUserStateMock } from '../utils/mock';
 import { setReviews, setGuitars, setPriceRangeAll, setSearchedGuitars, setShouldShowSpinner, setTotalCount, setIsModalReviewOpen, setIsModalReviewSuccessOpen, updateReviews, setCurrentProduct, updateReviewsCounts, setCurrentSale } from './actions';

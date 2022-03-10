@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createReducer, current } from '@reduxjs/toolkit';
 import { FilterProps } from '../../types/filter-type';
 import { ProductProps } from '../../types/product-type';

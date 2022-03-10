@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCartProduct, setIsModalToCartOpen } from '../../store/actions';

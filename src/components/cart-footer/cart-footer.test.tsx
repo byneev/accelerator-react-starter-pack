@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { NameSpace } from '../../store/reducers/root-reducer';
-import { CouponType, LOCALE } from '../../utils/const';
-import { getAppStateMock, getMockProduct, getUserStateMock } from '../../utils/mock';
+import { CouponType } from '../../utils/const';
+import { getAppStateMock, getUserStateMock } from '../../utils/mock';
 import CartFooter from './cart-footer';
 
 const history = createMemoryHistory();

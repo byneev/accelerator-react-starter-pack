@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
 import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setCartProduct, setCurrentProduct, setIsModalToCartOpen } from '../../store/actions';
-import { getCartGuitars, getReviewsCounts } from '../../store/selectors';
+import { getReviewsCounts } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { AppRoute, LOCALE } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';

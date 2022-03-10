@@ -50,7 +50,7 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
 
   return (
     <div className='cart-item'>
-      <button onClick={removeButtonClickHandle} className='cart-item__close-button button-cross' type='button' aria-label='Удалить'><span className='button-cross__icon'></span><span className='cart-item__close-button-interactive-area'></span>
+      <button data-testid='remove-from-cart' onClick={removeButtonClickHandle} className='cart-item__close-button button-cross' type='button' aria-label='Удалить'><span className='button-cross__icon'></span><span className='cart-item__close-button-interactive-area'></span>
       </button>
       <div className='cart-item__image'>
         <img src={getCorrectImgURL(product)} width='55' height='130' alt='ЭлектроГитара Честер bass' />
@@ -67,7 +67,7 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
             <use xlinkHref='#icon-minus'></use>
           </svg>
         </button>
-        <input onChange={quantityChangeHandle} className='quantity__input' type='number' placeholder='1' id='2-count' name='2-count' max='99' value={quantity} />
+        <input data-testid='quantity' onChange={quantityChangeHandle} className='quantity__input' type='number' placeholder='1' id='2-count' name='2-count' max='99' value={quantity} />
         <button data-testid='plus' onClick={quantityButtonClickHandle} name='plus' className='quantity__button' aria-label='Увеличить количество'>
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-plus'></use>

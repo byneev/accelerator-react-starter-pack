@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-console */
 import { KeyboardEvent, MouseEvent, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCartGuitars, removeFromCartGuitars, removeFullCountGuitarFromCart, setCartProduct, setIsModalToCartOpen, setIsModalToCartSuccessOpen } from '../../store/actions';
@@ -81,7 +80,7 @@ function ModalToCart({ product, container, }: ModalToCartProps): JSX.Element {
               !isInCart ?
                 <button ref={buttonRemove} onClick={toCartButtonClickHandle} className='button button--red button--big modal__button modal__button--add'>Добавить в корзину</button> :
                 <>
-                  <button ref={buttonRemove} onClick={removeFromCartButtonClickHandle} className='button button--small modal__button'>Удалить товар</button>
+                  <button data-testid='confirm-delete' ref={buttonRemove} onClick={removeFromCartButtonClickHandle} className='button button--small modal__button'>Удалить товар</button>
                   {container === AppRoute.Catalog ?
                     <button onClick={closeHandle} className='button button--black-border button--small modal__button modal__button--right'>Продолжить покупки</button> :
                     ''}
