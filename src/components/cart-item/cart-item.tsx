@@ -1,6 +1,7 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { ChangeEvent, FocusEvent, MouseEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCartGuitars, removeFromCartGuitars, setCartProduct, setGuitarsCount, setIsModalToCartOpen, setLastQuantity } from '../../store/actions';
+import { getLastQuantity } from '../../store/selectors';
 import { ProductProps } from '../../types/product-type';
 import { GuitarTypeAliases, LOCALE, MAX_COUNT_IN_CART } from '../../utils/const';
 import { getCorrectImgURL } from '../../utils/helpers';
@@ -12,7 +13,8 @@ export type CartItemProps = {
 
 function CartItem({ product, count, }: CartItemProps): JSX.Element {
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(count);
+  const [quantity, setQuantity] = useState<number | string>(count);
+  const lastQuantity = useSelector(getLastQuantity);
 
   const quantityButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!(evt.target instanceof HTMLButtonElement)) {
@@ -20,11 +22,11 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
     }
     const name = evt.target.name;
     if (name === 'minus' && quantity > 1) {
-      setQuantity((previous) => previous - 1);
+      setQuantity((previous) => +previous - 1);
       dispatch(removeFromCartGuitars(product));
     }
     if (name === 'plus' && quantity < 99) {
-      setQuantity((previous) => previous + 1);
+      setQuantity((previous) => +previous + 1);
       dispatch(addToCartGuitars(product));
     }
     if (name === 'minus' && quantity === 1) {
@@ -36,15 +38,28 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
 
   const quantityChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = +evt.target.value;
-    if (value >= 0 && value <= MAX_COUNT_IN_CART) {
+    if (evt.target.value === '') {
+      dispatch(setLastQuantity(+quantity));
+      setQuantity('');
+    } else if (value >= 0 && value <= MAX_COUNT_IN_CART) {
       setQuantity(value);
       dispatch(setGuitarsCount([product, value]));
     }
   };
 
+  const quantityBlurHandle = (evt: FocusEvent<HTMLInputElement>) => {
+    if (evt.target.value === '') {
+      setQuantity(lastQuantity);
+      dispatch(setGuitarsCount([product, lastQuantity]));
+    } else if (+evt.target.value === 0) {
+      setQuantity(1);
+      dispatch(setGuitarsCount([product, 1]));
+    }
+  };
+
   const removeButtonClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     dispatch(setCartProduct(product));
-    dispatch(setLastQuantity(quantity));
+    dispatch(setLastQuantity(+quantity));
     dispatch(setIsModalToCartOpen(true));
   };
 
@@ -67,14 +82,14 @@ function CartItem({ product, count, }: CartItemProps): JSX.Element {
             <use xlinkHref='#icon-minus'></use>
           </svg>
         </button>
-        <input data-testid='quantity' onChange={quantityChangeHandle} className='quantity__input' type='number' placeholder='1' id='2-count' name='2-count' max='99' value={quantity} />
+        <input onBlur={quantityBlurHandle} data-testid='quantity' onChange={quantityChangeHandle} className='quantity__input' type='number' placeholder={String(quantity)} id='2-count' name='2-count' max='99' value={quantity} />
         <button data-testid='plus' onClick={quantityButtonClickHandle} name='plus' className='quantity__button' aria-label='Увеличить количество'>
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-plus'></use>
           </svg>
         </button>
       </div>
-      <div data-testid='price-total' className='cart-item__price-total'>{(quantity * product.price).toLocaleString(LOCALE)} ₽</div>
+      <div data-testid='price-total' className='cart-item__price-total'>{(quantity === '' ? lastQuantity * product.price : +quantity * product.price).toLocaleString(LOCALE)} ₽</div>
     </div>
   );
 }
