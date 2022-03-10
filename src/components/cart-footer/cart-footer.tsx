@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSale } from '../../store/actions';
@@ -24,8 +23,8 @@ function CartFooter(): JSX.Element {
 
   const promocodeSubmitChangeHandle = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (Object.values(CouponType).includes(promocode as CouponType)) {
-      dispatch(sendCouponToServer(promocode));
+    if (Object.values(CouponType).includes(promocode.toLowerCase() as CouponType)) {
+      dispatch(sendCouponToServer(promocode.toLowerCase()));
       setValidCode(1);
     } else {
       dispatch(setCurrentSale(0));
